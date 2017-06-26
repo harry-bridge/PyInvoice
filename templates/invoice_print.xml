@@ -48,10 +48,10 @@
             <blockLeftPadding start="0,0" stop="-1,-1" length="10" />
             <blockBackground start="0,1" stop="-1,-2" colorName="lightGrey" />
             <blockBackground start="-2,-1" stop="-1,-1" colorName="darkGrey" />
-            <lineStyle start="0,1" stop="-1,-2" kind="outline" colorName="darkGrey" thickness="1" cap="round" />
-            <lineStyle start="0,1" stop="-1,-3" kind="linebelow" colorName="darkGrey" thickness="1" cap="round" />
-            <lineStyle start="1,1" stop="-1,-2" kind="lineafter" colorName="darkGrey" thickness="1" cap="round" />
-            <lineStyle start="-2,-1" stop="-1,-1" kind="outline" colorName="darkGrey" thickness="1" cap="round" />
+{#            <lineStyle start="0,1" stop="-1,-2" kind="outline" colorName="darkGrey" thickness="0.5" cap="round" />#}
+            <lineStyle start="0,1" stop="-1,-3" kind="linebelow" colorName="darkGrey" thickness="0.5" cap="round" />
+            <lineStyle start="1,1" stop="-2,-2" kind="lineafter" colorName="darkGrey" thickness="1" cap="round" />
+{#            <lineStyle start="-2,-1" stop="-1,-1" kind="outline" colorName="darkGrey" thickness="0.8" cap="round" />#}
             <lineStyle start="-2,-1" stop="-2,-1" kind="lineafter" colorName="lightGrey" thickness="1" cap="round" />
             <blockSpan start="0,0" stop="1,0" />
         </blockTableStyle>
@@ -73,7 +73,7 @@
                     <rect height="24" width="220" x="350" y="592" round="2" fill="yes" stroke="no" /> {# UTR No #}
                 {% endif %}
                 <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
-
+            
                 <image file="static/imgs/paperwork/full_logo_white.png" x="0" y="745" height="97" width="262"/>
 
                 <fill color="white" />
