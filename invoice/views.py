@@ -173,6 +173,7 @@ def company_update(request):
     if request.method == 'POST' and request.is_ajax():
         defaults = {}
         company_pk = request.POST.get('company_pk', '0')
+        redirect = bool(request.POST.get('redirectOnSave', '0'))
 
         defaults['name'] = request.POST['name']
         defaults['address'] = request.POST['address']
@@ -183,20 +184,16 @@ def company_update(request):
             context['company_pk'] = company.pk
             context['company_name'] = company.name
 
-            context['url'] = '/company/' + str(company.pk) + '/edit/'
+            if redirect:
+                context['url'] = '/company/' + str(company.pk) + '/edit/'
         else:
-            models.Company.objects.update_or_create(pk=company_pk, defaults=defaults)
+            company = models.Company.objects.update_or_create(pk=company_pk, defaults=defaults)
 
-            context['url'] = '/company/' + str(company_pk)
+            if redirect:
+                context['url'] = '/company/' + str(company_pk)
 
-            # context['pk'] = item_pk
-            # context['description'] = defaults['description']
-            # context['cost'] = defaults['cost']
+            context['name'] = company.name
 
-        # context['companies'] = get_object_or_404(models.Invoice, pk=invoice_pk)
-        # context['edit'] = True
-
-    # return render_to_response('item_table.html', context)
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 

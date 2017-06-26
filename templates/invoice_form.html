@@ -29,7 +29,7 @@
                 <div class="panel-body">
                     {% if edit %}
                         <div class="row">
-                            <div class="input-field col s10">
+                            <div class="input-field col s9">
                                 <select class="validate" id="company-select">
                                     <option value="" disabled {% if not invoice.company %}selected{% endif %}>---</option>
                                     {% for company in companies %}
@@ -42,8 +42,9 @@
                                 </select>
                                 <label for="company-select">Company</label>
                             </div>
-                            <div class="col s2">
+                            <div class="col s3">
                                 <a class="btn btn-square" href="#companyModal"><i class="material-icons">add</i></a>
+{#                                <a class="btn btn-square" onclick="showCompanyModal()"><i class="material-icons">edit</i></a>#}
                             </div>
                             <div class="input-field col s12">
                                 <input type="text" id="person" class="validate" value="{{ invoice.person|default:'' }}">
@@ -159,7 +160,7 @@
         </div>
         <div class="modal-footer">
             <button onclick="deleteInvoice()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
-            <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
         </div>
     </div>
 
@@ -172,6 +173,15 @@
                 getItemsForModal( itemPk );
                 Materialize.updateTextFields();
                 $('#itemModal').modal('open');
+            }
+        </script>
+
+        <script>
+            function showCompanyModal() {
+                var company_pk = $('#company-select').val();
+                getCompanyForModal( company_pk );
+                Materialize.updateTextFields();
+                $('#companyModal').modal('open');
             }
         </script>
 

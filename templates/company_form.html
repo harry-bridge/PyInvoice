@@ -1,16 +1,17 @@
 <input type="hidden" id="company_pk" value="{{ company.id|default:0 }}">
+<input type="hidden" id="redirectOnSave" value="1">
 
 <div class="input-field col s12">
     <input type="text" id="nameInput" class="validate" value="{{ company.name|default:'' }}">
-    <label for="descriptionInput" id="descriptionInputLabel">Name</label>
+    <label for="nameInput" id="nameInputLabel">Name</label>
 </div>
 
 <div class="input-field col s12">
     <textarea id="addressInput" class="materialize-textarea"></textarea>
-    <label for="addressInput">Address</label>
+    <label for="addressInput" id="addressInputLabel">Address</label>
 </div>
 
 <div class="input-field col s12">
     <input type="email" id="emailInput" class="validate" value="{{ company.email|default:'' }}">
-    <label for="emailInput">Email</label>
+    <label for="emailInput" id="emailInputLabel">Email</label>
 </div>

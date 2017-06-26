@@ -36,10 +36,11 @@ urlpatterns = [
 
     url(r'^company/list/$', views.CompanyList.as_view(), name='company_list'),
     url(r'^company/(?P<pk>\d+)/$', views.CompanyDetail.as_view(), name='company_detail'),
-    url(r'^company/(?P<pk>\d+)/edit/$', views.company_edit, name='company_update'),
+    url(r'^company/(?P<pk>\d+)/edit/$', views.company_edit, name='company_edit'),
     url(r'^company/create/$', views.CompanyCreate.as_view(), name='company_create'),
     url(r'^company/update/$', views.company_update, name='company_update'),
     url(r'^company/delete/$', views.company_delete, name='company_delete'),
 
     url(r'^api/get_items_for_table/$', api.get_items_for_table, name='get_items_for_table'),
+    url(r'^api/get_company_for_modal/$', api.get_company_for_modal, name='get_company_for_modal'),
 ]

@@ -55,12 +55,12 @@ function deleteItem(item_pk) {
   });
 }
 
-function getItemsForModal(itemPk) {
+function getItemsForModal(item_pk) {
   $.ajax({
       url: "/api/get_items_for_table/", // the endpoint
       type: "POST", // http method
       data: {
-          item_pk: itemPk
+          item_pk: item_pk
       }, // data sent with the post request
 
       // handle a successful response
@@ -82,7 +82,32 @@ function getItemsForModal(itemPk) {
   });
 }
 
-function updateCompany(companyPk) {
+function getCompanyForModal(company_pk) {
+  $.ajax({
+      url: "/api/get_company_for_modal/", // the endpoint
+      type: "POST", // http method
+      data: {
+          company_pk: company_pk
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          $('#editStatusCompany').text('Edit Company');
+          $('#nameInput').val(data['name']);
+          $('#nameInputLabel').addClass('active');
+          $('#addressInput').val(data['address']);
+          $('#addressInputLabel').addClass('active');
+          $('#emailInput').val(data['email']);
+          $('#emailInputLabel').addClass('active');
+          $('#company_pk').val(data['company_pk']);
+          $('#redirectOnSave').val('0');
+          console.log(data);
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+  });
+}
+
+function updateCompany() {
   $.ajax({
       url: "/company/update/", // the endpoint
       type: "POST", // http method
@@ -90,13 +115,16 @@ function updateCompany(companyPk) {
           company_pk: $('#company_pk').val(),
           name: $('#nameInput').val(),
           address: $('#addressInput').val(),
-          email: $('#emailInput').val()
+          email: $('#emailInput').val(),
+          redirectOnSave: $('#redirectOnSave').val()
       }, // data sent with the post request
 
       // handle a successful response
       success: function (data) {
           console.log(data);
-          window.location.href = data['url']
+          if (data['redirect']) {
+              window.location.href = data['url'];
+          }
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
 
