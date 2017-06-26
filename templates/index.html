@@ -48,6 +48,7 @@
                                         <span class="orange-text text-lighten-1">{{ invoice.company }}</span>
                                     </a>
                                 </td>
+                                <td>{{ invoice.created|date:'m-d-y' }}</td>
                                 <td>£ {{ invoice.total|floatformat:2 }}</td>
                                 <td><i class="material-icons{% if invoice.paid %} green-text">done{% else %} red-text">clear{% endif %}</i></td>
                             </tr>
