@@ -138,7 +138,7 @@ def invoice_delete(request):
         invoice.delete()
 
         context['deleted'] = True
-        context['url'] = '/'
+        context['url'] = '/invoice/list/'
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 
@@ -199,3 +199,16 @@ def company_update(request):
     # return render_to_response('item_table.html', context)
     return HttpResponse(json.dumps(context), content_type='application/json')
 
+
+def company_delete(request):
+    context = {}
+    if request.method == 'POST' and request.is_ajax():
+        company_pk = request.POST['company_pk']
+
+        company = get_object_or_404(models.Company, pk=company_pk)
+        company.delete()
+
+        context['deleted'] = True
+        context['url'] = '/company/list/'
+
+    return HttpResponse(json.dumps(context), content_type='application/json')

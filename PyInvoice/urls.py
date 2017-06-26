@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^company/(?P<pk>\d+)/edit/$', views.company_edit, name='company_update'),
     url(r'^company/create/$', views.CompanyCreate.as_view(), name='company_create'),
     url(r'^company/update/$', views.company_update, name='company_update'),
+    url(r'^company/delete/$', views.company_delete, name='company_delete'),
 
     url(r'^api/get_items_for_table/$', api.get_items_for_table, name='get_items_for_table'),
 ]

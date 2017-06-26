@@ -87,7 +87,7 @@ function updateCompany(companyPk) {
       url: "/company/update/", // the endpoint
       type: "POST", // http method
       data: {
-          company_pk: $('#companyPk').val(),
+          company_pk: $('#company_pk').val(),
           name: $('#nameInput').val(),
           address: $('#addressInput').val(),
           email: $('#emailInput').val()
@@ -105,10 +105,28 @@ function updateCompany(companyPk) {
 
 function deleteInvoice() {
   $.ajax({
-      url: "/invoice/delete", // the endpoint
+      url: "/invoice/delete/", // the endpoint
       type: "POST", // http method
       data: {
           invoice_pk: $('#invoice_pk').val()
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          console.log(data);
+          window.location.href = data['url']
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}
+
+function deleteCompany() {
+  $.ajax({
+      url: "/company/delete/", // the endpoint
+      type: "POST", // http method
+      data: {
+          company_pk: $('#company_pk').val()
       }, // data sent with the post request
 
       // handle a successful response

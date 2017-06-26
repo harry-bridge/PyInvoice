@@ -1,7 +1,7 @@
 <form method="POST" role="form" class="row" id="company-form">
     {% csrf_token %}
 
-    <input type="hidden" id="companyPk" value="{{ company.id|default:0 }}">
+    <input type="hidden" id="company_pk" value="{{ company.id|default:0 }}">
 
     <div class="input-field col s12">
         <input type="text" id="nameInput" class="validate" value="{{ company.name|default:'' }}">
@@ -20,8 +20,23 @@
 
     <div class="row">
         <div class="col s12">
-            <button name="action" type="submit" class="btn red"><i class="material-icons left">save</i>Save</button>
+            <button name="action" type="submit" class="btn green"><i class="material-icons left">save</i>Save</button>
+            {% if company.pk %}
+                <a href="#deleteModal" class="btn red"><i class="material-icons left">delete</i>Delete</a>
+            {% endif %}
         </div>
     </div>
 </form>
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h4>Delete Company</h4>
+        <p>Are you sure you want to delete <strong>{{ company.name }}?</strong></p>
+        <p>Invoices: {{ company.total_invoices }}</p>
+    </div>
+    <div class="modal-footer">
+        <button onclick="deleteCompany()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
+        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+    </div>
+</div>
 
