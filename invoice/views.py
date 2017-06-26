@@ -130,11 +130,11 @@ class CompanyList(generic.ListView):
 
 class CompanyDetail(generic.DetailView):
     model = models.Company
-    template_name = 'company_form.html'
+    template_name = 'company_update.html'
 
 
 class CompanyCreate(generic.TemplateView):
-    template_name = 'company_form.html'
+    template_name = 'company_update.html'
 
 
 def company_edit(request, pk):
@@ -145,7 +145,7 @@ def company_edit(request, pk):
         'company': company,
     }
 
-    return render_to_response('company_form.html', context)
+    return render_to_response('company_update.html', context)
 
 
 def company_update(request):

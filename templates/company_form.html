@@ -1,18 +1,3 @@
-{% extends 'base.html' %}
-
-{% block title %}Company Create{% endblock %}
-
-{% block main %}
-
-<h4>
-{% if company.name %}
-    {{ company.name }} {% if edit %} Edit {% endif %}
-{% else %}
-    New Company
-{% endif %}
-</h4>
-
-{% if edit or not company.pk %}
 <form method="POST" role="form" class="row" id="company-form">
     {% csrf_token %}
 
@@ -39,27 +24,4 @@
         </div>
     </div>
 </form>
-{% else %}
-    {% include 'company_detail.html' %}
-{% endif %}
 
-{% endblock %}
-
-{% block script %}
-
-    {% if edit %}
-    <script>
-        $('#addressInput').val('{{ company.address }}');
-        $('#addressInput').trigger('autoresize');
-    </script>
-    {% endif %}
-
-    <script>
-        $('#company-form').on('submit', function(event){
-            event.preventDefault();
-            updateCompany();
-            return false;
-        });
-    </script>
-
-{% endblock %}
