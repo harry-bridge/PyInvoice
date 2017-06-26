@@ -1,5 +1,10 @@
 $primary-color: #414142;
 
+#full-div {
+  //width: 100vw;
+  height: 90vh;
+}
+
 .boxed {
   padding: 0.6rem;
   border-radius: 3px;
@@ -84,6 +89,10 @@ $dl-horizontal-offset:        160px !default;
 
 ._margin_2_top {
   margin-top: 2em;
+}
+
+._medium_text {
+  font-size: 4em !important;
 }
 
 .index-button {

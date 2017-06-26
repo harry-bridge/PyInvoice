@@ -1,9 +1,11 @@
 from django.shortcuts import HttpResponse, get_object_or_404
+from django.contrib.auth.decorators import login_required
 import simplejson as json
 
 from invoice import models
 
 
+@login_required()
 def get_items_for_table(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
@@ -26,6 +28,7 @@ def get_items_for_table(request):
     )
 
 
+@login_required()
 def get_company_for_modal(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():

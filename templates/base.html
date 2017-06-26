@@ -28,23 +28,33 @@
 <header>
     <nav>
         <div class="nav-wrapper">
-          <a href="/" class="brand-logo"><img class="navbar-logo" src="{% static 'imgs/invoice-logo.png' %}"></a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/">Home</a></li>
-            <li><a class="dropdown-button" href="#" data-activates="invoice_dropdown_nav">Invoice<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li><a class="dropdown-button" href="#" data-activates="company_dropdown">Company<i class="material-icons right">arrow_drop_down</i></a></li>
-          </ul>
+            <a href="/" class="brand-logo"><img class="navbar-logo" src="{% static 'imgs/invoice-logo.png' %}"></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                {% if user.is_authenticated %}
+                    <li><a href="/">Home</a></li>
+                    <li><a class="dropdown-button" href="#" data-activates="invoice_dropdown_nav">Invoice<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-button" href="#" data-activates="company_dropdown">Company<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-button" href="#" data-activates="user_dropdown">{{ user.first_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                {% else %}
+                    <li><a href="registration/login/?next=/">Login</a></li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
 
     <ul id="invoice_dropdown_nav" class="dropdown-content">
-        <li><a href="/invoice/list">View All</a></li>
-        <li><a href="/invoice/create">Create</a></li>
+        <li><a href="/invoice/list/">View All</a></li>
+        <li><a href="/invoice/create/">Create</a></li>
     </ul>
 
     <ul id="company_dropdown" class="dropdown-content">
-        <li><a href="/company/list">View All</a></li>
-        <li><a href="/company/create">Add</a></li>
+        <li><a href="/company/list/">View All</a></li>
+        <li><a href="/company/create/">Add</a></li>
+    </ul>
+
+    <ul id="user_dropdown" class="dropdown-content">
+        <li><a href="/admin/">Admin</a></li>
+        <li><a href="/accounts/logout/">Logout</a></li>
     </ul>
 </header>
 

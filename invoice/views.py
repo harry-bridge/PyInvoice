@@ -1,12 +1,28 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.views import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
 from invoice import models
 
 
-class Index(generic.TemplateView):
+def login_view(request, **kwargs):
+    if request.user.is_authenticated():
+        next = request.GET.get('next', '/')
+        return HttpResponseRedirect(next)
+    else:
+        return login(request)
+
+
+def logout_view(request):
+    logout(request)
+    return render_to_response('registration/logout.html')
+
+
+class Index(LoginRequiredMixin, generic.TemplateView):
     template_name = 'index.html'
 
     def not_paid_count(self):
@@ -25,18 +41,18 @@ class Index(generic.TemplateView):
         return models.Invoice.objects.all().order_by('-created')[:10]
 
 
-class InvoiceList(generic.ListView):
+class InvoiceList(LoginRequiredMixin, generic.ListView):
     model = models.Invoice
     template_name = 'invoice_list.html'
     ordering = '-created'
 
 
-class InvoiceDetail(generic.DetailView):
+class InvoiceDetail(LoginRequiredMixin, generic.DetailView):
     model = models.Invoice
     template_name = 'invoice_form.html'
 
 
-class InvoiceCreate(generic.TemplateView):
+class InvoiceCreate(LoginRequiredMixin, generic.TemplateView):
     template_name = 'invoice_form.html'
 
     def get_context_data(self, **kwargs):
@@ -47,6 +63,7 @@ class InvoiceCreate(generic.TemplateView):
         return context
 
 
+@login_required()
 def invoice_edit(request, pk):
     invoice = get_object_or_404(models.Invoice, pk=pk)
     companies = models.Company.objects.all()
@@ -60,6 +77,7 @@ def invoice_edit(request, pk):
     return render_to_response('invoice_form.html', context)
 
 
+@login_required()
 def invoice_update(request):
     context = {}
     if request.method == 'POST' and request.is_ajax():
@@ -88,6 +106,7 @@ def invoice_update(request):
         return HttpResponse(json.dumps(context), content_type='application/json')
 
 
+@login_required()
 def invoice_item_update(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
@@ -115,6 +134,7 @@ def invoice_item_update(request):
     return render_to_response('item_table.html', context)
 
 
+@login_required()
 def invoice_item_delete(request):
     context = {}
     if request.method == 'POST' and request.is_ajax():
@@ -129,6 +149,7 @@ def invoice_item_delete(request):
         return render_to_response('item_table.html', context)
 
 
+@login_required()
 def invoice_delete(request):
     context = {}
     if request.method == 'POST' and request.is_ajax():
@@ -143,20 +164,21 @@ def invoice_delete(request):
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 
-class CompanyList(generic.ListView):
+class CompanyList(LoginRequiredMixin, generic.ListView):
     model = models.Company
     template_name = 'company_list.html'
 
 
-class CompanyDetail(generic.DetailView):
+class CompanyDetail(LoginRequiredMixin, generic.DetailView):
     model = models.Company
     template_name = 'company_update.html'
 
 
-class CompanyCreate(generic.TemplateView):
+class CompanyCreate(LoginRequiredMixin, generic.TemplateView):
     template_name = 'company_update.html'
 
 
+@login_required()
 def company_edit(request, pk):
     company = get_object_or_404(models.Company, pk=pk)
 
@@ -168,6 +190,7 @@ def company_edit(request, pk):
     return render_to_response('company_update.html', context)
 
 
+@login_required()
 def company_update(request):
     context = {}
     if request.method == 'POST' and request.is_ajax():
@@ -197,6 +220,7 @@ def company_update(request):
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 
+@login_required()
 def company_delete(request):
     context = {}
     if request.method == 'POST' and request.is_ajax():

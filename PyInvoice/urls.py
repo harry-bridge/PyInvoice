@@ -20,6 +20,8 @@ from invoice import views, api, invoice_print
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/login/$', views.login, name='login'),
+    url(r'^accounts/logout/$', views.logout_view, name='logout'),
 
     url(r'^$', views.Index.as_view(), name='index'),
 
