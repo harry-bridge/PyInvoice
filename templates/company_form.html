@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Company Create{% endblock %}
+
+{% block main %}
+
+<h4>
+{% if company.name %}
+    {{ company.name }} {% if edit %} Edit {% endif %}
+{% else %}
+    New Company
+{% endif %}
+</h4>
+
+{% if edit or not company.pk %}
+<form method="POST" role="form" class="row" id="company-form">
+    {% csrf_token %}
+
+    <input type="hidden" id="companyPk" value="{{ company.id|default:0 }}">
+
+    <div class="input-field col s12">
+        <input type="text" id="nameInput" class="validate" value="{{ company.name|default:'' }}">
+        <label for="descriptionInput" id="descriptionInputLabel">Name</label>
+    </div>
+
+    <div class="input-field col s12">
+        <textarea id="addressInput" class="materialize-textarea"></textarea>
+        <label for="addressInput">Address</label>
+    </div>
+
+    <div class="input-field col s12">
+        <input type="email" id="emailInput" class="validate" value="{{ company.email|default:'' }}">
+        <label for="emailInput">Email</label>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <button name="action" type="submit" class="btn red"><i class="material-icons left">save</i>Save</button>
+        </div>
+    </div>
+</form>
+{% else %}
+    {% include 'company_detail.html' %}
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+
+    {% if edit %}
+    <script>
+        $('#addressInput').val('{{ company.address }}');
+        $('#addressInput').trigger('autoresize');
+    </script>
+    {% endif %}
+
+    <script>
+        $('#company-form').on('submit', function(event){
+            event.preventDefault();
+            updateCompany();
+            return false;
+        });
+    </script>
+
+{% endblock %}

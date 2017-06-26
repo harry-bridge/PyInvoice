@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Invoice List{% endblock %}
+
+{% block main %}
+
+<h1>Company List</h1>
+
+{% for company in object_list %}
+    <a href="/company/{{ company.pk }}">
+        <li class="red-text">{{ company.name }} - <a href="/company/{{ company.pk }}/edit/">Edit</a> </li>
+    </a>
+{% endfor %}
+
+{% endblock %}
