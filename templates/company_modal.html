@@ -1,6 +1,7 @@
 <div id="companyModal" class="modal modal-fixed-footer">
     <div class="row">
-        <form id="company-form" class="col s12">
+        <form method="POST" role="form" id="company-form">
+            {% csrf_token %}
             <div class="modal-content">
                 <h4 id="editStatus">Add Company</h4>
                 <div class="divider" style="margin-bottom: 15px"></div>

@@ -1,5 +1,71 @@
-{{ company.name }}
-<br>
-{{ company.address }}
-<br>
-{{ company.email }}
+<div class="row description-row">
+    <div class="col s6">
+        <div class="panel">
+            <div class="panel-heading">
+                Company Details
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Address</dt>
+                    <dd>{{ company.address }}</dd>
+
+                    <dt>Email</dt>
+                    <dd>{{ company.email }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col s1"></div>
+    <div class="col s5">
+        <div class="panel">
+            <div class="panel-heading">
+                Company Stats
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Total Invoices</dt>
+                    <dd>{{ company.total_invoices }}</dd>
+
+                    <dt>Latest Invoice</dt>
+                    <dd><a href="/invoice/{{ company.latest_invoice.pk }}/" class="orange-text text-lighten-1">{{ company.latest_invoice }}</a></dd>
+
+                    <dt>Not Paid</dt>
+                    <dd>{{ company.not_paid_count }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <table class="bordered highlight">
+        <thead>
+            <tr>
+                <th>Invoice</th>
+                <th>Invoice Number</th>
+                <th>Created</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in company.all_invoices %}
+            <tr>
+                <td>
+                    <a href="/invoice/{{ invoice.pk }}">
+                        <span class="orange-text text-lighten-1">{{ invoice }}</span>
+                    </a>
+                </td>
+                <td>{{ invoice.invoice_number }}</td>
+                <td>{{ invoice.created.date }}</td>
+                <td>£ {{ invoice.total|floatformat:2 }}</td>
+                <td>
+                    <a href="/invoice/{{ invoice.pk }}"><i class="material-icons light-blue-text text-lighten-1">visibility</i></a>
+                    <a href="/invoice/{{ invoice.pk }}/edit"><i class="material-icons orange-text text-lighten-1">edit</i></a>
+                    <a href="/invoice/{{ invoice.pk }}/print" target="_blank"><i class="material-icons purple-text text-lighten-1">print</i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

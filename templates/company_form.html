@@ -1,42 +1,16 @@
-<form method="POST" role="form" class="row" id="company-form">
-    {% csrf_token %}
+<input type="hidden" id="company_pk" value="{{ company.id|default:0 }}">
 
-    <input type="hidden" id="company_pk" value="{{ company.id|default:0 }}">
-
-    <div class="input-field col s12">
-        <input type="text" id="nameInput" class="validate" value="{{ company.name|default:'' }}">
-        <label for="descriptionInput" id="descriptionInputLabel">Name</label>
-    </div>
-
-    <div class="input-field col s12">
-        <textarea id="addressInput" class="materialize-textarea"></textarea>
-        <label for="addressInput">Address</label>
-    </div>
-
-    <div class="input-field col s12">
-        <input type="email" id="emailInput" class="validate" value="{{ company.email|default:'' }}">
-        <label for="emailInput">Email</label>
-    </div>
-
-    <div class="row">
-        <div class="col s12">
-            <button name="action" type="submit" class="btn green"><i class="material-icons left">save</i>Save</button>
-            {% if company.pk %}
-                <a href="#deleteModal" class="btn red"><i class="material-icons left">delete</i>Delete</a>
-            {% endif %}
-        </div>
-    </div>
-</form>
-
-<div id="deleteModal" class="modal">
-    <div class="modal-content">
-        <h4>Delete Company</h4>
-        <p>Are you sure you want to delete <strong>{{ company.name }}?</strong></p>
-        <p>Invoices: {{ company.total_invoices }}</p>
-    </div>
-    <div class="modal-footer">
-        <button onclick="deleteCompany()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
-        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-    </div>
+<div class="input-field col s12">
+    <input type="text" id="nameInput" class="validate" value="{{ company.name|default:'' }}">
+    <label for="descriptionInput" id="descriptionInputLabel">Name</label>
 </div>
 
+<div class="input-field col s12">
+    <textarea id="addressInput" class="materialize-textarea"></textarea>
+    <label for="addressInput">Address</label>
+</div>
+
+<div class="input-field col s12">
+    <input type="email" id="emailInput" class="validate" value="{{ company.email|default:'' }}">
+    <label for="emailInput">Email</label>
+</div>

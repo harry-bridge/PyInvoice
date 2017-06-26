@@ -140,10 +140,10 @@
         <ul>
             <!-- Reverse Order -->
             {% if not edit %}
-                <li><a class="btn-floating pink lighten-1" href="#deleteModal"><i class="material-icons">delete</i></a></li>
                 <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1"><i class="material-icons">print</i></a></li>
                 <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
             {% else %}
+                <li><a class="btn-floating pink lighten-1" href="#deleteModalInvoice"><i class="material-icons">delete</i></a></li>
                 <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons">save</i></button></li>
             {% endif %}
         </ul>
@@ -151,7 +151,7 @@
 
     </form>
 
-    <div id="deleteModal" class="modal">
+    <div id="deleteModalInvoice" class="modal">
         <div class="modal-content">
             <h4>Delete Invoice</h4>
             <p>Are you sure you want to delete <strong>{{ invoice.invoice_number }}&boxv;{{ invoice.company }}?</strong></p>

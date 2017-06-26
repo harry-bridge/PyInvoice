@@ -9,7 +9,7 @@ from invoice import models
 class Index(generic.TemplateView):
     template_name = 'index.html'
 
-    def not_paid(self):
+    def not_paid_count(self):
         return models.Invoice.objects.all().filter(paid=False).count()
 
     def not_paid_total(self):
