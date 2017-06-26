@@ -29,7 +29,6 @@ class Company(models.Model):
     name = models.CharField(max_length=200)
     address = models.TextField()
     email = models.CharField(max_length=150)
-    invoice_prefix = models.CharField(max_length=4)
 
     def __str__(self):
         return self.name
@@ -37,13 +36,32 @@ class Company(models.Model):
 
 class Invoice(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    invoice_number = models.CharField(max_length=10)
+    person = models.CharField(max_length=80)
+    phone = models.IntegerField(blank=True, null=True)
+    created = models.DateTimeField(auto_now=True)
+    paid = models.BooleanField(default=False)
+    utr = models.BooleanField(default=False)
+
+    def invoice_number(self):
+        return 'N%04d' % self.pk
+
+    def get_items(self):
+        return self.items.all()
+
+    def total(self):
+        total = 0
+        for item in self.get_items():
+            total += item.cost
+        return total
 
     def __str__(self):
         return self.company.name
 
 
 class InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    class Meta:
+        ordering = ['id']
+
+    invoice = models.ForeignKey(Invoice, related_name='items')
     description = models.CharField(max_length=200)
-    amount = models.IntegerField()
+    cost = models.DecimalField(max_digits=10, decimal_places=2)

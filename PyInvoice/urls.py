@@ -16,6 +16,29 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from invoice import views, api, invoice_print
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    url(r'^$', views.InvoiceList.as_view(), name='index'),
+
+    url(r'^invoice/list', views.InvoiceList.as_view(), name='invoice_list'),
+    url(r'^invoice/(?P<pk>\d+)/$', views.InvoiceDetail.as_view(), name='invoice_detail'),
+    url(r'^invoice/(?P<pk>\d+)/edit/$', views.invoice_edit, name='invoice_edit'),
+    url(r'^invoice/create/$', views.InvoiceCreate.as_view(), name='invoice_create'),
+    url(r'^invoice/update/$', views.invoice_update, name='invoice_update'),
+    url(r'^invoice/delete/$', views.invoice_delete, name='invoice_delete'),
+    url(r'^invoice/(?P<pk>\d+)/print/$', invoice_print.InvoicePrint.as_view(), name='invoice_print'),
+
+    url(r'invoice/item/update/$', views.invoice_item_update, name='invoice_item_update'),
+    url(r'invoice/item/delete/$', views.invoice_item_delete, name='invoice_item_delete'),
+
+    url(r'^company/list/$', views.CompanyList.as_view(), name='company_list'),
+    url(r'^company/(?P<pk>\d+)/$', views.CompanyDetail.as_view(), name='company_detail'),
+    url(r'^company/(?P<pk>\d+)/edit/$', views.company_edit, name='company_update'),
+    url(r'^company/create/$', views.CompanyCreate.as_view(), name='company_create'),
+    url(r'^company/update/$', views.company_update, name='company_update'),
+
+    url(r'^api/get_items_for_table/$', api.get_items_for_table, name='get_items_for_table'),
 ]
