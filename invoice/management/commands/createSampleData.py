@@ -27,8 +27,7 @@ class Command(BaseCommand):
             models.Company.objects.create(
                 name=company_names[i%len(company_names)],
                 address=company_addresses[i%len(company_addresses)],
-                email=company_emails[i%len(company_emails)],
-                invoice_prefix='TEST'
+                email=company_emails[i%len(company_emails)]
                 )
 
     def create_invoices(self):
@@ -40,7 +39,6 @@ class Command(BaseCommand):
 
             invoice = models.Invoice.objects.create(
                 company=company,
-                invoice_number=str(company.invoice_prefix) + str(random.randint(1, 999))
             )
 
             for j in range(random.randint(1, 5)):  # Create a random number of items
