@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Home | {% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block main %}
     <h5 class="grey-text text-darken-3 _pad_05_top">Welcome back Harry, you have {{ view.not_paid_count }} invoice{% if view.not_paid != 1 %}s{% endif %} waiting to be paid.</h5>
