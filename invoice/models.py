@@ -1,25 +1,18 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 
-class UserDetails(models.Model):
-    class Meta:
-        verbose_name = 'User Details'
-        verbose_name_plural = 'User Details'
+class Profile(AbstractUser):
+    address = models.TextField(blank=True, null=True)
+    phone = models.IntegerField(blank=True, null=True)
+    utr = models.IntegerField(blank=True, null=True)
 
-    address = models.TextField()
-    email = models.CharField(max_length=150)
-    phone = models.IntegerField()
-    utr = models.IntegerField()
-
-    bank = models.CharField(max_length=180)
-    sort_code = models.CharField(max_length=50)
-    account_number = models.IntegerField()
-
-    def __str__(self):
-        return self.email
+    bank = models.CharField(max_length=180, blank=True, null=True)
+    sort_code = models.CharField(max_length=50, blank=True, null=True)
+    account_number = models.IntegerField(blank=True, null=True)
 
 
 class Company(models.Model):

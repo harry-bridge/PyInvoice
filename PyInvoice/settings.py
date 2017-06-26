@@ -50,6 +50,8 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'invoice.Profile'
+
 ROOT_URLCONF = 'PyInvoice.urls'
 
 TEMPLATES = [
