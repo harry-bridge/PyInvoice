@@ -1,0 +1,79 @@
+$primary-color: #414142;
+
+.boxed {
+  padding: 0.6rem;
+  border-radius: 3px;
+}
+
+.description-row {
+  margin-top: 2em;
+}
+
+.invoice {
+  margin-top: 1.5rem !important;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.panel {
+  background-color: #fff;
+  border: 1px solid $primary-color;
+  border-radius: 4px;
+}
+
+.panel-heading {
+  color: white;
+  background-color: $primary-color;
+  border-color: #bce8f1;
+
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+.panel-body {
+  padding: 15px;
+}
+
+#itemModal {
+  height: 35vh !important;
+}
+
+dt {
+  font-weight: bold;
+}
+
+$dl-horizontal-breakpoint:    768px;
+$dl-horizontal-offset:        160px !default;
+
+.dl-horizontal {
+  dd {
+    @include clearfix; // Clear the floated `dt` if an empty `dd` is present
+  }
+
+  @media (min-width: $dl-horizontal-breakpoint) {
+    dt {
+      float: left;
+      width: ($dl-horizontal-offset - 20);
+      clear: left;
+      text-align: right;
+      @include text-overflow;
+    }
+    dd {
+      margin-left: $dl-horizontal-offset;
+    }
+  }
+}
+
+.btn-square {
+  padding: 0 0.8rem !important;
+}
+
+.navbar-logo {
+  height: $navbar-height;
+  padding: 0.2rem;
+}
