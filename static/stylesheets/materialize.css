@@ -9521,6 +9521,23 @@ dt {
   padding: 0.2rem;
 }
 
+/* line 81, ../sass/components/_style.scss */
+._pad_05_top {
+  padding-top: 0.5em;
+}
+
+/* line 85, ../sass/components/_style.scss */
+._margin_2_top {
+  margin-top: 2em;
+}
+
+/* line 89, ../sass/components/_style.scss */
+.index-button {
+  width: 100%;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
 /* line 1, ../sass/components/_helpers.scss */
 .no-margin {
   margin: 0 !important;

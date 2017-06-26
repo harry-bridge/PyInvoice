@@ -21,7 +21,7 @@ from invoice import views, api, invoice_print
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^$', views.InvoiceList.as_view(), name='index'),
+    url(r'^$', views.Index.as_view(), name='index'),
 
     url(r'^invoice/list', views.InvoiceList.as_view(), name='invoice_list'),
     url(r'^invoice/(?P<pk>\d+)/$', views.InvoiceDetail.as_view(), name='invoice_detail'),

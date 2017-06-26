@@ -6,9 +6,29 @@ import json
 from invoice import models
 
 
+class Index(generic.TemplateView):
+    template_name = 'index.html'
+
+    def not_paid(self):
+        return models.Invoice.objects.all().filter(paid=False).count()
+
+    def not_paid_total(self):
+        total = 0
+        for invoice in models.Invoice.objects.all().filter(paid=False):
+            total += invoice.total()
+        return total
+
+    def last_invoice(self):
+        return models.Invoice.objects.all().last()
+
+    def latest_invoices(self):
+        return models.Invoice.objects.all().order_by('-created')[:10]
+
+
 class InvoiceList(generic.ListView):
     model = models.Invoice
     template_name = 'invoice_list.html'
+    ordering = '-created'
 
 
 class InvoiceDetail(generic.DetailView):
