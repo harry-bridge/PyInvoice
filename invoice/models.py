@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from datetime import datetime
 
 
 class UserDetails(models.Model):
@@ -44,7 +45,7 @@ class Invoice(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     person = models.CharField(max_length=80)
     phone = models.IntegerField(blank=True, null=True)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(blank=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
 
@@ -62,6 +63,12 @@ class Invoice(models.Model):
 
     def __str__(self):
         return self.company.name
+
+    def save(self, *args, **kwargs):
+        if not self.created:
+            self.created = datetime.now()
+
+        super(Invoice, self).save(*args, **kwargs)
 
 
 class InvoiceItem(models.Model):
