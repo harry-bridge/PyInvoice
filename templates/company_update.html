@@ -4,33 +4,43 @@
 
 {% block main %}
 
-<h4>
-{% if company.name %}
-    {{ company.name }} {% if edit %} Edit {% endif %}
-{% else %}
-    New Company
-{% endif %}
-</h4>
+    <h4>
+        {% if company.name %}
+            {{ company.name }} {% if edit %} Edit {% endif %}
+        {% else %}
+            New Company
+        {% endif %}
+    </h4>
 
-<div class="divider"></div>
+    <div class="divider"></div>
 
-{% if edit or not company.pk %}
+    {% if edit or not company.pk %}
 
-    <form method="POST" role="form" class="row" id="company-form">
-        {% csrf_token %}
-        {% include 'company_form.html' %}
+        <form method="POST" role="form" class="row" id="company-form">
+            {% csrf_token %}
+            {% include 'company_form.html' %}
 
-        <div class="row">
-            <div class="col s12">
-                <button name="action" type="submit" class="btn green"><i class="material-icons left">save</i>Save</button>
-                {% if company.pk %}
-                    <a href="#deleteModal" class="btn red"><i class="material-icons left">delete</i>Delete</a>
-                {% endif %}
+    {% else %}
+        {% include 'company_detail.html' %}
+    {% endif %}
+
+            <div class="fixed-action-btn horizontal">
+                <a class="btn-floating btn-large red">
+                  <i class="material-icons">menu</i>
+                </a>
+                <ul>
+                    <!-- Reverse Order -->
+                    {% if not edit %}
+                        <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
+                    {% else %}
+                        <li><a class="btn-floating pink lighten-1" href="#deleteModalCompany"><i class="material-icons">delete</i></a></li>
+                        <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons">save</i></button></li>
+                    {% endif %}
+                </ul>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <div id="deleteModal" class="modal">
+    <div id="deleteModalCompany" class="modal">
         <div class="modal-content">
             <h4>Delete Company</h4>
             <p>Are you sure you want to delete <strong>{{ company.name }}?</strong></p>
@@ -39,13 +49,9 @@
         </div>
         <div class="modal-footer">
             <button onclick="deleteCompany()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
-            <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
         </div>
     </div>
-
-{% else %}
-    {% include 'company_detail.html' %}
-{% endif %}
 
 {% endblock %}
 
