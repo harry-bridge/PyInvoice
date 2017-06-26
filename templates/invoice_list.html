@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Invoice List{% endblock %}
+
+{% block main %}
+
+<h1>Invoice List</h1>
+
+<table class="bordered highlight">
+    <thead>
+        <tr>
+            <th>
+                Invoice
+            </th>
+            <th>
+                Invoice Number
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Amount
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invoice in object_list %}
+        <tr>
+            <td>
+                <a href="/invoice/{{ invoice.pk }}">
+                    <span class="red-text">{{ invoice }}</span>
+                </a>
+            </td>
+            <td>
+                {{ invoice.invoice_number }}
+            </td>
+            <td>
+                {{ invoice.created.date }}
+            </td>
+            <td>
+                {{ invoice.total }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
+
+

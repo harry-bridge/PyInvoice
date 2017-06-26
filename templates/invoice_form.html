@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block main %}
+    <form class="form" role="form" method="POST" id="invoice-form">
+    {% csrf_token %}
+    <input id="invoice_pk" type="hidden" value="{{ invoice.id|default:0 }}">
+
+    {# Invoice details #}
+    <h4>
+    {% block title %}
+    {% if invoice.invoice_number %}
+        {{ invoice.invoice_number }}&boxv;{{ invoice.company }}
+        {% if edit %}
+            - Edit
+        {% endif %}
+    {% else %}
+        New Invoice
+    {% endif %}
+    {% endblock %}
+    </h4>
+
+    <div class="divider"></div>
+
+    <div class="row description-row">
+        <div class="col s6">
+            <div class="panel">
+                <div class="panel-heading">Bill To</div>
+                <div class="panel-body">
+                    {% if edit %}
+                        <div class="row">
+                            <div class="input-field col s10">
+                                <select class="validate" id="company-select">
+                                    <option value="" disabled {% if not invoice.company %}selected{% endif %}>---</option>
+                                    {% for company in companies %}
+                                        <option value="{{ company.pk }}"
+                                                {% if invoice.company.pk == company.pk %}
+                                                active selected
+                                                {% endif %}
+                                        >{{ company }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="company-select">Company</label>
+                            </div>
+                            <div class="col s2">
+                                <a class="btn btn-square" href="#companyModal"><i class="material-icons">add</i></a>
+                            </div>
+                            <div class="input-field col s12">
+                                <input type="text" id="person" class="validate" value="{{ invoice.person|default:'' }}">
+                                <label for="person">Person</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input type="tel" id="phone-no" value="{{ invoice.phone|default:'' }}">
+                                <label for="phone-no">Phone - optional</label>
+                            </div>
+                        </div>
+                    {% else %}
+                    <dl class="dl-horizontal">
+                        <dt>Company</dt>
+                        <dd>{{ invoice.company }}</dd>
+
+                        <dt>Email</dt>
+                        <dd>{{ invoice.company.email }}</dd>
+
+                        <dt>Address</dt>
+                        <dd>{{ invoice.company.address }}</dd>
+
+                        {% if invoice.person %}
+                            <dt>Person</dt>
+                            <dd>{{ invoice.person }}</dd>
+                        {% endif %}
+
+                        {% if invoice.phone %}
+                            <dt>Phone</dt>
+                            <dd>{{ invoice.phone }}</dd>
+                        {% endif %}
+                    </dl>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="panel">
+                <div class="panel-heading">Invoice Details</div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Invoice Date:</dt>
+                        <dd>{{ invoice.created.date }}</dd>
+
+                        <dt>Invoice Number:</dt>
+                        <dd>{{ invoice.invoice_number }}</dd>
+
+                        {% if not edit %}
+                            <dt>Paid</dt>
+                            <dd>{{ invoice.paid }}</dd>
+
+                            <dt>UTR</dt>
+                            <dd>{{ invoice.utr }}</dd>
+                        {% endif %}
+                    </dl>
+                    {% if edit %}
+                        <div class="row">
+                            <div class="col s6 center-align">
+                                <input type="checkbox" class="filled-in" id="is-paid"
+                                {% if invoice.paid %}checked="checked"{% endif %}>
+                                <label for="is-paid">Paid</label>
+                            </div>
+
+                            <div class="col s6">
+                                <input type="checkbox" class="filled-in" id="utr"
+                                {% if invoice.utr %}checked="checked"{% endif %}>
+                                <label for="utr">UTR</label>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if edit and not invoice.pk %}
+        <div class="row">
+            <div class="col s12">
+                <button name="action" type="submit" class="btn red"><i class="material-icons left">save</i>Save</button>
+                <br>
+                <span class="grey-text text-lighten-1"><i>Please save before adding invoice items</i></span>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if invoice.pk %}
+        {% include 'item_table.html' %}
+    {% endif %}
+
+
+    <div class="fixed-action-btn horizontal">
+        <a class="btn-floating btn-large red">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul>
+            <!-- Reverse Order -->
+            {% if not edit %}
+                <li><a class="btn-floating pink lighten-1" href="#deleteModal"><i class="material-icons">delete</i></a></li>
+                <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1"><i class="material-icons">print</i></a></li>
+                <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
+            {% else %}
+                <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons">save</i></button></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    </form>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h4>Delete Invoice</h4>
+            <p>Are you sure you want to delete <strong>{{ invoice.invoice_number }}&boxv;{{ invoice.company }}?</strong></p>
+            <p>Invoice total: {{ invoice.total }}</p>
+        </div>
+        <div class="modal-footer">
+            <button onclick="deleteInvoice()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
+            <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+        </div>
+    </div>
+
+    {% include 'item_modal.html' %}
+    {% include 'company_modal.html' %}
+
+    {% block script %}
+        <script>
+            function showItemModal( itemPk ) {
+                getItemsForModal( itemPk );
+                Materialize.updateTextFields();
+                $('#itemModal').modal('open');
+            }
+        </script>
+
+        <script>
+            $('#invoice-form').on('submit', function(event){
+                event.preventDefault();
+                updateInvoice();
+                return false;
+            });
+        </script>
+
+        <script>
+            $('#item-form').on('submit', function(event){
+                event.preventDefault();
+                updateItem();
+                $('#itemModal').modal('close');
+                return false;
+            });
+        </script>
+
+        <script>
+            $('#company-form').on('submit', function(event){
+                event.preventDefault();
+                updateCompany();
+                $('#companyModal').modal('close');
+                return false;
+            });
+        </script>
+
+    {% endblock %}
+{% endblock %}

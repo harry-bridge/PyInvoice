@@ -1,0 +1,18 @@
+<tr id="item-{{item.pk}}" data-pk="{{item.pk}}">
+	<td>
+        <div class="item-description">
+            <em class="description">{{item.description|linebreaksbr}}</em>
+        </div>
+	</td>
+	<td>£&nbsp;<span class="cost">{{item.cost|floatformat:2}}</span></td>
+	{% if edit %}
+	<td>
+		<a class="btn waves-effect waves-dark grey" onclick="showItemModal({{ item.pk }})">
+            <i class="material-icons">edit</i>
+        </a>
+		<a class="btn waves-effect waves-dark red lighten-2" onclick="deleteItem({{ item.pk }})">
+            <i class="material-icons">delete</i>
+		</a>
+	</td>
+	{% endif %}
+</tr>
