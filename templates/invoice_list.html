@@ -26,7 +26,7 @@
             </td>
             <td>{{ invoice.invoice_number }}</td>
             <td>{{ invoice.created.date }}</td>
-            <td>{{ invoice.total }}</td>
+            <td>£ {{ invoice.total|floatformat:2 }}</td>
             <td>
                 <a href="/invoice/{{ invoice.pk }}"><i class="material-icons light-blue-text text-lighten-1">visibility</i></a>
                 <a href="/invoice/{{ invoice.pk }}/edit"><i class="material-icons orange-text text-lighten-1">edit</i></a>

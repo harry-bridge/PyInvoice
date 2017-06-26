@@ -147,13 +147,13 @@
                 <tr>
                     <td content="" >{{ item.description }}</td>
                     <td content="" />
-                    <td content="" >{{ item.cost }}</td>
+                    <td content="" >£ {{ item.cost }}</td>
                 </tr>
             {% endfor %}
             <tr>
                 <td content="" />
                 <td content="" >TOTAL</td>
-                <td content="" >{{ invoice.total }}</td>
+                <td content="" >£ {{ invoice.total }}</td>
             </tr>
         </blockTable>
     </story>
