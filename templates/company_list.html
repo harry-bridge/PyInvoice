@@ -32,8 +32,12 @@
                 </a>
             </td>
             <td>
-                <a href="/company/{{ company.pk }}/"><i class="material-icons light-blue-text text-lighten-1">visibility</i></a>
-                <a href="/company/{{ company.pk }}/edit/"><i class="material-icons orange-text text-lighten-1">edit</i></a>
+                <a class="tooltipped" data-position="top" data-tooltip="View Company" href="/company/{{ company.pk }}/">
+                    <i class="material-icons light-blue-text text-lighten-1">visibility</i>
+                </a>
+                <a class="tooltipped" data-position="top" data-tooltip="Edit Company" href="/company/{{ company.pk }}/edit/">
+                    <i class="material-icons orange-text text-lighten-1">edit</i>
+                </a>
             </td>
         </tr>
         {% endfor %}

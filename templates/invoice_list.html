@@ -27,11 +27,7 @@
             <td>{{ invoice.invoice_number }}</td>
             <td>{{ invoice.created.date }}</td>
             <td>£ {{ invoice.total|floatformat:2 }}</td>
-            <td>
-                <a href="/invoice/{{ invoice.pk }}"><i class="material-icons light-blue-text text-lighten-1">visibility</i></a>
-                <a href="/invoice/{{ invoice.pk }}/edit"><i class="material-icons orange-text text-lighten-1">edit</i></a>
-                <a href="/invoice/{{ invoice.pk }}/print" target="_blank"><i class="material-icons purple-text text-lighten-1">print</i></a>
-            </td>
+            <td>{% include 'helpers/table_buttons.html' %}</td>
         </tr>
         {% endfor %}
     </tbody>
