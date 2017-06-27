@@ -1,9 +1,10 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, QueryDict
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 import json
 
 from invoice import models
@@ -231,5 +232,35 @@ def company_delete(request):
 
         context['deleted'] = True
         context['url'] = '/company/list/'
+
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+class ProfileDetail(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'registration/profile_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileDetail, self).get_context_data(**kwargs)
+        context['user'] = get_object_or_404(models.Profile, pk=self.kwargs['pk'])
+
+
+class ProfileEdit(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'registration/profile_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileEdit, self).get_context_data(**kwargs)
+        context['user'] = get_object_or_404(models.Profile, pk=self.kwargs['pk'])
+
+
+def profile_update(request):
+    context = {}
+    if request.method == 'POST' and request.is_ajax():
+        form = QueryDict(request.POST['profile_form'].encode('ASCII')).dict()
+        form.pop('csrfmiddlewaretoken')
+        pk = form.pop('pk')
+
+        if pk:
+            models.Profile.objects.update_or_create(pk=pk, defaults=form)
+            context['url'] = reverse('profile_detail', args=[pk])
 
     return HttpResponse(json.dumps(context), content_type='application/json')

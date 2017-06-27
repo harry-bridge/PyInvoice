@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block main %}
+    <div class="row description-row">
+        <div class="col s5">
+            <div class="panel">
+                <div class="panel-heading">
+                    Base Details
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>First Name</dt>
+                        <dd>{{ user.first_name }}</dd>
+
+                        <dt>Last Name</dt>
+                        <dd>{{ user.last_name }}</dd>
+
+                        <dt>Username</dt>
+                        <dd>{{ user.username }}</dd>
+
+                        <dt>Email</dt>
+                        <dd>{{ user.email }}</dd>
+
+                        <dt>Staff</dt>
+                        <dd>{{ user.is_staff }}</dd>
+
+                        <dt>Superuser</dt>
+                        <dd>{{ user.is_superuser }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col s1"></div>
+        <div class="col s5">
+            <div class="panel">
+                <div class="panel-heading">
+                    Extra Details
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Address</dt>
+                        <dd>{{ user.address }}</dd>
+
+                        <dt>Phone</dt>
+                        <dd>{{ user.phone }}</dd>
+
+                        <dt>UTR</dt>
+                        <dd>{{ user.UTR }}</dd>
+
+                        <dt>Bank</dt>
+                        <dd>{{ user.bank }}</dd>
+
+                        <dt>Sort Code</dt>
+                        <dd>{{ user.sort_code }}</dd>
+
+                        <dt>Account No.</dt>
+                        <dd>{{ user.account_number }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-action-btn horizontal">
+        <a class="btn-floating btn-large red">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul>
+            <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
+        </ul>
+    </div>
+{% endblock %}

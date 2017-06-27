@@ -13,7 +13,7 @@ function updateInvoice() {
     traditional: true,
 
     success : function(data) {
-        console.log(data);
+        // console.log(data);
         window.location.href = data['url'];
     }
   });
@@ -76,7 +76,7 @@ function getItemsForModal(item_pk) {
           $('#descriptionInputLabel').addClass('active');
           $('#costInput').val(data['cost']);
           $('#costInputLabel').addClass('active');
-          console.log(data);
+          // console.log(data);
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
   });
@@ -101,7 +101,7 @@ function getCompanyForModal(company_pk) {
           $('#emailInputLabel').addClass('active');
           $('#company_pk').val(data['company_pk']);
           $('#redirectOnSave').val('0');
-          console.log(data);
+          // console.log(data);
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
   });
@@ -141,7 +141,7 @@ function deleteInvoice() {
 
       // handle a successful response
       success: function (data) {
-          console.log(data);
+          // console.log(data);
           window.location.href = data['url']
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
@@ -159,7 +159,25 @@ function deleteCompany() {
 
       // handle a successful response
       success: function (data) {
-          console.log(data);
+          // console.log(data);
+          window.location.href = data['url']
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}
+
+function updateProfile() {
+  $.ajax({
+      url: "/accounts/update/", // the endpoint
+      type: "POST", // http method
+      data: {
+          profile_form: $('#profile-form').serialize()
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          // console.log(data);
           window.location.href = data['url']
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}

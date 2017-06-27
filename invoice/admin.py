@@ -3,6 +3,10 @@ from django.contrib import admin
 from models import *
 
 
+class ProfileAdmin(admin.ModelAdmin):
+    pass
+
+
 class CompanyAdmin(admin.ModelAdmin):
     pass
 
@@ -20,5 +24,6 @@ class InvoiceAdmin(admin.ModelAdmin):
     ]
 
 
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Invoice, InvoiceAdmin)
