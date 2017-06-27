@@ -10,7 +10,7 @@ from invoice import models
 class InvoicePrint(generic.View):
     def get(self, request, pk):
         invoice = get_object_or_404(models.Invoice, pk=pk)
-        user = get_object_or_404(models.UserDetails, pk=1)
+        user = get_object_or_404(models.Profile, pk=1)
         template = get_template('invoice_print.xml')
 
         context = {
