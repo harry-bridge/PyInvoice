@@ -68,7 +68,7 @@ class Invoice(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.created:
-            self.created = datetime.now()
+            self.created = timezone.now()
 
         super(Invoice, self).save(*args, **kwargs)
 
