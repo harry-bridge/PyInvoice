@@ -50,9 +50,13 @@ class Invoice(models.Model):
     created = models.DateTimeField(blank=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
+    user_invoice_number = models.TextField(max_length=15, blank=True, null=True)
 
     def invoice_number(self):
-        return 'N%04d' % self.pk
+        if not self.user_invoice_number:
+            return 'N%04d' % self.pk
+        else:
+            return self.user_invoice_number
 
     def get_items(self):
         return self.items.all()
