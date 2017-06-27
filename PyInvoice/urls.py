@@ -31,7 +31,7 @@ urlpatterns = [
 
     url(r'^invoice/list', views.InvoiceList.as_view(), name='invoice_list'),
     url(r'^invoice/(?P<pk>\d+)/$', views.InvoiceDetail.as_view(), name='invoice_detail'),
-    url(r'^invoice/(?P<pk>\d+)/edit/$', views.invoice_edit, name='invoice_edit'),
+    url(r'^invoice/(?P<pk>\d+)/edit/$', views.InvoiceEdit.as_view(), name='invoice_edit'),
     url(r'^invoice/create/$', views.InvoiceCreate.as_view(), name='invoice_create'),
     url(r'^invoice/update/$', views.invoice_update, name='invoice_update'),
     url(r'^invoice/delete/$', views.invoice_delete, name='invoice_delete'),
@@ -42,7 +42,7 @@ urlpatterns = [
 
     url(r'^company/list/$', views.CompanyList.as_view(), name='company_list'),
     url(r'^company/(?P<pk>\d+)/$', views.CompanyDetail.as_view(), name='company_detail'),
-    url(r'^company/(?P<pk>\d+)/edit/$', views.company_edit, name='company_edit'),
+    url(r'^company/(?P<pk>\d+)/edit/$', views.CompanyEdit.as_view(), name='company_edit'),
     url(r'^company/create/$', views.CompanyCreate.as_view(), name='company_create'),
     url(r'^company/update/$', views.company_update, name='company_update'),
     url(r'^company/delete/$', views.company_delete, name='company_delete'),

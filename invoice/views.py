@@ -64,25 +64,23 @@ class InvoiceCreate(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-@login_required()
-def invoice_edit(request, pk):
-    invoice = get_object_or_404(models.Invoice, pk=pk)
-    companies = models.Company.objects.all()
+class InvoiceEdit(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'invoice_form.html'
 
-    context = {
-        'invoice': invoice,
-        'edit': True,
-        'companies': companies,
-    }
+    def get_context_data(self, **kwargs):
+        context = super(InvoiceEdit, self).get_context_data(**kwargs)
+        context['companies'] = models.Company.objects.all()
+        context['invoice'] = get_object_or_404(models.Invoice, pk=self.kwargs['pk'])
+        context['edit'] = True
 
-    return render_to_response('invoice_form.html', context)
+        return context
 
 
 @login_required()
 def invoice_update(request):
-    context = {}
+    context = dict()
     if request.method == 'POST' and request.is_ajax():
-        defaults = {}
+        defaults = dict()
         invoice_pk = request.POST['invoice_pk']
         defaults['company'] = get_object_or_404(models.Company, pk=int(request.POST['company']))
         defaults['person'] = request.POST['person']
@@ -111,7 +109,7 @@ def invoice_update(request):
 def invoice_item_update(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        defaults = {}
+        defaults = dict()
         item_pk = request.POST.get('item_pk', '0')
         invoice_pk = request.POST.get('invoice_pk', '0')
 
@@ -137,7 +135,7 @@ def invoice_item_update(request):
 
 @login_required()
 def invoice_item_delete(request):
-    context = {}
+    context = dict()
     if request.method == 'POST' and request.is_ajax():
         invoice_pk = request.POST['invoice_pk']
         item_pk = request.POST['item_pk']
@@ -152,7 +150,7 @@ def invoice_item_delete(request):
 
 @login_required()
 def invoice_delete(request):
-    context = {}
+    context = dict()
     if request.method == 'POST' and request.is_ajax():
         invoice_pk = request.POST['invoice_pk']
 
@@ -179,51 +177,48 @@ class CompanyCreate(LoginRequiredMixin, generic.TemplateView):
     template_name = 'company_update.html'
 
 
-@login_required()
-def company_edit(request, pk):
-    company = get_object_or_404(models.Company, pk=pk)
+class CompanyEdit(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'company_update.html'
 
-    context = {
-        'edit': True,
-        'company': company,
-    }
+    def get_context_data(self, **kwargs):
+        context = super(CompanyEdit, self).get_context_data(**kwargs)
+        context['company'] = get_object_or_404(models.Company, pk=self.kwargs['pk'])
+        context['edit'] = True
 
-    return render_to_response('company_update.html', context)
+        return context
 
 
 @login_required()
 def company_update(request):
-    context = {}
+    context = dict()
     if request.method == 'POST' and request.is_ajax():
-        defaults = {}
-        company_pk = request.POST.get('company_pk', '0')
-        redirect = bool(request.POST.get('redirectOnSave', '0'))
+        defaults = dict()
+        context['company_pk'] = int(request.POST.get('company_pk', '0'))
+        context['redirect'] = bool(int(request.POST.get('redirect_on_save', '0')))
 
         defaults['name'] = request.POST['name']
         defaults['address'] = request.POST['address']
         defaults['email'] = request.POST['email']
 
-        if company_pk == '0':
+        if context['company_pk'] == 0:
             company = models.Company.objects.create(**defaults)
             context['company_pk'] = company.pk
             context['company_name'] = company.name
 
-            if redirect:
-                context['url'] = '/company/' + str(company.pk) + '/edit/'
         else:
-            company = models.Company.objects.update_or_create(pk=company_pk, defaults=defaults)
-
-            if redirect:
-                context['url'] = '/company/' + str(company_pk)
+            company, created = models.Company.objects.update_or_create(pk=context['company_pk'], defaults=defaults)
 
             context['name'] = company.name
+
+        if context['redirect']:
+            context['url'] = '/company/' + str(context['company_pk'])
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 
 @login_required()
 def company_delete(request):
-    context = {}
+    context = dict()
     if request.method == 'POST' and request.is_ajax():
         company_pk = request.POST['company_pk']
 
@@ -253,7 +248,7 @@ class ProfileEdit(LoginRequiredMixin, generic.TemplateView):
 
 
 def profile_update(request):
-    context = {}
+    context = dict()
     if request.method == 'POST' and request.is_ajax():
         form = QueryDict(request.POST['profile_form'].encode('ASCII')).dict()
         form.pop('csrfmiddlewaretoken')
