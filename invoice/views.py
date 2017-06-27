@@ -80,27 +80,24 @@ class InvoiceEdit(LoginRequiredMixin, generic.TemplateView):
 def invoice_update(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        defaults = dict()
-        invoice_pk = request.POST['invoice_pk']
-        defaults['company'] = get_object_or_404(models.Company, pk=int(request.POST['company']))
-        defaults['person'] = request.POST['person']
+        defaults = QueryDict(request.POST['invoice_form'].encode('ASCII')).dict()
+        defaults.pop('csrfmiddlewaretoken')
+        invoice_pk = int(defaults.pop('pk'))
 
-        if request.POST['phone'] == '':
-            defaults['phone'] = None
-        else:
-            defaults['phone'] = request.POST['phone']
+        defaults['company'] = get_object_or_404(models.Company, pk=int(defaults.pop('company')))
 
-        defaults['paid'] = json.loads(request.POST['paid'])
-        defaults['utr'] = json.loads(request.POST['utr'])
+        phone = defaults.pop('phone')
+        defaults['phone'] = int(phone) if phone.strip() else None
 
-        if invoice_pk == '0':
+        defaults['utr'] = bool(defaults.pop('utr', None))
+        defaults['paid'] = bool(defaults.pop('paid', None))
+
+        if invoice_pk == 0:
             invoice = models.Invoice.objects.create(**defaults)
-            invoice_pk = str(invoice.pk)
-            context['url'] = '/invoice/' + invoice_pk + '/edit/'
+            context['url'] = reverse('invoice_edit', args=[invoice.pk])
         else:
             models.Invoice.objects.update_or_create(pk=invoice_pk, defaults=defaults)
-
-            context['url'] = '/invoice/' + invoice_pk
+            context['url'] = reverse('invoice_detail', args=[invoice_pk])
 
         return HttpResponse(json.dumps(context), content_type='application/json')
 

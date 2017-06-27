@@ -4,7 +4,7 @@
 {% block main %}
     <form class="form" role="form" method="POST" id="invoice-form">
     {% csrf_token %}
-    <input id="invoice_pk" type="hidden" value="{{ invoice.id|default:0 }}">
+    <input id="invoice_pk" name="pk" type="hidden" value="{{ invoice.id|default:0 }}">
 
     {# Invoice details #}
     <h4>
@@ -30,7 +30,7 @@
                     {% if edit %}
                         <div class="row">
                             <div class="input-field col s9">
-                                <select class="validate" id="company-select">
+                                <select class="validate" id="company-select" name="company">
                                     <option value="" disabled {% if not invoice.company %}selected{% endif %}>---</option>
                                     {% for company in companies %}
                                         <option value="{{ company.pk }}"
@@ -47,12 +47,12 @@
 {#                                <a class="btn btn-square" onclick="showCompanyModal()"><i class="material-icons">edit</i></a>#}
                             </div>
                             <div class="input-field col s12">
-                                <input type="text" id="person" class="validate" value="{{ invoice.person|default:'' }}">
+                                <input type="text" id="person" name="person" class="validate" value="{{ invoice.person|default:'' }}">
                                 <label for="person">Person</label>
                             </div>
                             <div class="input-field col s12">
-                                <input type="tel" id="phone-no" value="{{ invoice.phone|default:'' }}">
-                                <label for="phone-no">Phone - optional</label>
+                                <input type="tel" id="phone" name="phone" value="{{ invoice.phone|default:'' }}">
+                                <label for="phone">Phone - optional</label>
                             </div>
                         </div>
                     {% else %}
@@ -90,13 +90,13 @@
                 <div class="panel-heading">Invoice Details</div>
                 <div class="panel-body">
                     <dl class="dl-horizontal">
-                        <dt>Invoice Date:</dt>
-                        <dd>{{ invoice.created.date }}</dd>
-
-                        <dt>Invoice Number:</dt>
-                        <dd>{{ invoice.invoice_number }}</dd>
-
+                            <dt>Invoice Date:</dt>
+                            <dd>{{ invoice.created.date }}</dd>
                         {% if not edit %}
+
+                            <dt>Invoice Number:</dt>
+                            <dd>{{ invoice.invoice_number }}</dd>
+
                             <br>
                             <dt>Paid</dt>
                             <dd>{{ invoice.paid }}</dd>
@@ -107,14 +107,18 @@
                     </dl>
                     {% if edit %}
                         <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" id="user_invoice_number" name="user_invoice_number" value="{{ invoice.user_invoice_number|default_if_none:'' }}">
+                                <label for="user_invoice_number">User Invoice Number - Optional</label>
+                            </div>
                             <div class="col s6 center-align">
-                                <input type="checkbox" class="filled-in" id="is-paid"
+                                <input type="checkbox" class="filled-in" id="paid" name="paid"
                                 {% if invoice.paid %}checked="checked"{% endif %}>
-                                <label for="is-paid">Paid</label>
+                                <label for="paid">Paid</label>
                             </div>
 
                             <div class="col s6">
-                                <input type="checkbox" class="filled-in" id="utr"
+                                <input type="checkbox" class="filled-in" id="utr" name="utr"
                                 {% if invoice.utr %}checked="checked"{% endif %}>
                                 <label for="utr">UTR</label>
                             </div>

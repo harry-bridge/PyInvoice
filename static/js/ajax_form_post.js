@@ -3,12 +3,7 @@ function updateInvoice() {
     url : "/invoice/update/", // the endpoint
     type : "POST", // http method
     data : {
-        invoice_pk: $('#invoice_pk').val(),
-        company: $('#company-select').val(),
-        person: $('#person').val(),
-        phone: $('#phone-no').val(),
-        paid: $('#is-paid').is(':checked'),
-        utr: $('#utr').is(':checked')
+        invoice_form: $('#invoice-form').serialize()
     },
     traditional: true,
 
