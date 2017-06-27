@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load invoice_tags %}
 {% block title %}Profile{% endblock %}
 
 {% block main %}
@@ -85,7 +86,7 @@
 {% block script %}
 
     <script>
-        $('#addressInput').val("{{ user.address|default_if_none:'' }}").trigger('autoresize');
+        $('#addressInput').val("{{ user.address|linebreaksn|default_if_none:'' }}").trigger('autoresize');
     </script>
 
     <script>
