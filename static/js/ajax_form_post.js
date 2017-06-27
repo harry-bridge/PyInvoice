@@ -116,7 +116,7 @@ function updateCompany() {
           name: $('#nameInput').val(),
           address: $('#addressInput').val(),
           email: $('#emailInput').val(),
-          redirectOnSave: $('#redirectOnSave').val()
+          redirect_on_save: $('#redirect_on_save').val()
       }, // data sent with the post request
 
       // handle a successful response
