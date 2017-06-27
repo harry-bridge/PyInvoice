@@ -12,7 +12,7 @@
     {% if invoice.invoice_number %}
         {{ invoice.invoice_number }}&boxv;{{ invoice.company }}
         {% if edit %}
-            - Edit
+            <span class="grey-text text-lighten-1">- Edit</span>
         {% endif %}
     {% else %}
         New Invoice
@@ -43,7 +43,7 @@
                                 <label for="company-select">Company</label>
                             </div>
                             <div class="col s3">
-                                <a class="btn btn-square" href="#companyModal"><i class="material-icons">add</i></a>
+                                <a class="btn btn-square" onclick="showCompanyModal(0)"><i class="material-icons">add</i></a>
 {#                                <a class="btn btn-square" onclick="showCompanyModal()"><i class="material-icons">edit</i></a>#}
                             </div>
                             <div class="input-field col s12">
@@ -171,17 +171,21 @@
         <script>
             function showItemModal( itemPk ) {
                 getItemsForModal( itemPk );
-                Materialize.updateTextFields();
                 $('#itemModal').modal('open');
+                Materialize.updateTextFields();
             }
         </script>
 
         <script>
-            function showCompanyModal() {
-                var company_pk = $('#company-select').val();
-                getCompanyForModal( company_pk );
-                Materialize.updateTextFields();
+            function showCompanyModal( company_pk ) {
+                if (company_pk != 0) {
+                    getCompanyForModal( company_pk );
+                } else {
+                    $('#company-form')[0].reset();
+                }
                 $('#companyModal').modal('open');
+                $('#redirect_on_save').val('0');
+                Materialize.updateTextFields();
             }
         </script>
 

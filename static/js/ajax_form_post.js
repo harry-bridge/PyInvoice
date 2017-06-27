@@ -72,9 +72,9 @@ function getItemsForModal(item_pk) {
           }
           $('#item_pk').val(data['item_pk']);
 
-          $('#descriptionInput').val(data['description']);
+          $('#descriptionInput').val(data['description']).removeClass('valid');
           $('#descriptionInputLabel').addClass('active');
-          $('#costInput').val(data['cost']);
+          $('#costInput').val(data['cost']).removeClass('valid');
           $('#costInputLabel').addClass('active');
           // console.log(data);
       },
@@ -100,8 +100,8 @@ function getCompanyForModal(company_pk) {
           $('#emailInput').val(data['email']);
           $('#emailInputLabel').addClass('active');
           $('#company_pk').val(data['company_pk']);
-          $('#redirectOnSave').val('0');
-          // console.log(data);
+          $('#redirect_on_save').val('0');
+          console.log(data);
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
   });
@@ -123,7 +123,12 @@ function updateCompany() {
       success: function (data) {
           console.log(data);
           if (data['redirect']) {
-              window.location.href = data['url'];
+                window.location.href = data['url'];
+          } else {
+              $('#company-select').append($('<option>', {
+                    value: data['company_pk'],
+                    text: data['company_name']
+                })).val(data['company_pk']).material_select();
           }
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}

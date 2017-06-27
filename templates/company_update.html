@@ -6,7 +6,7 @@
 
     <h4>
         {% if company.name %}
-            {{ company.name }} {% if edit %} <span class="grey-text text-lighten-1">Edit</span> {% endif %}
+            {{ company.name }} {% if edit %} <span class="grey-text text-lighten-1">- Edit</span> {% endif %}
         {% else %}
             New Company
         {% endif %}
@@ -30,10 +30,12 @@
                 </a>
                 <ul>
                     <!-- Reverse Order -->
-                    {% if not edit %}
-                        <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
-                    {% else %}
+                    {% if edit and company.pk %}
                         <li><a class="btn-floating pink lighten-1" href="#deleteModalCompany"><i class="material-icons">delete</i></a></li>
+                    {% endif %}
+                    {% if not edit and company.pk %}
+                        <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
+                    {% elif not company.pk or edit %}
                         <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons">save</i></button></li>
                     {% endif %}
                 </ul>
