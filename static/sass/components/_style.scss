@@ -100,3 +100,15 @@ $dl-horizontal-offset:        160px !default;
   margin-top: 0.2em;
   margin-bottom: 0.2em;
 }
+
+.hover-link {
+  transition: 0.2s;
+  text-decoration: none;
+  border-bottom: solid 1px transparent;
+  color: inherit;
+
+  &:hover {
+    transition: 0.2s;
+    border-bottom: solid 1px color('orange', 'lighten-1');
+  }
+}

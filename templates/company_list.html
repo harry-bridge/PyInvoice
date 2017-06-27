@@ -20,14 +20,14 @@
         {% for company in object_list %}
         <tr>
             <td>
-                <a href="/company/{{ company.pk }}">
+                <a class="hover-link" href="/company/{{ company.pk }}">
                     <span class="orange-text text-lighten-1">{{ company.name }}</span>
                 </a>
             </td>
             <td>{{ company.email }}</td>
             <td>{{ company.total_invoices }}</td>
             <td>
-                <a href="/invoice/{{ company.latest_invoice.pk }}/">
+                <a class="hover-link" href="/invoice/{{ company.latest_invoice.pk }}/">
                     <span class="orange-text text-lighten-1">{{ company.latest_invoice.invoice_number }}</span>
                 </a>
             </td>

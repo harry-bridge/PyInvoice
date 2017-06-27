@@ -60,16 +60,21 @@
                         <dt>Company</dt>
                         <dd>{{ invoice.company }}</dd>
 
-                        <dt>Email</dt>
-                        <dd>{{ invoice.company.email }}</dd>
-
-                        <dt>Address</dt>
-                        <dd>{{ invoice.company.address }}</dd>
-
                         {% if invoice.person %}
                             <dt>Person</dt>
                             <dd>{{ invoice.person }}</dd>
                         {% endif %}
+
+                        <dt>Email</dt>
+                        <dd>
+                            <a class="hover-link orange-text text-lighten-1" href="mailto:{{ invoice.company.email }}">
+                                {{ invoice.company.email }}
+                            </a>
+                        </dd>
+
+                        <br>
+                        <dt>Address</dt>
+                        <dd>{{ invoice.company.address|linebreaksbr }}</dd>
 
                         {% if invoice.phone %}
                             <dt>Phone</dt>
@@ -92,6 +97,7 @@
                         <dd>{{ invoice.invoice_number }}</dd>
 
                         {% if not edit %}
+                            <br>
                             <dt>Paid</dt>
                             <dd>{{ invoice.paid }}</dd>
 

@@ -27,7 +27,11 @@
                     <dd>{{ company.total_invoices }}</dd>
 
                     <dt>Latest Invoice</dt>
-                    <dd><a href="/invoice/{{ company.latest_invoice.pk }}/" class="orange-text text-lighten-1">{{ company.latest_invoice }}</a></dd>
+                    <dd>
+                        <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ company.latest_invoice.pk }}/">
+                            {{ company.latest_invoice.invoice_number }}
+                        </a>
+                    </dd>
 
                     <dt>Not Paid</dt>
                     <dd>{{ company.not_paid_count }}</dd>
@@ -52,7 +56,7 @@
             {% for invoice in company.all_invoices %}
             <tr>
                 <td>
-                    <a href="/invoice/{{ invoice.pk }}">
+                    <a class="hover-link" href="/invoice/{{ invoice.pk }}">
                         <span class="orange-text text-lighten-1">{{ invoice }}</span>
                     </a>
                 </td>

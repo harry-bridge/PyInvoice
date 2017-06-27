@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block main %}
-    <h5 class="grey-text text-darken-3 _pad_05_top">Welcome back {{ user.first_name }}, you have {{ view.not_paid_count }} invoice{% if view.not_paid != 1 %}s{% endif %} waiting to be paid.</h5>
+    <h5 class="grey-text text-darken-3 _pad_05_top">Welcome back {{ user.first_name }}, you have {{ view.not_paid_count }} invoice{% if view.not_paid_count != 1 %}s{% endif %} waiting to be paid.</h5>
     <div class="divider"></div>
 
     <div class="row description-row">
@@ -21,14 +21,14 @@
 
             <div class="panel _margin_2_top">
                 <div class="panel-heading">
-                    Stats
+                    Useful Things
                 </div>
                 <div class="panel-body">
                     {{ view.not_paid_count }} invoices waiting to be paid
                     <br>
                     Totalling £ {{ view.not_paid_total }}
                     <br>
-                    Latest Invoice <a href="/invoice/{{ view.last_invoice.pk }}/" class="orange-text text-lighten-1">{{ view.last_invoice.invoice_number }}</a>
+                    Latest Invoice <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ view.last_invoice.pk }}/">{{ view.last_invoice.invoice_number }}</a>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
                         {% for invoice in view.latest_invoices %}
                             <tr>
                                 <td>
-                                    <a href="/invoice/{{ invoice.pk }}/">
+                                    <a class="hover-link" href="/invoice/{{ invoice.pk }}/">
                                         <span class="orange-text text-lighten-1">{{ invoice.company }}</span>
                                     </a>
                                 </td>
