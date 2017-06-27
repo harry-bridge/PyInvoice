@@ -6,7 +6,7 @@
 
     <h4>
         {% if company.name %}
-            {{ company.name }} {% if edit %} Edit {% endif %}
+            {{ company.name }} {% if edit %} <span class="grey-text text-lighten-1">Edit</span> {% endif %}
         {% else %}
             New Company
         {% endif %}
@@ -59,8 +59,7 @@
 
     {% if edit %}
     <script>
-        $('#addressInput').val('{{ company.address }}');
-        $('#addressInput').trigger('autoresize');
+        $('#addressInput').val("{{ company.address|default_if_none:'' }}").trigger('autoresize');
     </script>
     {% endif %}
 
