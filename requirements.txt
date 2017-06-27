@@ -1,4 +1,4 @@
-Django==1.9.12
+Django==1.11.2
 simplejson==3.10.0
 reportlab==3.4.0
 z3c.rml==3.2.0
