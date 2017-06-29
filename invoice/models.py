@@ -44,6 +44,7 @@ class Company(models.Model):
 
 
 class Invoice(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     person = models.CharField(max_length=80)
     phone = models.IntegerField(blank=True, null=True)
