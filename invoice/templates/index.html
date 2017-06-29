@@ -24,7 +24,7 @@
                     Useful Things
                 </div>
                 <div class="panel-body">
-                    {{ not_paid_count }} invoices waiting to be paid
+                    {{ not_paid_count }} invoice{% if not_paid_count != 1 %}s{% endif %} waiting to be paid
                     <br>
                     Totalling £ {{ not_paid_total }}
                     <br>
