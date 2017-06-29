@@ -1,0 +1,114 @@
+$primary-color: #414142;
+
+#full-div {
+  //width: 100vw;
+  height: 90vh;
+}
+
+.boxed {
+  padding: 0.6rem;
+  border-radius: 3px;
+}
+
+.description-row {
+  margin-top: 2em;
+}
+
+.invoice {
+  margin-top: 1.5rem !important;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.panel {
+  background-color: #fff;
+  border: 1px solid $primary-color;
+  border-radius: 4px;
+}
+
+.panel-heading {
+  color: white;
+  background-color: $primary-color;
+  border-color: #bce8f1;
+
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+.panel-body {
+  padding: 15px;
+}
+
+#itemModal {
+  height: 35vh !important;
+}
+
+dt {
+  font-weight: bold;
+}
+
+$dl-horizontal-breakpoint:    768px;
+$dl-horizontal-offset:        160px !default;
+
+.dl-horizontal {
+  dd {
+    @include clearfix; // Clear the floated `dt` if an empty `dd` is present
+  }
+
+  @media (min-width: $dl-horizontal-breakpoint) {
+    dt {
+      float: left;
+      width: ($dl-horizontal-offset - 20);
+      clear: left;
+      text-align: right;
+      @include text-overflow;
+    }
+    dd {
+      margin-left: $dl-horizontal-offset;
+    }
+  }
+}
+
+.btn-square {
+  padding: 0 0.8rem !important;
+}
+
+.navbar-logo {
+  height: $navbar-height;
+  padding: 0.2rem;
+}
+
+._pad_05_top {
+  padding-top: 0.5em;
+}
+
+._margin_2_top {
+  margin-top: 2em;
+}
+
+._medium_text {
+  font-size: 4em !important;
+}
+
+.index-button {
+  width: 100%;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+.hover-link {
+  transition: 0.2s;
+  text-decoration: none;
+  border-bottom: solid 1px transparent;
+  color: inherit;
+
+  &:hover {
+    transition: 0.2s;
+    border-bottom: solid 1px color('orange', 'lighten-1');
+  }
+}
