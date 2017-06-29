@@ -5,6 +5,7 @@
     <form class="form" role="form" method="POST" id="invoice-form">
     {% csrf_token %}
     <input id="invoice_pk" name="pk" type="hidden" value="{{ invoice.id|default:0 }}">
+    <input id="user_pk" name="user" type="hidden" value="{{ user.id|default:0 }}">
 
     {# Invoice details #}
     <h4>

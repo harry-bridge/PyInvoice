@@ -7,6 +7,10 @@ from invoice import models
 class Command(BaseCommand):
     help = 'Creates some sample data to use for testing'
 
+    def __init__(self, *args, **kwargs):
+        super(Command, self).__init__(*args, **kwargs)
+        self.user = models.Profile.objects.all()[0]
+
     def handle(self, *args, **options):
         from django.conf import settings
 
@@ -41,6 +45,7 @@ class Command(BaseCommand):
             company = random.choice(models.Company.objects.all())
 
             invoice = models.Invoice.objects.create(
+                user=self.user,
                 company=company,
                 person=random.choice(names),
             )

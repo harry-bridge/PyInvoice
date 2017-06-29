@@ -24,17 +24,17 @@
             <div class="panel-body">
                 <dl class="dl-horizontal">
                     <dt>Total Invoices</dt>
-                    <dd>{{ company.total_invoices }}</dd>
+                    <dd>{{ total_invoices }}</dd>
 
                     <dt>Latest Invoice</dt>
                     <dd>
-                        <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ company.latest_invoice.pk }}/">
-                            {{ company.latest_invoice.invoice_number }}
+                        <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ latest_invoice.pk }}/">
+                            {{ latest_invoice.invoice_number }}
                         </a>
                     </dd>
 
                     <dt>Not Paid</dt>
-                    <dd>{{ company.not_paid_count }}</dd>
+                    <dd>{{ not_paid_count }}</dd>
                 </dl>
             </div>
         </div>
@@ -53,7 +53,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for invoice in company.all_invoices %}
+            {% for invoice in all_invoices %}
             <tr>
                 <td>
                     <a class="hover-link" href="/invoice/{{ invoice.pk }}">

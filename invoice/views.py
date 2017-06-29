@@ -26,26 +26,27 @@ def logout_view(request):
 class Index(LoginRequiredMixin, generic.TemplateView):
     template_name = 'index.html'
 
-    def not_paid_count(self):
-        return models.Invoice.objects.all().filter(paid=False).count()
+    def get_context_data(self, **kwargs):
+        context = super(Index, self).get_context_data(**kwargs)
+        invoice = models.Invoice.objects.filter(user=self.request.user)
+        context['not_paid_count'] = invoice.filter(paid=False).count()
+        context['last_invoice'] = invoice.last()
+        context['latest_invoices'] = invoice.order_by('-created')[:10]
 
-    def not_paid_total(self):
-        total = 0
-        for invoice in models.Invoice.objects.all().filter(paid=False):
-            total += invoice.total()
-        return total
+        context['not_paid_total'] = 0
+        for invoice in models.Invoice.objects.filter(user=self.request.user, paid=False):
+            context['not_paid_total'] += invoice.total()
 
-    def last_invoice(self):
-        return models.Invoice.objects.all().last()
-
-    def latest_invoices(self):
-        return models.Invoice.objects.all().order_by('-created')[:10]
+        return context
 
 
 class InvoiceList(LoginRequiredMixin, generic.ListView):
     model = models.Invoice
     template_name = 'invoice_list.html'
     ordering = '-created'
+
+    def get_queryset(self):
+        return models.Invoice.objects.filter(user=self.request.user)
 
 
 class InvoiceDetail(LoginRequiredMixin, generic.DetailView):
@@ -85,6 +86,7 @@ def invoice_update(request):
         invoice_pk = int(defaults.pop('pk'))
 
         defaults['company'] = get_object_or_404(models.Company, pk=int(defaults.pop('company')))
+        defaults['user'] = get_object_or_404(models.Profile, pk=int(defaults.pop('user')))
 
         phone = defaults.pop('phone')
         defaults['phone'] = int(phone) if phone.strip() else None
@@ -168,6 +170,16 @@ class CompanyList(LoginRequiredMixin, generic.ListView):
 class CompanyDetail(LoginRequiredMixin, generic.DetailView):
     model = models.Company
     template_name = 'company_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyDetail, self).get_context_data(**kwargs)
+        invoice = models.Invoice.objects.filter(user=self.request.user, company=self.object)
+        context['total_invoices'] = invoice.count()
+        context['latest_invoice'] = invoice.last()
+        context['not_paid_count'] = invoice.filter(paid=False).count()
+        context['all_invoices'] = invoice.order_by('-created')
+
+        return context
 
 
 class CompanyCreate(LoginRequiredMixin, generic.TemplateView):

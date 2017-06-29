@@ -24,21 +24,6 @@ class Company(models.Model):
     address = models.TextField()
     email = models.CharField(max_length=150)
 
-    def list_invoices(self):
-        return self.invoice_set.all()
-
-    def total_invoices(self):
-        return self.invoice_set.all().count()
-
-    def latest_invoice(self):
-        return self.invoice_set.all().last()
-
-    def not_paid_count(self):
-        return self.invoice_set.all().filter(paid=False).count()
-
-    def all_invoices(self):
-        return self.invoice_set.all().order_by('-created')
-
     def __str__(self):
         return self.name
 

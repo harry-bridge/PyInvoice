@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block main %}
-    <h5 class="grey-text text-darken-3 _pad_05_top">Welcome back {{ user.first_name }}, you have {{ view.not_paid_count }} invoice{% if view.not_paid_count != 1 %}s{% endif %} waiting to be paid.</h5>
+    <h5 class="grey-text text-darken-3 _pad_05_top">Welcome back {{ user.first_name }}, you have {{ not_paid_count }} invoice{% if not_paid_count != 1 %}s{% endif %} waiting to be paid.</h5>
     <div class="divider"></div>
 
     <div class="row description-row">
@@ -24,11 +24,11 @@
                     Useful Things
                 </div>
                 <div class="panel-body">
-                    {{ view.not_paid_count }} invoices waiting to be paid
+                    {{ not_paid_count }} invoices waiting to be paid
                     <br>
-                    Totalling £ {{ view.not_paid_total }}
+                    Totalling £ {{ not_paid_total }}
                     <br>
-                    Latest Invoice <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ view.last_invoice.pk }}/">{{ view.last_invoice.invoice_number }}</a>
+                    Latest Invoice <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ last_invoice.pk }}/">{{ last_invoice.invoice_number }}</a>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <div class="panel-body">
                     <table class="bordered highlight">
                         <tbody>
-                        {% for invoice in view.latest_invoices %}
+                        {% for invoice in latest_invoices %}
                             <tr>
                                 <td>
                                     <a class="hover-link" href="/invoice/{{ invoice.pk }}/">
