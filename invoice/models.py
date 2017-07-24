@@ -34,6 +34,7 @@ class Invoice(models.Model):
     person = models.CharField(max_length=80)
     phone = models.IntegerField(blank=True, null=True)
     created = models.DateTimeField(blank=True)
+    updated = models.DateTimeField(blank=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
     user_invoice_number = models.TextField(max_length=15, blank=True, null=True)
@@ -59,6 +60,7 @@ class Invoice(models.Model):
     def save(self, *args, **kwargs):
         if not self.created:
             self.created = timezone.now()
+        self.updated = timezone.now()
 
         super(Invoice, self).save(*args, **kwargs)
 

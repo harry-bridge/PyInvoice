@@ -91,9 +91,11 @@
                 <div class="panel-heading">Invoice Details</div>
                 <div class="panel-body">
                     <dl class="dl-horizontal">
-                            <dt>Invoice Date:</dt>
+                            <dt>Invoice Created:</dt>
                             <dd>{{ invoice.created.date }}</dd>
                         {% if not edit %}
+                            <dt>Invoice Updated:</dt>
+                            <dd>{{ invoice.updated }}</dd>
 
                             <dt>Invoice Number:</dt>
                             <dd>{{ invoice.invoice_number }}</dd>
