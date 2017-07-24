@@ -30,6 +30,11 @@ class InvoicePrint(generic.View):
 
         response = HttpResponse(content_type='application/pdf')
 
-        response['Content-Disposition'] = "filename=N%04d | %s.pdf" % (invoice.pk, invoice.company)
+        if invoice.user_invoice_number:
+            invoice_number = invoice.user_invoice_number
+        else:
+            invoice_number = 'N%04d' % invoice.pk
+
+        response['Content-Disposition'] = "filename=%s | %s.pdf" % (invoice_number, invoice.company)
         response.write(buf.read())
         return response
