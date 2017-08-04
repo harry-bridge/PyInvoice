@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block main %}
+	<div class="valign-wrapper" id="full-div">
+		<div class="container center-align">
+			<div class="valign">
+				<h1 class="light grey-text text-darken-3 large-text">{% block error %}{% endblock %}</h1>
+				<br>
+				<h4 class="light grey-text text-darken-1">{% block description %}{% endblock %}</h4>
+				<br>
+				<br>
+				<a href="{% url 'index' %}" class="btn waves-effect waves-dark orange lighten-1">Home</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
