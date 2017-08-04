@@ -5,3 +5,5 @@ db.sqlite3
 venv/*
 *.pyc
 /static
+.env
+postgres

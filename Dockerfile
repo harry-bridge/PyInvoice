@@ -1,25 +1,19 @@
-# Start with a Python image.
-FROM python:2.7
+# Start with ARM base image
+FROM resin/raspberrypi3-python:3.6.1
 
-# Some stuff that everyone has been copy-pasting
-# since the dawn of time.
-ENV PYTHONUNBUFFERED 1
+#Env vars
+ENV RUN_POSTGRES 1
 
-# Install some necessary things.
-RUN apt-get update
-#RUN apt-get install -y swig libssl-dev dpkg-dev netcat
-
-# Copy all our files into the image.
+# Create directorues
 RUN mkdir /code
 WORKDIR /code
-COPY . /code/
+COPY . /code
 
-# Install our requirements.
+# Install requirements
 RUN pip install -U pip
-RUN pip install -Ur requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Collect our static media.
 RUN python /code/manage.py collectstatic --noinput
 
-# Specify the command to run when the image is run.
 CMD ["/code/bin/docker_run.sh"]

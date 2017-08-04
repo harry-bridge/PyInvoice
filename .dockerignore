@@ -1,8 +1,11 @@
 .idea/*
 .DS_Store
+.git
 
 db.sqlite3
 .sass-cache
 venv/*
 *.pyc
 /static
+.env
+postgres
