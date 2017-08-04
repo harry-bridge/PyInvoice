@@ -18,10 +18,11 @@ class InvoicePrint(generic.View):
             'user': user,
             'fonts': {
                 'roboto': {
-                    'regular': 'static/fonts/roboto/Roboto-Thin.ttf',
-                    'bold': 'static/fonts/roboto/Roboto-Light.ttf',
+                    'regular': 'invoice/static/fonts/roboto/Roboto-Thin.ttf',
+                    'bold': 'invoice/static/fonts/roboto/Roboto-Light.ttf',
                 }
             },
+            'logo': 'invoice/static/imgs/paperwork/full_logo_white.png'
         }
 
         rml = template.render(context)
