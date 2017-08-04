@@ -270,9 +270,15 @@ class ProfileEdit(LoginRequiredMixin, generic.TemplateView):
 
 
 def profile_update(request):
+    def replace(dict, string):
+        for key, value in dict.items():
+            if value == '':
+                dict[key] = None
+        return dict
+
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        form = QueryDict(request.POST['profile_form'].encode('ASCII')).dict()
+        form = replace(QueryDict(request.POST['profile_form'].encode('ASCII')).dict(), None)
         form.pop('csrfmiddlewaretoken')
         pk = form.pop('pk')
 
