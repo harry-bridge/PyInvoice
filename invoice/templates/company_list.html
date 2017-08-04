@@ -34,11 +34,11 @@
                 {% endif %}
             </td>
             <td>
-                <a class="tooltipped" data-position="top" data-tooltip="View Company" href="/company/{{ company.pk }}/">
-                    <i class="material-icons light-blue-text text-lighten-1">visibility</i>
+                <a class="tooltipped light-blue-text text-lighten-1" data-position="top" data-tooltip="View Company" href="{% url 'company_detail' company.pk %}">
+                    <i class="material-icons icon-hoverable">visibility</i>
                 </a>
-                <a class="tooltipped" data-position="top" data-tooltip="Edit Company" href="/company/{{ company.pk }}/edit/">
-                    <i class="material-icons orange-text text-lighten-1">edit</i>
+                <a class="tooltipped orange-text text-lighten-1" data-position="top" data-tooltip="Edit Company" href="{% url 'company_edit' company.pk %}">
+                    <i class="material-icons icon-hoverable">edit</i>
                 </a>
             </td>
         </tr>

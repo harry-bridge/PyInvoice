@@ -30,6 +30,12 @@
   white-space: nowrap;
 }
 
+@mixin transition($args1, $args2) {
+  -webkit-transition: $args1 $args2;
+  -moz-transition: $args1 $args2;
+  transition: $args1 $args2;
+}
+
 // @mixin box-shadow-2($args1, $args2) {
 //     -webkit-box-shadow: $args1, $args2;
 //     -moz-box-shadow: $args1, $args2;
