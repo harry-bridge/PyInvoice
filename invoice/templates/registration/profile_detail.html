@@ -12,16 +12,16 @@
                 <div class="panel-body">
                     <dl class="dl-horizontal">
                         <dt>First Name</dt>
-                        <dd>{{ user.first_name }}</dd>
+                        <dd>{{ user.first_name|default_if_none:'N/A' }}</dd>
 
                         <dt>Last Name</dt>
-                        <dd>{{ user.last_name }}</dd>
+                        <dd>{{ user.last_name|default_if_none:'N/A' }}</dd>
 
                         <dt>Username</dt>
-                        <dd>{{ user.username }}</dd>
+                        <dd>{{ user.username|default_if_none:'N/A' }}</dd>
 
                         <dt>Email</dt>
-                        <dd>{{ user.email }}</dd>
+                        <dd>{{ user.email|default_if_none:'N/A' }}</dd>
 
                         <dt>Staff</dt>
                         <dd>{{ user.is_staff }}</dd>
@@ -38,16 +38,16 @@
                 <div class="panel-body">
                     <dl class="dl-horizontal">
                         <dt>Primary Colour</dt>
-                        <dd>{{ user.invoice_primary_color|dash_if_none }}</dd>
+                        <dd>{{ user.invoice_primary_color|default_if_none:'N/A' }}</dd>
 
                         <dt>Secondary Colour</dt>
-                        <dd>{{ user.invoice_secondary_color|dash_if_none }}</dd>
+                        <dd>{{ user.invoice_secondary_color|default_if_none:'N/A' }}</dd>
 
                         <dt>Accent Colour</dt>
-                        <dd>{{ user.invoice_accent_color|dash_if_none }}</dd>
+                        <dd>{{ user.invoice_accent_color|default_if_none:'N/A' }}</dd>
 
                         <dt>Background Colour</dt>
-                        <dd>{{ user.invoice_background_color|dash_if_none }}</dd>
+                        <dd>{{ user.invoice_background_color|default_if_none:'N/A' }}</dd>
                     </dl>
                 </div>
             </div>
@@ -62,22 +62,22 @@
                 <div class="panel-body">
                     <dl class="dl-horizontal">
                         <dt>Address</dt>
-                        <dd>{{ user.address|linebreaksbr }}</dd>
+                        <dd>{{ user.address|default_if_none:'N/A'|linebreaksbr }}</dd>
 
                         <dt>Phone</dt>
-                        <dd>{{ user.phone }}</dd>
+                        <dd>{{ user.phone|default_if_none:'N/A' }}</dd>
 
                         <dt>UTR</dt>
-                        <dd>{{ user.utr }}</dd>
+                        <dd>{{ user.utr|default_if_none:'N/A' }}</dd>
 
                         <dt>Bank</dt>
-                        <dd>{{ user.bank }}</dd>
+                        <dd>{{ user.bank|default_if_none:'N/A' }}</dd>
 
                         <dt>Sort Code</dt>
-                        <dd>{{ user.sort_code }}</dd>
+                        <dd>{{ user.sort_code|default_if_none:'N/A' }}</dd>
 
                         <dt>Account No.</dt>
-                        <dd>{{ user.account_number }}</dd>
+                        <dd>{{ user.account_number|default_if_none:'N/A' }}</dd>
                     </dl>
                 </div>
             </div>

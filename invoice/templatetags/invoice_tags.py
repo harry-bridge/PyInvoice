@@ -24,18 +24,6 @@ def linebreaksn(value, autoescape=True):
     return mark_safe(value.replace('\n', '\\n'))
 
 
-@register.filter(is_safe=True)
-@stringfilter
-def dash_if_none(value):
-    """
-    Converts a None value into a -
-    """
-    if value in 'None':
-        return '-'
-    else:
-        return value
-
-
 @register.simple_tag()
 def total_invoices_user(company, user):
     company = get_object_or_404(models.Company, pk=company.pk)

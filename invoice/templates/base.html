@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static from staticfiles %}
 
 <html lang="en" xml:lang="en">
 
@@ -34,7 +34,7 @@
                     <li><a href="/">Home</a></li>
                     <li><a class="dropdown-button" href="#" data-activates="invoice_dropdown_nav">Invoice<i class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a class="dropdown-button" href="#" data-activates="company_dropdown">Company<i class="material-icons right">arrow_drop_down</i></a></li>
-                    <li><a class="dropdown-button" href="#" data-activates="user_dropdown">{{ user.first_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-button" href="#" data-activates="user_dropdown">{{ user.first_name|default:user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
                 {% else %}
                     <li><a href="registration/login/?next=/">Login</a></li>
                 {% endif %}
