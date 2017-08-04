@@ -6,7 +6,7 @@
     <form class="form" method="POST" id="profile-form">
     {% csrf_token %}
     <div class="row description-row">
-        <div class="col s5">
+        <div class="col s6">
             <div class="panel">
                 <div class="panel-heading">
                     Base Details
@@ -66,6 +66,33 @@
                             <input type="text" name="account_number" value="{{ user.account_number|default_if_none:'' }}">
                             <label for="account_number">Account Number</label>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel _margin_2_top">
+            <div class="panel-heading">
+                Invoice Customisation
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="text" name="invoice_primary_color" value="{{ user.invoice_primary_color|default_if_none:'' }}">
+                        <label for="invoice_primary_color">Primary Color</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" name="invoice_secondary_color" value="{{ user.invoice_secondary_color|default_if_none:'' }}">
+                        <label for="invoice_secondary_color">Secondary Color</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" name="invoice_accent_color" value="{{ user.invoice_accent_color|default_if_none:'' }}">
+                        <label for="invoice_accent_color">Accent Color</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" name="invoice_background_color" value="{{ user.invoice_background_color|default_if_none:'' }}">
+                        <label for="invoice_background_color">Background Color</label>
                     </div>
                 </div>
             </div>

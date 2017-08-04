@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Profile{% endblock %}
+{% load invoice_tags %}
 
 {% block main %}
     <div class="row description-row">
-        <div class="col s5">
+        <div class="col s6">
             <div class="panel">
                 <div class="panel-heading">
                     Base Details
@@ -30,7 +31,28 @@
                     </dl>
                 </div>
             </div>
+            <div class="panel _margin_2_top">
+                <div class="panel-heading">
+                    Invoice Customisation
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Primary Colour</dt>
+                        <dd>{{ user.invoice_primary_color|dash_if_none }}</dd>
+
+                        <dt>Secondary Colour</dt>
+                        <dd>{{ user.invoice_secondary_color|dash_if_none }}</dd>
+
+                        <dt>Accent Colour</dt>
+                        <dd>{{ user.invoice_accent_color|dash_if_none }}</dd>
+
+                        <dt>Background Colour</dt>
+                        <dd>{{ user.invoice_background_color|dash_if_none }}</dd>
+                    </dl>
+                </div>
+            </div>
         </div>
+
         <div class="col s1"></div>
         <div class="col s5">
             <div class="panel">
@@ -46,7 +68,7 @@
                         <dd>{{ user.phone }}</dd>
 
                         <dt>UTR</dt>
-                        <dd>{{ user.UTR }}</dd>
+                        <dd>{{ user.utr }}</dd>
 
                         <dt>Bank</dt>
                         <dd>{{ user.bank }}</dd>

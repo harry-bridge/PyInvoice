@@ -19,3 +19,15 @@ def linebreaksn(value, autoescape=True):
     if autoescape:
         value = escape(value)
     return mark_safe(value.replace('\n', '\\n'))
+
+
+@register.filter(is_safe=True)
+@stringfilter
+def dash_if_none(value):
+    """
+    Converts a None value into a -
+    """
+    if value in 'None':
+        return '-'
+    else:
+        return value

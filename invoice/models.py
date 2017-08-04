@@ -15,6 +15,11 @@ class Profile(AbstractUser):
     sort_code = models.CharField(max_length=50, blank=True, null=True)
     account_number = models.IntegerField(blank=True, null=True)
 
+    invoice_primary_color = models.CharField(max_length=10, blank=True, null=True, help_text='Colour in hex')
+    invoice_secondary_color = models.CharField(max_length=10, blank=True, null=True, help_text='Colour in hex')
+    invoice_accent_color = models.CharField(max_length=10, blank=True, null=True, help_text='Colour in hex')
+    invoice_background_color = models.CharField(max_length=10, blank=True, null=True, help_text='Colour in hex')
+
 
 class Company(models.Model):
     class Meta:
