@@ -23,7 +23,7 @@ production = bool(int(os.environ.get('PRODUCTION', 0)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') if production else 'q!hl0oei$xhul(71-@d*3*!n$r(u_co1gs8zt1yzv)szus4$cm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if production else True
 
 ALLOWED_HOSTS = ['*']
 
