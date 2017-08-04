@@ -2,6 +2,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404
 from django.template.loader import get_template
 from django.http import HttpResponse
+from django.core.exceptions import PermissionDenied
 from z3c.rml import rml2pdf
 
 from invoice import models
@@ -10,7 +11,11 @@ from invoice import models
 class InvoicePrint(generic.View):
     def get(self, request, pk):
         invoice = get_object_or_404(models.Invoice, pk=pk)
-        user = get_object_or_404(models.Profile, pk=1)
+        user = self.request.user
+
+        if invoice.user != user:
+            raise PermissionDenied()
+
         template = get_template('invoice_print.xml')
 
         context = {

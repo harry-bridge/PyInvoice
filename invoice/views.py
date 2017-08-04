@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, QueryDict
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 import json
 
@@ -21,6 +22,19 @@ def login_view(request, **kwargs):
 def logout_view(request):
     logout(request)
     return render_to_response('registration/logout.html')
+
+
+class UserCreatedInvoiceTest(object):
+    def get_object(self, *args, **kwargs):
+        obj = super(UserCreatedInvoiceTest, self).get_object(*args, **kwargs)
+        user_attribute = getattr(self, 'user_attribute', 'user')
+        user = obj
+        for part in user_attribute.split('.'):
+            user = getattr(user, part, None)
+        if user != self.request.user:
+            raise PermissionDenied()
+        else:
+            return obj
 
 
 class Index(LoginRequiredMixin, generic.TemplateView):
@@ -50,7 +64,7 @@ class InvoiceList(LoginRequiredMixin, generic.ListView):
         return models.Invoice.objects.filter(user=self.request.user)
 
 
-class InvoiceDetail(LoginRequiredMixin, generic.DetailView):
+class InvoiceDetail(LoginRequiredMixin, UserCreatedInvoiceTest, generic.DetailView):
     model = models.Invoice
     template_name = 'invoice_form.html'
 
@@ -66,7 +80,7 @@ class InvoiceCreate(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class InvoiceEdit(LoginRequiredMixin, generic.TemplateView):
+class InvoiceEdit(LoginRequiredMixin, UserCreatedInvoiceTest, generic.TemplateView):
     template_name = 'invoice_form.html'
 
     def get_context_data(self, **kwargs):
