@@ -7,5 +7,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if not User.objects.filter(is_staff=True, is_superuser=True).exists():
             User.objects.create_superuser(
-                'su', 'su@su.com', 'su', first_name='Super'
+                'su', 'su@su.com', 'su', first_name='Super', last_name='User'
                 )
