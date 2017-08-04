@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Profile(AbstractUser):
     address = models.TextField(blank=True, null=True)
-    phone = models.IntegerField(blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
     utr = models.IntegerField(blank=True, null=True)
 
     bank = models.CharField(max_length=180, blank=True, null=True)
