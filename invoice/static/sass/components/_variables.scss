@@ -128,9 +128,9 @@ $datepicker-selected-outfocus: desaturate(lighten($secondary-color, 35%), 15%) !
 // 8. Dropdown
 // ==========================================================================
 
-$dropdown-bg-color: #fff !default;
+$dropdown-bg-color: color('grey', 'darken-1') !default;
 $dropdown-hover-bg-color: #eee !default;
-$dropdown-color: $secondary-color !default;
+$dropdown-color: #fff !default;
 $dropdown-item-height: 50px !default;
 
 
