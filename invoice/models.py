@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+import datetime
 
 
 class Profile(AbstractUser):
@@ -59,6 +60,9 @@ class Invoice(models.Model):
         for item in self.get_items():
             total += item.cost
         return total
+
+    def date_delta(self):
+        return timezone.now() - self.created
 
     def __str__(self):
         return self.company.name
