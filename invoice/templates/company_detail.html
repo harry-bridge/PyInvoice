@@ -1,3 +1,5 @@
+{% load invoice_tags %}
+
 <div class="row description-row">
     <div class="col s6">
         <div class="panel">
@@ -24,14 +26,18 @@
             <div class="panel-body">
                 <dl class="dl-horizontal">
                     <dt>Total Invoices</dt>
-                    <dd>{{ company.total_invoices }}</dd>
+                    <dd>{% total_invoices_user company user %}</dd>
 
                     <dt>Latest Invoice</dt>
                     <dd>
-                        {% if company.latest_invoice %}
-                        <a class="orange-text text-lighten-1 hover-link" href="{% url 'invoice_detail' company.latest_invoice.pk %}">
-                            {{ company.latest_invoice.invoice_number }}
-                        </a>
+                        {% latest_invoice_user company user as latest %}
+                        {% url 'invoice_detail' latest.pk as latest_invoice_url %}
+                        {% if latest_invoice_url %}
+                            <a class="hover-link orange-text text-lighten-1" href="{{ latest_invoice_url }}">
+                                {{ latest.invoice_number }}
+                            </a>
+                        {% else %}
+                            -
                         {% endif %}
                     </dd>
 

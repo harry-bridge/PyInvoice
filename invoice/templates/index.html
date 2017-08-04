@@ -28,7 +28,12 @@
                     <br>
                     Totalling £ {{ not_paid_total }}
                     <br>
-                    Latest Invoice <a class="orange-text text-lighten-1 hover-link" href="{% url 'invoice_detail' last_invoice.pk %}">{{ last_invoice.invoice_number }} - {{ last_invoice }}</a>
+                    {% url 'invoice_detail' last_invoice.pk as latest_invoice_url %}
+                    Latest Invoice
+                    {% if latest_invoice_url %}<a class="orange-text text-lighten-1 hover-link" href="{{ latest_invoice_url }}">{{ last_invoice.invoice_number }} - {{ last_invoice }}</a>
+                    {% else %}
+                        <strong>N/A</strong>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -52,7 +57,7 @@
                                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                             </tr>
                         {% empty %}
-                            <h6 class="grey-text text-darken-2">
+                            <h6 class="grey-text text-darken-2 pad-s3">
                                 No invoices here, maybe you should
                                 <a href="{% url 'invoice_create' %}">create one</a>
                             </h6>
@@ -82,7 +87,7 @@
                                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                             </tr>
                         {% empty %}
-                            <h6 class="grey-text text-darken-2">No invoices pending</h6>
+                            <h6 class="grey-text text-darken-2 pad-s3">No invoices pending</h6>
                         {% endfor %}
 
                         </tbody>

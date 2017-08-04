@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load invoice_tags %}
 
 {% block title %}Company List{% endblock %}
 
@@ -25,12 +26,16 @@
                 </a>
             </td>
             <td>{{ company.email }}</td>
-            <td>{{ company.total_invoices }}</td>
+            <td>{% total_invoices_user company user %}</td>
             <td>
-                {% if company.latest_invoice %}
-                    <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' company.latest_invoice.pk %}">
-                        {{ company.latest_invoice.invoice_number }}
+                {% latest_invoice_user company user as latest %}
+                {% url 'invoice_detail' latest.pk as latest_invoice_url %}
+                {% if latest_invoice_url %}
+                    <a class="hover-link orange-text text-lighten-1" href="{{ latest_invoice_url }}">
+                        {{ latest.invoice_number }}
                     </a>
+                {% else %}
+                    -
                 {% endif %}
             </td>
             <td>

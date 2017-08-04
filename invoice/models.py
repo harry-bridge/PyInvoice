@@ -30,12 +30,6 @@ class Company(models.Model):
     address = models.TextField()
     email = models.CharField(max_length=150)
 
-    def total_invoices(self):
-        return self.invoice_set.count()
-
-    def latest_invoice(self):
-        return self.invoice_set.all().last()
-
     def __str__(self):
         return self.name
 

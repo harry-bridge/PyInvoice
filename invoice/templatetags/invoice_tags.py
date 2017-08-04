@@ -3,6 +3,9 @@ from django.template.defaultfilters import stringfilter
 from django.utils.safestring import SafeData, mark_safe
 from django.utils.text import normalize_newlines
 from django.utils.html import escape
+from django.shortcuts import get_object_or_404
+
+from invoice import models
 
 register = Library()
 
@@ -31,3 +34,17 @@ def dash_if_none(value):
         return '-'
     else:
         return value
+
+
+@register.simple_tag()
+def total_invoices_user(company, user):
+    company = get_object_or_404(models.Company, pk=company.pk)
+
+    return company.invoice_set.filter(user=user).count()
+
+
+@register.simple_tag()
+def latest_invoice_user(company, user):
+    company = get_object_or_404(models.Company, pk=company.pk)
+
+    return company.invoice_set.filter(user=user).last()
