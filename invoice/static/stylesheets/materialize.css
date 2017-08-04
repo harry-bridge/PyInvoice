@@ -5944,11 +5944,11 @@ button.btn-floating {
 }
 /* line 24, ../sass/components/_dropdown.scss */
 .dropdown-content li:hover, .dropdown-content li.active, .dropdown-content li.selected {
-  background-color: #eee;
+  background-color: #ffa726;
 }
 /* line 28, ../sass/components/_dropdown.scss */
 .dropdown-content li.active.selected {
-  background-color: #e1e1e1;
+  background-color: #ff9d0d;
 }
 /* line 32, ../sass/components/_dropdown.scss */
 .dropdown-content li.divider {
@@ -7456,7 +7456,7 @@ select:disabled {
 
 /* line 107, ../sass/components/forms/_select.scss */
 .select-dropdown li.optgroup {
-  border-top: 1px solid #eee;
+  border-top: 1px solid #ffa726;
 }
 /* line 110, ../sass/components/forms/_select.scss */
 .select-dropdown li.optgroup.selected > span {
@@ -9575,7 +9575,7 @@ dt {
 }
 /* line 131, ../sass/components/_style.scss */
 .icon-btn:hover {
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: #ffa726 !important;
 }
 /* line 135, ../sass/components/_style.scss */
 .icon-btn:active {

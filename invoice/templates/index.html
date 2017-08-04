@@ -42,7 +42,7 @@
             <div class="panel">
                 <div class="panel-heading">
                     Latest Invoices
-                    <span class="right"><a class="hover-link orange-text text-lighten-3" href="{% url 'invoice_list' %}">View All</a></span>
+                    <span class="right"><a class="hover-link orange-text text-lighten-2" href="{% url 'invoice_list' %}">View All</a></span>
                 </div>
                 <div class="panel-body _no_pad_top_bottom">
                     <table class="bordered highlight">
@@ -59,7 +59,7 @@
                         {% empty %}
                             <h6 class="grey-text text-darken-2 pad-s3">
                                 No invoices here, maybe you should
-                                <a href="{% url 'invoice_create' %}">create one</a>
+                                <a href="{% url 'invoice_create' %}" class="hover-link orange-text">create one</a>
                             </h6>
                         {% endfor %}
 
@@ -70,7 +70,7 @@
             <div class="panel _margin_2_top">
                 <div class="panel-heading">
                     Pending Invoices
-                    <span class="right"><a class="hover-link orange-text text-lighten-3" href="{% url 'invoice_list' %}">View All</a></span>
+                    <span class="right"><a class="hover-link orange-text text-lighten-2" href="{% url 'invoice_list' %}">View All</a></span>
                 </div>
                 <div class="panel-body _no_pad_top_bottom">
                     <table class="bordered highlight">
