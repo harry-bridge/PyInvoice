@@ -12,10 +12,10 @@
                 <div class="panel-heading">
                     Quick Actions
                 </div>
-                <div class="panel-body">
-                    <a href="/invoice/create/" class="btn index-button grey">New Invoice</a>
-                    <a href="/invoice/list/" class="btn index-button grey">View Invoices</a>
-                    <a href="/company/list/" class="btn index-button grey">View Companies</a>
+                <div class="panel-body quick-actions">
+                    <a href="{% url 'invoice_create' %}" class="icon-btn grey white-text z-depth-1" icon="&#xE145;">New Invoice</a>
+                    <a href="{% url 'invoice_list' %}" class="icon-btn grey white-text z-depth-1" icon="&#xE896;">View Invoices</a>
+                    <a href="{% url 'company_list' %}" class="icon-btn grey white-text z-depth-1" icon="&#xE896;">View Companies</a>
                 </div>
             </div>
 
@@ -28,7 +28,7 @@
                     <br>
                     Totalling £ {{ not_paid_total }}
                     <br>
-                    Latest Invoice <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ last_invoice.pk }}/">{{ last_invoice.invoice_number }}</a>
+                    Latest Invoice <a class="orange-text text-lighten-1 hover-link" href="{% url 'invoice_detail' last_invoice.pk %}">{{ last_invoice.invoice_number }} - {{ last_invoice }}</a>
                 </div>
             </div>
         </div>
@@ -37,22 +37,54 @@
             <div class="panel">
                 <div class="panel-heading">
                     Latest Invoices
+                    <span class="right"><a class="hover-link orange-text text-lighten-3" href="{% url 'invoice_list' %}">View All</a></span>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body _no_pad_top_bottom">
                     <table class="bordered highlight">
                         <tbody>
                         {% for invoice in latest_invoices %}
                             <tr>
                                 <td>
-                                    <a class="hover-link" href="/invoice/{{ invoice.pk }}/">
-                                        <span class="orange-text text-lighten-1">{{ invoice.company }}</span>
-                                    </a>
+                                    <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice.company }}</a>
                                 </td>
-                                <td>{{ invoice.created|date:'m-d-y' }}</td>
+                                <td>{{ invoice.created|date:'d-M-y' }}</td>
                                 <td>£ {{ invoice.total|floatformat:2 }}</td>
-                                <td><i class="material-icons{% if invoice.paid %} green-text">done{% else %} red-text">clear{% endif %}</i></td>
+                                <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                             </tr>
+                        {% empty %}
+                            <h6 class="grey-text text-darken-2">
+                                No invoices here, maybe you should
+                                <a href="{% url 'invoice_create' %}">create one</a>
+                            </h6>
                         {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel _margin_2_top">
+                <div class="panel-heading">
+                    Pending Invoices
+                    <span class="right"><a class="hover-link orange-text text-lighten-3" href="{% url 'invoice_list' %}">View All</a></span>
+                </div>
+                <div class="panel-body _no_pad_top_bottom">
+                    <table class="bordered highlight">
+                        <tbody>
+                        {% for invoice in pending_invoices %}
+                            <tr>
+                                <td>
+                                    <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice.company }}</a>
+                                </td>
+                                <td class="{% if invoice.date_delta.days > 30 %}red-text text-lighten-1{% endif %}">
+                                    {{ invoice.date_delta.days }} days
+                                </td>
+                                <td>£ {{ invoice.total|floatformat:2 }}</td>
+                                <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
+                            </tr>
+                        {% empty %}
+                            <h6 class="grey-text text-darken-2">No invoices pending</h6>
+                        {% endfor %}
+
                         </tbody>
                     </table>
                 </div>

@@ -20,16 +20,18 @@
         {% for company in object_list %}
         <tr>
             <td>
-                <a class="hover-link" href="/company/{{ company.pk }}">
-                    <span class="orange-text text-lighten-1">{{ company.name }}</span>
+                <a class="hover-link orange-text text-lighten-1" href="{% url 'company_detail' company.pk %}">
+                    {{ company.name }}
                 </a>
             </td>
             <td>{{ company.email }}</td>
             <td>{{ company.total_invoices }}</td>
             <td>
-                <a class="hover-link" href="/invoice/{{ company.latest_invoice.pk }}/">
-                    <span class="orange-text text-lighten-1">{{ company.latest_invoice.invoice_number }}</span>
-                </a>
+                {% if company.latest_invoice %}
+                    <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' company.latest_invoice.pk %}">
+                        {{ company.latest_invoice.invoice_number }}
+                    </a>
+                {% endif %}
             </td>
             <td>
                 <a class="tooltipped" data-position="top" data-tooltip="View Company" href="/company/{{ company.pk }}/">

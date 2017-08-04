@@ -31,7 +31,8 @@ class Index(LoginRequiredMixin, generic.TemplateView):
         invoice = models.Invoice.objects.filter(user=self.request.user)
         context['not_paid_count'] = invoice.filter(paid=False).count()
         context['last_invoice'] = invoice.last()
-        context['latest_invoices'] = invoice.order_by('-created')[:10]
+        context['latest_invoices'] = invoice.order_by('-created')[:5]
+        context['pending_invoices'] = invoice.filter(paid=False).order_by('created')[:5]
 
         context['not_paid_total'] = 0
         for invoice in models.Invoice.objects.filter(user=self.request.user, paid=False):
@@ -174,8 +175,6 @@ class CompanyDetail(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(CompanyDetail, self).get_context_data(**kwargs)
         invoice = models.Invoice.objects.filter(user=self.request.user, company=self.object)
-        context['total_invoices'] = invoice.count()
-        context['latest_invoice'] = invoice.last()
         context['not_paid_count'] = invoice.filter(paid=False).count()
         context['all_invoices'] = invoice.order_by('-created')
 

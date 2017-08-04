@@ -24,13 +24,15 @@
             <div class="panel-body">
                 <dl class="dl-horizontal">
                     <dt>Total Invoices</dt>
-                    <dd>{{ total_invoices }}</dd>
+                    <dd>{{ company.total_invoices }}</dd>
 
                     <dt>Latest Invoice</dt>
                     <dd>
-                        <a class="orange-text text-lighten-1 hover-link" href="/invoice/{{ latest_invoice.pk }}/">
-                            {{ latest_invoice.invoice_number }}
+                        {% if company.latest_invoice %}
+                        <a class="orange-text text-lighten-1 hover-link" href="{% url 'invoice_detail' company.latest_invoice.pk %}">
+                            {{ company.latest_invoice.invoice_number }}
                         </a>
+                        {% endif %}
                     </dd>
 
                     <dt>Not Paid</dt>
@@ -49,20 +51,18 @@
                 <th>Invoice Number</th>
                 <th>Created</th>
                 <th>Amount</th>
+                <th>Paid</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for invoice in all_invoices %}
             <tr>
-                <td>
-                    <a class="hover-link" href="/invoice/{{ invoice.pk }}">
-                        <span class="orange-text text-lighten-1">{{ invoice }}</span>
-                    </a>
-                </td>
+                <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice }}</a></td>
                 <td>{{ invoice.invoice_number }}</td>
                 <td>{{ invoice.created.date }}</td>
                 <td>£ {{ invoice.total|floatformat:2 }}</td>
+                <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                 <td>{% include 'helpers/table_buttons.html' %}</td>
             </tr>
             {% endfor %}
