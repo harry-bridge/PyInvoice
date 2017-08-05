@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, QueryDict
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.db.models import Q
@@ -23,18 +23,6 @@ def login_view(request, **kwargs):
 def logout_view(request):
     logout(request)
     return render_to_response('registration/logout.html')
-
-
-class UserCreatedInvoiceTest(object):
-    def get_object(self, *args, **kwargs):
-        obj = super(UserCreatedInvoiceTest, self).get_object(*args, **kwargs)
-        self.pass_creation_test(obj)
-
-    def pass_creation_test(self, obj):
-        if obj.user != self.request.user:
-            raise PermissionDenied()
-        else:
-            return obj
 
 
 class Index(LoginRequiredMixin, generic.TemplateView):
@@ -70,9 +58,13 @@ class InvoiceList(LoginRequiredMixin, generic.ListView):
         return models.Invoice.objects.filter(q)
 
 
-class InvoiceDetail(LoginRequiredMixin, UserCreatedInvoiceTest, generic.DetailView):
+class InvoiceDetail(LoginRequiredMixin, UserPassesTestMixin, generic.DetailView):
     model = models.Invoice
     template_name = 'invoice_form.html'
+
+    def test_func(self):
+        obj = super(InvoiceDetail, self).get_object()
+        return self.request.user == obj.user
 
 
 class InvoiceCreate(LoginRequiredMixin, generic.TemplateView):
@@ -86,7 +78,7 @@ class InvoiceCreate(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class InvoiceEdit(LoginRequiredMixin, UserCreatedInvoiceTest, generic.TemplateView):
+class InvoiceEdit(LoginRequiredMixin, UserPassesTestMixin, generic.TemplateView):
     template_name = 'invoice_form.html'
 
     def get_context_data(self, **kwargs):
@@ -95,9 +87,10 @@ class InvoiceEdit(LoginRequiredMixin, UserCreatedInvoiceTest, generic.TemplateVi
         context['invoice'] = get_object_or_404(models.Invoice, pk=self.kwargs['pk'])
         context['edit'] = True
 
-        self.pass_creation_test(context['invoice'])
-
         return context
+
+    def test_func(self):
+        return self.request.user == self.get_context_data()['invoice'].user
 
 
 @login_required()
