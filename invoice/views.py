@@ -28,11 +28,10 @@ def logout_view(request):
 class UserCreatedInvoiceTest(object):
     def get_object(self, *args, **kwargs):
         obj = super(UserCreatedInvoiceTest, self).get_object(*args, **kwargs)
-        user_attribute = getattr(self, 'user_attribute', 'user')
-        user = obj
-        for part in user_attribute.split('.'):
-            user = getattr(user, part, None)
-        if user != self.request.user:
+        self.pass_creation_test(obj)
+
+    def pass_creation_test(self, obj):
+        if obj.user != self.request.user:
             raise PermissionDenied()
         else:
             return obj
@@ -95,6 +94,8 @@ class InvoiceEdit(LoginRequiredMixin, UserCreatedInvoiceTest, generic.TemplateVi
         context['companies'] = models.Company.objects.all()
         context['invoice'] = get_object_or_404(models.Invoice, pk=self.kwargs['pk'])
         context['edit'] = True
+
+        self.pass_creation_test(context['invoice'])
 
         return context
 

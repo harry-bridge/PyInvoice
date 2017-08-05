@@ -53,7 +53,7 @@
     </ul>
 
     <ul id="user_dropdown" class="dropdown-content">
-        {% if user.is_staff or use.is_superuser %}
+        {% if user.is_staff or user.is_superuser %}
             <li><a href="/admin/">Admin</a></li>
         {% endif %}
         <li><a href="/accounts/{{ user.id }}">Profile</a></li>
