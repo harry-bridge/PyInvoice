@@ -47,6 +47,12 @@
                 </a>
             </td>
         </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="center-align">
+                <h5>So many companies to look at. Maybe <a href="{% url 'company_create' %}" class="hover-link orange-text">create one</a>.</h5>
+            </td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>

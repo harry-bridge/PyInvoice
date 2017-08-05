@@ -27,6 +27,12 @@
             <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
             <td>{% include 'helpers/table_buttons.html' %}</td>
         </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="center-align">
+                <h5>Wow, look at all those invoices. Maybe <a href="{% url 'invoice_create' %}" class="hover-link orange-text">create one</a>.</h5>
+            </td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
