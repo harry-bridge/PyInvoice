@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
+from django.db.models import Q
 import json
 
 from invoice import models
@@ -46,7 +47,7 @@ class Index(LoginRequiredMixin, generic.TemplateView):
         context['not_paid_count'] = invoice.filter(paid=False).count()
         context['last_invoice'] = invoice.last()
         context['latest_invoices'] = invoice.order_by('-created')[:5]
-        context['pending_invoices'] = invoice.filter(paid=False).order_by('created')[:5]
+        context['pending_invoices'] = invoice.filter(paid=False).order_by('created')
 
         context['not_paid_total'] = 0
         for invoice in models.Invoice.objects.filter(user=self.request.user, paid=False):
@@ -61,7 +62,13 @@ class InvoiceList(LoginRequiredMixin, generic.ListView):
     ordering = '-created'
 
     def get_queryset(self):
-        return models.Invoice.objects.filter(user=self.request.user)
+        q = Q()
+        q &= Q(user=self.request.user)
+        paid = self.request.GET.get('paid')
+        if paid:
+            q &= Q(paid=paid in 'true')
+
+        return models.Invoice.objects.filter(q)
 
 
 class InvoiceDetail(LoginRequiredMixin, UserCreatedInvoiceTest, generic.DetailView):

@@ -69,13 +69,13 @@
             </div>
             <div class="panel _margin_2_top">
                 <div class="panel-heading">
-                    Pending Invoices
-                    <span class="right"><a class="hover-link orange-text text-lighten-2" href="{% url 'invoice_list' %}">View All</a></span>
+                    Pending Invoices ({{ pending_invoices.count }})
+                    <span class="right"><a class="hover-link orange-text text-lighten-2" href="{% url 'invoice_list' %}/?paid=false">View All</a></span>
                 </div>
                 <div class="panel-body _no_pad_top_bottom">
                     <table class="bordered highlight">
                         <tbody>
-                        {% for invoice in pending_invoices %}
+                        {% for invoice in pending_invoices|slice:":5" %}
                             <tr>
                                 <td>
                                     <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice.company }}</a>
