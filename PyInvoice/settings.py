@@ -80,10 +80,10 @@ if production:
     DATABASES = {
        'default': {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-           'NAME': os.environ.get('POSTGRES_NAME'),
-           'USER': os.environ.get('POSTGRES_USER'),
-           'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-           'HOST': os.environ.get('POSTGRES_HOST'),
+           'NAME': os.environ.get('PYINVOICE_POSTGRES_DB'),
+           'USER': os.environ.get('PYINVOICE_POSTGRES_USER'),
+           'PASSWORD': os.environ.get('PYINVOICE_POSTGRES_PASSWORD'),
+           'HOST': os.environ.get('PYINVOICE_POSTGRES_HOST'),
            'PORT': '5432',
         }
       }

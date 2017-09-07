@@ -2,7 +2,7 @@
 FROM resin/raspberrypi3-python:3.6.1
 
 #Env vars
-ENV RUN_POSTGRES 1
+RUN source /etc/environment
 
 # Create directorues
 RUN mkdir /code
