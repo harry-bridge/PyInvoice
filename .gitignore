@@ -1,9 +1,11 @@
+.DS_STORE
 .idea/*
 
 db.sqlite3
 .sass-cache
 venv/*
 *.pyc
-/static
+static/
 .env
 postgres
+media/
