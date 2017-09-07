@@ -27,7 +27,7 @@ class InvoicePrint(generic.View):
                     'bold': 'invoice/static/fonts/roboto/Roboto-Light.ttf',
                 }
             },
-            'logo': 'invoice/static/imgs/paperwork/full_logo_white.png'
+            'logo': 'invoice/static/imgs/paperwork/default-logo.png'
         }
 
         rml = template.render(context)

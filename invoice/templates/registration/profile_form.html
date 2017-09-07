@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load invoice_tags %}
+{% load static from staticfiles %}
 {% block title %}Profile{% endblock %}
 
 {% block main %}
-    <form class="form" method="POST" id="profile-form">
+    <form class="form" method="POST" action="." id="profile-form">
     {% csrf_token %}
     <div class="row description-row">
         <div class="col s6">
@@ -94,6 +95,19 @@
                         <input type="text" name="invoice_background_color" value="{{ user.invoice_background_color|default_if_none:'' }}">
                         <label for="invoice_background_color">Background Color</label>
                     </div>
+
+{#                    <div class="file-field input-field col s10">#}
+{#                        <div class="btn">#}
+{#                            <span>Logo</span>#}
+{#                            <input id="fileupload" name="invoice_logo" type="file">#}
+{#                        </div>#}
+{#                        <div class="file-path-wrapper">#}
+{#                            <input class="file-path validate" type="text" placeholder="Upload a logo to be shown on invoices">#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="input-field col s2">#}
+{#                        <button class="btn" id="upload"></button>#}
+{#                    </div>#}
                 </div>
             </div>
         </div>
@@ -115,6 +129,17 @@
     <script>
         $('#addressInput').val("{{ user.address|linebreaksn|default_if_none:'' }}").trigger('autoresize');
     </script>
+
+{#    <script src="{% static 'js/file_upload/fine-uploader.core.js' %}"></script>#}
+{##}
+{#    <script>#}
+{#        var uploader = new qq.FineUploaderBasic({#}
+{#            debug: true,#}
+{#            request: {#}
+{#                endpoint: '{% url 'invoice_photo_upload' %}'#}
+{#            }#}
+{#        });#}
+{#    </script>#}
 
     <script>
         $('#profile-form').on('submit', function(event){

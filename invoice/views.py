@@ -1,6 +1,6 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect, QueryDict
+from django.http import HttpResponse, HttpResponseRedirect, QueryDict, JsonResponse
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.db.models import Q
 import json
 
-from invoice import models
+from invoice import models, forms
 
 
 def login_view(request, **kwargs):
@@ -271,15 +271,9 @@ class ProfileEdit(LoginRequiredMixin, generic.TemplateView):
 
 
 def profile_update(request):
-    def replace(dict, string):
-        for key, value in dict.items():
-            if value == '':
-                dict[key] = None
-        return dict
-
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        form = replace(QueryDict(request.POST['profile_form'].encode('ASCII')).dict(), None)
+        form = QueryDict(request.POST['profile_form'].encode('ASCII')).dict()
         form.pop('csrfmiddlewaretoken')
         pk = form.pop('pk')
 
@@ -288,3 +282,14 @@ def profile_update(request):
             context['url'] = reverse('profile_detail', args=[pk])
 
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+# class ProfileUpdate(generic.View):
+#     def post(self, request):
+#         form = forms.PhotoForm(self.request.POST, self.request.FILES)
+#         if form.is_valid():
+#             photo = form.save()
+#             data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
+#         else:
+#             data = {'is_valid': False}
+#         return JsonResponse(data)

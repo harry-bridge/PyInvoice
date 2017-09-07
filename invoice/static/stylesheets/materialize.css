@@ -9656,6 +9656,14 @@ td {
   color: #424242;
 }
 
+/* line 205, ../sass/components/_style.scss */
+.logo-preview {
+  max-width: 100%;
+  height: auto;
+  background-color: #eeeeee;
+  border-radius: 2px;
+}
+
 /* line 1, ../sass/components/_helpers.scss */
 .no-margin {
   margin: 0 !important;

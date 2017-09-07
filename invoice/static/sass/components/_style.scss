@@ -201,3 +201,10 @@ tbody>tr:nth-last-child(1) {
 td {
   color: color('grey', 'darken-3');
 }
+
+.logo-preview {
+  max-width: 100%;
+  height: auto;
+  background-color: color('grey', 'lighten-3');
+  border-radius: 2px;
+}

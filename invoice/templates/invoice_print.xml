@@ -78,7 +78,7 @@
                 {% endif %}
                 <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
 
-                <image file="{{ logo }}" x="0" y="745" height="97" width="262"/>
+                <image file="{% if user.invoice_logo %}{{ user.invoice_logo.url }}{% else %}{{ logo }}{% endif %}" x="0" y="745" height="97" width="262"/>
 
                 <fill color="white" />
                 <setFont name="Roboto" size="15" />

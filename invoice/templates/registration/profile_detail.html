@@ -48,6 +48,15 @@
 
                         <dt>Background Colour</dt>
                         <dd>{{ user.invoice_background_color|default_if_none:'N/A' }}</dd>
+
+{#                        <dt>Logo</dt>#}
+{#                        <dd>#}
+{#                            {% if user.invoice_logo %}#}
+{#                                <img class="logo-preview" src="{{ user.invoice_logo.url }}">#}
+{#                            {% else %}#}
+{#                                N/A#}
+{#                            {% endif %}#}
+{#                        </dd>#}
                     </dl>
                 </div>
             </div>

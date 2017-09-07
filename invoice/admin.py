@@ -13,8 +13,10 @@ class ProfileAdmin(UserAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {
             'fields': ('first_name', 'last_name', 'email', 'address', 'phone')}),
-        ('payment details', {
+        ('Payment Details', {
             'fields': ('utr', 'bank', 'sort_code', 'account_number')}),
+        ('Invoice Customisation', {
+            'fields': ('invoice_primary_color', 'invoice_secondary_color', 'invoice_accent_color', 'invoice_background_color', 'invoice_logo')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {
@@ -45,4 +47,3 @@ class InvoiceAdmin(admin.ModelAdmin):
     inlines = [
         InvoiceItemInline
     ]
-

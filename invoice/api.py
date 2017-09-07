@@ -42,3 +42,8 @@ def get_company_for_modal(request):
             context['email'] = company.email
 
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@login_required()
+def invoice_photo_upload(request):
+    pass

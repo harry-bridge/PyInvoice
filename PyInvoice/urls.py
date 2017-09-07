@@ -13,7 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib import admin
 
 from invoice import views, api, invoice_print
@@ -49,4 +51,5 @@ urlpatterns = [
 
     url(r'^api/get_items_for_table/$', api.get_items_for_table, name='get_items_for_table'),
     url(r'^api/get_company_for_modal/$', api.get_company_for_modal, name='get_company_for_modal'),
-]
+    url(r'^api/invoice_logo_upload/$', api.invoice_photo_upload, name='invoice_photo_upload'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

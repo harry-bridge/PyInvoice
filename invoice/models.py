@@ -19,6 +19,8 @@ class Profile(AbstractUser):
     invoice_accent_color = models.CharField(max_length=10, blank=True, null=True, help_text='Colour in hex')
     invoice_background_color = models.CharField(max_length=10, blank=True, null=True, help_text='Colour in hex')
 
+    invoice_logo = models.ImageField(upload_to='invoice_logos', blank=True, null=True)
+
 
 class Company(models.Model):
     class Meta:
