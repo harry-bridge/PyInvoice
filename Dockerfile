@@ -1,9 +1,6 @@
 # Start with ARM base image
 FROM resin/raspberrypi3-python:3.6.1
 
-#Env vars
-RUN source /etc/environment
-
 # Create directorues
 RUN mkdir /code
 WORKDIR /code
