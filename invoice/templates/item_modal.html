@@ -1,21 +1,29 @@
 <div id="itemModal" class="modal modal-fixed-footer">
     <div class="row">
-        <form id="item-form" class="col s12">
-            <div class="modal-content">
+        <form id="invoice-item-form" method="POST" class="col s12">
+            {% csrf_token %}
+            <div class="modal-content _height_100">
                 <h4 id="editStatus">Add Item</h4>
                 <div class="divider" style="margin-bottom: 15px"></div>
 
-                <input id="item_pk" type="hidden" value="">
+                <input id="item_pk" name="item_pk" type="hidden" value="">
 
                 <div class="input-field col s12">
-                    <input type="text" id="descriptionInput" class="validate">
-                    <label for="descriptionInput" id="descriptionInputLabel">Description</label>
+                    <input type="text" id="descriptionInput" name="description" class="validate">
+                    <label for="description" id="descriptionInputLabel">Description</label>
                 </div>
 
-                <div class="input-field col s12">
-                    <input type="number" id="costInput" class="validate" min="-99999999.99" max="99999999.99" step="0.01">
-                    <label for="costInput" id="costInputLabel">Cost</label>
+                <div class="input-field col s6">
+                    <input type="number" id="quantityInput" name="quantity" class="validate" min="0" max="99999.99" step="0.01">
+                    <label for="quantity" id="quantityInputLabel">Quantity</label>
+
                 </div>
+
+                <div class="input-field col s6">
+                    <input type="number" id="costInput" name="cost" class="validate" min="-99999999.99" max="99999999.99" step="0.01">
+                    <label for="cost" id="costInputLabel">Cost</label>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="submit" name="action" class="waves-effect waves-green btn-flat">Save</button>

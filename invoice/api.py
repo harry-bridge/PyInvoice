@@ -14,12 +14,14 @@ def get_items_for_table(request):
         if item_pk == '0':
             context['description'] = ''
             context['cost'] = ''
+            context['quantity'] = ''
             context['item_pk'] = 0
 
         else:
             item = get_object_or_404(models.InvoiceItem, pk=item_pk)
             context['description'] = item.description
             context['cost'] = item.cost
+            context['quantity'] = item.quantity
             context['item_pk'] = item_pk
 
     return HttpResponse(

@@ -55,7 +55,7 @@ class InvoiceList(LoginRequiredMixin, generic.ListView):
         if paid:
             q &= Q(paid=paid in 'true')
 
-        return models.Invoice.objects.filter(q)
+        return models.Invoice.objects.filter(q).order_by('-created')
 
 
 class InvoiceDetail(LoginRequiredMixin, UserPassesTestMixin, generic.DetailView):
@@ -124,29 +124,23 @@ def invoice_update(request):
 def invoice_item_update(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        defaults = dict()
-        item_pk = request.POST.get('item_pk', '0')
-        invoice_pk = request.POST.get('invoice_pk', '0')
+        defaults = QueryDict(request.POST['invoice_item_form'].encode('ASCII')).dict()
+        defaults.pop('csrfmiddlewaretoken')
 
-        defaults['description'] = request.POST['description']
-        defaults['cost'] = request.POST['cost']
+        defaults['invoice'] = models.Invoice.objects.get(pk=request.POST['invoice_pk'])
+        item_pk = defaults.pop('item_pk')
+        defaults['quantity'] = float(defaults.pop('quantity'))
 
         if item_pk == '0':
-            defaults['invoice'] = get_object_or_404(models.Invoice, pk=invoice_pk)
             models.InvoiceItem.objects.create(**defaults)
 
         else:
             models.InvoiceItem.objects.update_or_create(pk=item_pk, defaults=defaults)
 
-            # context['pk'] = item_pk
-            # context['description'] = defaults['description']
-            # context['cost'] = defaults['cost']
-
-        context['invoice'] = get_object_or_404(models.Invoice, pk=invoice_pk)
+        context['invoice'] = defaults['invoice']
         context['edit'] = True
 
     return render_to_response('item_table.html', context)
-
 
 @login_required()
 def invoice_item_delete(request):

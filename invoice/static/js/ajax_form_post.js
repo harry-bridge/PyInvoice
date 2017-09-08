@@ -20,9 +20,7 @@ function updateItem() {
     type : "POST", // http method
     data : {
         invoice_pk: $('#invoice_pk').val(),
-        item_pk : $('#item_pk').val(),
-        description : $('#descriptionInput').val(),
-        cost: $('#costInput').val()
+        invoice_item_form: $('#invoice-item-form').serialize()
     }, // data sent with the post request
 
     success : function(data) {
@@ -69,6 +67,8 @@ function getItemsForModal(item_pk) {
 
           $('#descriptionInput').val(data['description']).removeClass('valid');
           $('#descriptionInputLabel').addClass('active');
+          $('#quantityInput').val(data['quantity']).removeClass('valid');
+          $('#quantityInputLabel').addClass('active');
           $('#costInput').val(data['cost']).removeClass('valid');
           $('#costInputLabel').addClass('active');
           // console.log(data);

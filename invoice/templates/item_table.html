@@ -2,7 +2,9 @@
     <table class="table highlight">
         <thead>
             <td>Description</td>
+            <td>Quantity</td>
             <td>Cost</td>
+            <td>Total</td>
             {% if edit %}
                 <td style="width: 30%; padding-bottom: 11px;">
                     <a class="btn blue" onclick="showItemModal(0)">Add</a>
@@ -16,6 +18,8 @@
         </tbody>
         <tfoot>
             <tr>
+                <td></td>
+                <td></td>
                 <td class="right"><strong>Total</strong></td>
                 <td><strong>£ {{ invoice.total|default:0|floatformat:2 }}</strong></td>
             </tr>
