@@ -20,6 +20,9 @@
                         <dt>Username</dt>
                         <dd>{{ user.username|default_if_none:'N/A' }}</dd>
 
+                        <dt>Password</dt>
+                        <dd><a class="orange-text" href="{% url 'password_reset' %}">Change Password</a></dd>
+
                         <dt>Email</dt>
                         <dd>{{ user.email|default_if_none:'N/A' }}</dd>
 

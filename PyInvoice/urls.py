@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 from invoice import views, api, invoice_print
 
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^accounts/(?P<pk>\d+)/$', views.ProfileDetail.as_view(), name='profile_detail'),
     url(r'^accounts/(?P<pk>\d+)/edit/$', views.ProfileEdit.as_view(), name='profile_edit'),
     url(r'^accounts/update/$', views.profile_update, name='profile_update'),
+    url(r'^accounts/password-reset/$', auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html', success_url='/'), name='password_reset'),
 
     url(r'^$', views.Index.as_view(), name='index'),
 
