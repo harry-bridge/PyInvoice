@@ -81,4 +81,11 @@ class InvoiceItem(models.Model):
 
     invoice = models.ForeignKey(Invoice, related_name='items')
     description = models.CharField(max_length=200)
+    quantity = models.DecimalField(max_digits=5, decimal_places=1)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.total = float(self.quantity) * float(self.cost)
+
+        super(InvoiceItem, self).save(*args, **kwargs)
