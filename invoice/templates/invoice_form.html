@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+    {% if invoice.invoice_number %}
+        {{ invoice.invoice_number }}&boxv;{{ invoice.company }}
+        {% if edit %}
+            - Edit
+        {% endif %}
+    {% else %}
+        New Invoice
+    {% endif %}
+{% endblock %}
+
 {% block main %}
     <form class="form" role="form" method="POST" id="invoice-form">
     {% csrf_token %}
@@ -8,17 +19,16 @@
     <input id="user_pk" name="user" type="hidden" value="{{ user.id|default:0 }}">
 
     {# Invoice details #}
+
     <h4>
-    {% block title %}
-    {% if invoice.invoice_number %}
-        {{ invoice.invoice_number }}&boxv;{{ invoice.company }}
-        {% if edit %}
-            <span class="grey-text text-lighten-1">- Edit</span>
+        {% if invoice.invoice_number %}
+            {{ invoice.invoice_number }}&boxv;{{ invoice.company }}
+            {% if edit %}
+                <span class="grey-text">- Edit</span>
+            {% endif %}
+        {% else %}
+            New Invoice
         {% endif %}
-    {% else %}
-        New Invoice
-    {% endif %}
-    {% endblock %}
     </h4>
 
     <div class="divider"></div>
@@ -211,7 +221,7 @@
         </script>
 
         <script>
-            $('#item-form').on('submit', function(event){
+            $('#invoice-item-form').on('submit', function(event){
                 event.preventDefault();
                 updateItem();
                 $('#itemModal').modal('close');
