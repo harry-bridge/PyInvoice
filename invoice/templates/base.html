@@ -41,16 +41,20 @@
                 {% endif %}
             </ul>
             <ul class="side-nav" id="mobile-demo">
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'invoice_list' %}">View Invoices</a></li>
-                <li><a href="{% url 'invoice_create' %}">Create Invoice</a></li>
-                <li><a href="{% url 'company_list' %}">View Companies</a></li>
-                <li><a href="{% url 'company_create' %}">Create Company</a></li>
-                {% if user.is_staff or user.is_superuser %}
-                    <li><a href="/admin/">Admin</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'invoice_list' %}">View Invoices</a></li>
+                    <li><a href="{% url 'invoice_create' %}">Create Invoice</a></li>
+                    <li><a href="{% url 'company_list' %}">View Companies</a></li>
+                    <li><a href="{% url 'company_create' %}">Create Company</a></li>
+                    {% if user.is_staff or user.is_superuser %}
+                        <li><a href="/admin/">Admin</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'profile_detail' user.id %}">Create Company</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}?next=/">Login</a></li>
                 {% endif %}
-                <li><a href="{% url 'profile_detail' user.id %}">Create Company</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -69,7 +73,9 @@
         {% if user.is_staff or user.is_superuser %}
             <li><a href="/admin/">Admin</a></li>
         {% endif %}
-        <li><a href="{% url 'profile_detail' user.id %}">Profile</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'profile_detail' user.id %}">Profile</a></li>
+        {% endif %}
         <li><a href="{% url 'logout' %}">Logout</a></li>
     </ul>
 </header>
@@ -109,4 +115,3 @@
     {% block script %}
     {% endblock %}
 </html>
-

@@ -18,4 +18,3 @@ class Command(BaseCommand):
                                    is_staff=True)
 
         User.objects.get_or_create('basic', 'basic@casic.com', 'basic', first_name='Basic', last_name='User')
-        
