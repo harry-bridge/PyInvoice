@@ -1,7 +1,8 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect, QueryDict, JsonResponse
-from django.contrib.auth.views import login, logout
+from django.http import HttpResponse, QueryDict
+from django.contrib.auth import views
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
@@ -12,17 +13,19 @@ import json
 from invoice import models, forms
 
 
-def login_view(request, **kwargs):
-    if request.user.is_authenticated():
-        next = request.GET.get('next', '/')
-        return HttpResponseRedirect(next)
-    else:
-        return login(request)
+class Login(views.LoginView):
+    template_name = 'registration/login.html'
 
 
-def logout_view(request):
-    logout(request)
-    return render_to_response('registration/logout.html')
+class Logout(views.LogoutView):
+    template_name = 'registration/logout.html'
+
+
+class PasswordChange(views.PasswordChangeView):
+    template_name = 'registration/password_change.html'
+
+    def get_success_url(self):
+        return reverse_lazy('profile_detail', kwargs={'pk': self.request.user.id})
 
 
 class Index(LoginRequiredMixin, generic.TemplateView):
