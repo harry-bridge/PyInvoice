@@ -58,7 +58,7 @@ class Invoice(models.Model):
     def total(self):
         total = 0
         for item in self.get_items():
-            total += item.cost
+            total += item.total
         return total
 
     def date_delta(self):
