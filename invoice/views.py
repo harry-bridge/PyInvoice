@@ -274,6 +274,10 @@ def profile_update(request):
         form.pop('csrfmiddlewaretoken')
         pk = form.pop('pk')
 
+        for key, value in form.items():
+            if not value:
+                form[key] = None
+
         if pk:
             models.Profile.objects.update_or_create(pk=pk, defaults=form)
             context['url'] = reverse('profile_detail', args=[pk])
