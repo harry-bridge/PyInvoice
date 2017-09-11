@@ -41,6 +41,6 @@ class InvoicePrint(generic.View):
         else:
             invoice_number = 'N%04d' % invoice.pk
 
-        response['Content-Disposition'] = "filename=%s | %s.pdf" % (invoice_number, invoice.company)
+        response['Content-Disposition'] = "filename=%s | %s.pdf" % (invoice_number, str(invoice.company).replace(',', ''))
         response.write(buf.read())
         return response
