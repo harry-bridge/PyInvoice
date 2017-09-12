@@ -9669,6 +9669,11 @@ td {
   height: 100% !important;
 }
 
+/* line 216, ../sass/components/_style.scss */
+._width_70 {
+  width: 70% !important;
+}
+
 /* line 1, ../sass/components/_helpers.scss */
 .no-margin {
   margin: 0 !important;

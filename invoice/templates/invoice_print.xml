@@ -54,6 +54,9 @@
             <lineStyle start="-2,-1" stop="-1,-1" kind="outline" colorName="darkGrey" thickness="0.8" cap="round" />
             <lineStyle start="-2,-1" stop="-2,-1" kind="lineafter" colorName="lightGrey" thickness="1" cap="butt" />
         </blockTableStyle>
+
+        <paraStyle name="itemPara" fontName="Roboto" fontSize="14" leading="18" textColor="darkGrey" />
+
     </stylesheet>
 
     <template showBoundary="0"> {# Note: page is 595x842 points (1 point=1/72in) #}
@@ -145,7 +148,7 @@
             </tr>
             {% for item in invoice.items.all %}
                 <tr>
-                    <td content="" >{{ item.description }}</td>
+                    <td content="" ><para style="itemPara" text="">{{ item.description }}</para></td>
                     <td content="" >{{ item.quantity|floatformat:-1 }}</td>
                     <td content="" >£ {{ item.cost }}</td>
                     <td content="" >£ {{ item.total }}</td>
