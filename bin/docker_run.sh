@@ -20,7 +20,6 @@ done
 >&2 echo "Postgres is up - continuing..."
 
 python manage.py migrate                  # Apply database migrations
-python manage.py createsu
 
 # Start Gunicorn processes
 echo Starting Gunicorn.

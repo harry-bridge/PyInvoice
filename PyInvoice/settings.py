@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') if production else 'q!hl0oei$xh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if production else True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.invoice.hjb.io']
 
 # Application definition
 
