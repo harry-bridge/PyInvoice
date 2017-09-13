@@ -100,7 +100,6 @@
                 {% endif %}
 
                 <setFont name="Roboto" size="9" />
-                <drawString x="25" y="8" text="">Harry Bridge - {% now "Y" %}</drawString>
 
                 <setFont name="Roboto" size="7" />
                 <drawRightString x="570" y="8" text="">Invoice generated {% now "d/m/Y H:i" %}</drawRightString>
@@ -125,7 +124,7 @@
         <setNextFrame name="paymentTable"/>
         <nextFrame/>
         <blockTable style="paymentTable" colWidths="220">
-            <tr><td content="" >To be made payable to Harry Bridge</td></tr>
+            <tr><td content="" >To be made payable to {{ user.first_name }} {{ user.last_name }}</td></tr>
             <tr><td content="">{{ user.bank }}</td></tr>
             <tr><td content="">{{ user.sort_code }}</td></tr>
             <tr><td content="">{{ user.account_number }}</td></tr>
