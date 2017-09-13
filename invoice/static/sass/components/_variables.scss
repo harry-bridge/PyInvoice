@@ -57,6 +57,7 @@ $badge-height: 22px !default;
 $button-border: none !default;
 $button-background-focus: lighten($secondary-color, 4%) !default;
 $button-font-size: 1.3rem !default;
+$button-icon-font-size: 1.3rem !default;
 $button-height: 36px !default;
 $button-padding: 0 2rem !default;
 $button-radius: 2px !default;
@@ -153,6 +154,7 @@ $input-success-color: $success-color !default;
 $input-focus-color: $secondary-color !default;
 $input-font-size: 1rem !default;
 $input-margin: 0 0 20px 0 !default;
+$input-margin-bottom: 20px !default;
 $input-padding: 0 !default;
 $input-transition: all .3s !default;
 $label-font-size: .8rem !default;
@@ -179,6 +181,8 @@ $select-focus: 1px solid lighten($secondary-color, 47%) !default;
 $select-padding: 5px !default;
 $select-radius: 2px !default;
 $select-disabled-color: rgba(0,0,0,.3) !default;
+$select-option-hover: rgba(0,0,0,.06) !default;
+$select-option-focus: rgba(0,0,0,.03) !default;
 
 // Switches
 $switch-bg-color: $secondary-color !default;
@@ -201,6 +205,7 @@ $large-screen: 1200px !default;
 
 $medium-and-up: "only screen and (min-width : #{$small-screen-up})" !default;
 $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
+$extra-large-and-up: "only screen and (min-width : #{$large-screen-up})" !default;
 $small-and-down: "only screen and (max-width : #{$small-screen})" !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default;
@@ -291,6 +296,9 @@ $h6-fontsize: 1rem !default;
 // ==========================================================================
 
 $footer-bg-color: $primary-color !default;
+$footer-copyright-bg-color: $primary-color !default;
+$footer-font-color: $off-black !default;
+$footer-copyright-font-color: $off-black !default;
 
 
 // 22. Flow Text

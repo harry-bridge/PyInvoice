@@ -1,4 +1,5 @@
 require 'compass/import-once/activate'
+require 'materialize-sass'
 # Require any additional compass plugins here.
 
 # Set this to the root of your project when deployed:
@@ -7,6 +8,7 @@ css_dir = "/invoice/static/stylesheets"
 sass_dir = "/invoice/static/sass"
 images_dir = "/invoice/static/images"
 javascripts_dir = "/invoice/static/js"
+fonts_dir="/invoice/static/fonts"
 
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :expanded or :nested or :compact or :compressed
