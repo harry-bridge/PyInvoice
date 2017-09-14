@@ -26,11 +26,15 @@
                         <dt>Email</dt>
                         <dd>{{ user.email|default_if_none:'N/A' }}</dd>
 
-                        <dt>Staff</dt>
-                        <dd>{{ user.is_staff }}</dd>
+                        {% if user.is_staff %}
+                            <dt>Staff</dt>
+                            <dd>{{ user.is_staff }}</dd>
+                        {% endif %}
 
-                        <dt>Superuser</dt>
-                        <dd>{{ user.is_superuser }}</dd>
+                        {% if user.is_superuser %}
+                            <dt>Superuser</dt>
+                            <dd>{{ user.is_superuser }}</dd>
+                        {% endif %}
                     </dl>
                 </div>
             </div>
