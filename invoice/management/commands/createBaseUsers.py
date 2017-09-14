@@ -11,10 +11,16 @@ class Command(BaseCommand):
         if not (settings.DEBUG or settings.STAGING):
             raise CommandError('You cannot run this command in production')
 
-        User.objects.get_or_create('su', 'su@su.com', 'su', first_name='Super', last_name='User', is_superuser=True,
-                                   is_staff=True)
+        self.create_user_object('super', True, True)
+        self.create_user_object('staff', True)
+        self.create_user_object('basic')
 
-        User.objects.get_or_create('staff', 'staff@staff.com', 'staff', first_name='Staff', last_name='User',
-                                   is_staff=True)
+    def create_user_object(self, name, staff=False, superuser=False):
+        user, created = User.objects.get_or_create(
+            username=name, defaults={'email': '{}@{}.com'.format(name, name),
+                                     'first_name': name.title(), 'last_name': 'User', 'is_superuser': superuser,
+                                     'is_staff': staff})
 
-        User.objects.get_or_create('basic', 'basic@casic.com', 'basic', first_name='Basic', last_name='User')
+        if created:
+            user.set_password(name)
+            user.save()
