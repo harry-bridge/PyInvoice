@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractUser
 class Profile(AbstractUser):
     address = models.TextField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
-    utr = models.IntegerField(blank=True, null=True)
+    utr = models.BigIntegerField(blank=True, null=True)
 
     bank = models.CharField(max_length=180, blank=True, null=True)
     sort_code = models.CharField(max_length=50, blank=True, null=True)
@@ -44,7 +44,7 @@ class Invoice(models.Model):
     updated = models.DateTimeField(blank=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
-    user_invoice_number = models.TextField(max_length=15, blank=True, null=True)
+    user_invoice_number = models.CharField(max_length=15, blank=True, null=True)
 
     def invoice_number(self):
         if not self.user_invoice_number:
