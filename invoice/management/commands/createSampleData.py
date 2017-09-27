@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
-        self.user = models.Profile.objects.all()[0]
+        self.user = models.Profile.objects.get(username='super')
 
     def handle(self, *args, **options):
         from django.conf import settings
@@ -31,16 +31,14 @@ class Command(BaseCommand):
 
         for i in range(10):
             models.Company.objects.create(
-                name=company_names[i%len(company_names)],
-                address=company_addresses[i%len(company_addresses)],
-                email=company_emails[i%len(company_emails)]
+                name=company_names[i % len(company_names)],
+                address=company_addresses[i % len(company_addresses)],
+                email=company_emails[i % len(company_emails)]
                 )
 
     def create_invoices(self):
         invoice_items = ['Some lights and PA', 'Get-out in a muddy field', 'Boring show call', 'Corproate job in Manchester', 'Dealing in child actors', 'Literal waste of my time']
         names = ["Regulus Black","Sirius Black","Lavender Brown","Cho Chang","Vincent Crabbe","Vincent Crabbe","Bartemius Crouch","Fleur Delacour","Cedric Diggory","Alberforth Dumbledore","Albus Dumbledore","Dudley Dursley","Petunia Dursley","Vernon Dursley","Argus Filch","Seamus Finnigan","Nicolas Flamel","Cornelius Fudge","Goyle","Gregory Goyle","Hermione Granger","Rubeus Hagrid","Igor Karkaroff","Viktor Krum","Bellatrix Lestrange","Alice Longbottom","Frank Longbottom","Neville Longbottom","Luna Lovegood","Xenophilius Lovegood","Remus Lupin","Draco Malfoy","Lucius Malfoy","Narcissa Malfoy","Olympe Maxime","Minerva McGonagall","Mad-Eye Moody","Peter Pettigrew","Harry Potter","James Potter","Lily Potter","Quirinus Quirrell","Tom Riddle","Mary Riddle","Lord Voldemort","Rita Skeeter","Severus Snape","Nymphadora Tonks","Dolores Janes Umbridge","Arthur Weasley","Bill Weasley","Charlie Weasley","Fred Weasley","George Weasley","Ginny Weasley","Molly Weasley","Percy Weasley","Ron Weasley","Dobby","Fluffy","Hedwig","Moaning Myrtle","Aragog","Grawp"]
-
-        amounts = [0.00, 100.00, 5.99, 600, 130.34]
 
         for i in range(20):  # Create 10 random invoices
             company = random.choice(models.Company.objects.all())
@@ -63,7 +61,8 @@ class Command(BaseCommand):
                 models.InvoiceItem.objects.create(
                     invoice=invoice,
                     description=random.choice(invoice_items),
-                    cost=int(random.choice(amounts)),
+                    quantity=random.randint(1, 20),
+                    cost=random.randint(5, 200) / 1.25,
                 )
 
     def update_user_profile(self):
