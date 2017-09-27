@@ -112,6 +112,7 @@ def invoice_update(request):
 
         defaults['utr'] = bool(defaults.pop('utr', None))
         defaults['paid'] = bool(defaults.pop('paid', None))
+        defaults['is_quote'] = bool(defaults.pop('is_quote', None))
 
         if invoice_pk == 0:
             invoice = models.Invoice.objects.create(**defaults)
@@ -267,6 +268,7 @@ class ProfileEdit(LoginRequiredMixin, generic.TemplateView):
         context['user'] = get_object_or_404(models.Profile, pk=self.kwargs['pk'])
 
 
+@login_required()
 def profile_update(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():

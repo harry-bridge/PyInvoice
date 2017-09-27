@@ -248,6 +248,7 @@ tbody>tr:nth-last-child(1) {
 
 td {
   color: color('grey', 'darken-3');
+  vertical-align: bottom !important;
 }
 
 .logo-preview {
@@ -296,4 +297,8 @@ td {
 
 ._medium_text {
   font-size: 4em !important;
+}
+
+._3pad5_left {
+  padding-left: 3.5em !important;
 }

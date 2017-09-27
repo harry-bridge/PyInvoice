@@ -77,20 +77,22 @@
                 {% if invoice.utr %}
                     <rect height="24" width="220" x="350" y="592" round="2" fill="yes" stroke="no" /> {# UTR No #}
                 {% endif %}
-                <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
 
-                <image file="{% if user.invoice_logo %}{{ user.invoice_logo.url }}{% else %}{{ logo }}{% endif %}" x="0" y="745" height="97" width="262"/>
+                <image file="{% if user.invoice_logo %}{{ user.invoice_logo.path }}{% else %}{{ logo }}{% endif %}" x="0" y="745" height="97" width="262"/>
 
                 <fill color="white" />
                 <setFont name="Roboto" size="15" />
-                <drawString x="35" y="695" text="">BILL TO</drawString>
+                <drawString x="35" y="695" text="">{% if invoice.is_quote %}QUOTE{% else %}BILL TO{% endif %}</drawString>
                 <setFont name="Roboto" size="13" />
                 <drawString x="360" y="669.5" text="">DATE</drawString>
                 <drawString x="360" y="634.5" text="">INVOICE NO.</drawString>
                 {% if invoice.utr %}
                     <drawString x="360" y="599" text="">UTR NO.</drawString>
                 {% endif %}
-                <drawString x="35" y="147.5" text="">PAYMENT</drawString>
+                {%  if not invoice.is_quote %}
+                    <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
+                    <drawString x="35" y="147.5" text="">PAYMENT</drawString>
+                {% endif %}
 
                 <setFont name="Roboto-Bold" size="13" />
                 <drawString x="400" y="669.5" text="">{{ invoice.created.date }}</drawString> {# date now #}
@@ -102,7 +104,10 @@
                 <setFont name="Roboto" size="9" />
 
                 <setFont name="Roboto" size="7" />
-                <drawRightString x="570" y="8" text="">Invoice generated {% now "d/m/Y H:i" %}</drawRightString>
+                <drawRightString x="570" y="8" text="">{% if invoice.is_quote %}Quote{% else %}Invoice{% endif %} generated {% now "d/m/Y H:i" %}</drawRightString>
+                {% if invoice.is_quote %}
+                    <drawString x="25" y="8" text="">This is not an invoice, please do not attempt to pay it</drawString>
+                {% endif %}
             </pageGraphics>
 
             <frame id="infoTable" height="100" width="155" x1="430" y1="730" />
@@ -123,6 +128,7 @@
         </blockTable>
         <setNextFrame name="paymentTable"/>
         <nextFrame/>
+        {% if not invoice.is_quote %}
         <blockTable style="paymentTable" colWidths="220">
             <tr><td content="" >To be made payable to {{ user.first_name }} {{ user.last_name }}</td></tr>
             <tr><td content="">{{ user.bank }}</td></tr>
@@ -130,6 +136,7 @@
             <tr><td content="">{{ user.account_number }}</td></tr>
             <tr><td content="">Payment terms - 30 days</td></tr>
         </blockTable>
+        {% endif %}
         <setNextFrame name="companyTable"/>
         <nextFrame/>
         <blockTable style="companyTable" colWidths="220">

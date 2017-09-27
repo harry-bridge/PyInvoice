@@ -44,6 +44,7 @@ class Invoice(models.Model):
     updated = models.DateTimeField(blank=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
+    is_quote = models.BooleanField(default=False)
     user_invoice_number = models.CharField(max_length=15, blank=True, null=True)
 
     def invoice_number(self):

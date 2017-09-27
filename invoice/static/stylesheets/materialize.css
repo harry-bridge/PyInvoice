@@ -8976,9 +8976,10 @@ tbody > tr:nth-last-child(1) {
 /* line 249, ../sass/materialize.scss */
 td {
   color: #424242;
+  vertical-align: bottom !important;
 }
 
-/* line 253, ../sass/materialize.scss */
+/* line 254, ../sass/materialize.scss */
 .logo-preview {
   max-width: 100%;
   height: auto;
@@ -8986,50 +8987,55 @@ td {
   border-radius: 2px;
 }
 
-/* line 264, ../sass/materialize.scss */
+/* line 265, ../sass/materialize.scss */
 ._no_pad_top_bottom {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 
-/* line 269, ../sass/materialize.scss */
+/* line 270, ../sass/materialize.scss */
 ._height_100 {
   height: 100% !important;
 }
 
-/* line 273, ../sass/materialize.scss */
+/* line 274, ../sass/materialize.scss */
 ._width_70 {
   width: 70% !important;
 }
 
-/* line 277, ../sass/materialize.scss */
+/* line 278, ../sass/materialize.scss */
 .no-margin {
   margin: 0 !important;
 }
 
-/* line 281, ../sass/materialize.scss */
+/* line 282, ../sass/materialize.scss */
 .no-margin-top {
   margin-top: 0 !important;
 }
 
-/* line 285, ../sass/materialize.scss */
+/* line 286, ../sass/materialize.scss */
 .pad-s3 {
   padding: 0.6rem;
 }
 
-/* line 289, ../sass/materialize.scss */
+/* line 290, ../sass/materialize.scss */
 ._pad_05_top {
   padding-top: 0.5em;
 }
 
-/* line 293, ../sass/materialize.scss */
+/* line 294, ../sass/materialize.scss */
 ._margin_2_top {
   margin-top: 2em;
 }
 
-/* line 297, ../sass/materialize.scss */
+/* line 298, ../sass/materialize.scss */
 ._medium_text {
   font-size: 4em !important;
+}
+
+/* line 302, ../sass/materialize.scss */
+._3pad5_left {
+  padding-left: 3.5em !important;
 }
 
 /* line 64, ../sass/materialize.scss */
@@ -9241,9 +9247,10 @@ tbody > tr:nth-last-child(1) {
 /* line 249, ../sass/materialize.scss */
 td {
   color: #424242;
+  vertical-align: bottom !important;
 }
 
-/* line 253, ../sass/materialize.scss */
+/* line 254, ../sass/materialize.scss */
 .logo-preview {
   max-width: 100%;
   height: auto;
@@ -9251,48 +9258,53 @@ td {
   border-radius: 2px;
 }
 
-/* line 264, ../sass/materialize.scss */
+/* line 265, ../sass/materialize.scss */
 ._no_pad_top_bottom {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 
-/* line 269, ../sass/materialize.scss */
+/* line 270, ../sass/materialize.scss */
 ._height_100 {
   height: 100% !important;
 }
 
-/* line 273, ../sass/materialize.scss */
+/* line 274, ../sass/materialize.scss */
 ._width_70 {
   width: 70% !important;
 }
 
-/* line 277, ../sass/materialize.scss */
+/* line 278, ../sass/materialize.scss */
 .no-margin {
   margin: 0 !important;
 }
 
-/* line 281, ../sass/materialize.scss */
+/* line 282, ../sass/materialize.scss */
 .no-margin-top {
   margin-top: 0 !important;
 }
 
-/* line 285, ../sass/materialize.scss */
+/* line 286, ../sass/materialize.scss */
 .pad-s3 {
   padding: 0.6rem;
 }
 
-/* line 289, ../sass/materialize.scss */
+/* line 290, ../sass/materialize.scss */
 ._pad_05_top {
   padding-top: 0.5em;
 }
 
-/* line 293, ../sass/materialize.scss */
+/* line 294, ../sass/materialize.scss */
 ._margin_2_top {
   margin-top: 2em;
 }
 
-/* line 297, ../sass/materialize.scss */
+/* line 298, ../sass/materialize.scss */
 ._medium_text {
   font-size: 4em !important;
+}
+
+/* line 302, ../sass/materialize.scss */
+._3pad5_left {
+  padding-left: 3.5em !important;
 }
