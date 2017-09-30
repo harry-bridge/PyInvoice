@@ -1,0 +1,18 @@
+<div id="expenseModal" class="modal modal-fixed-footer">
+    <div class="row">
+        <form method="POST" role="form" id="expense-form">
+            {% csrf_token %}
+            <input type="hidden" name="redirect_on_save" value="0">
+            <div class="modal-content">
+                <h4 id="editStatusCompany">Add Expense</h4>
+                <div class="divider" style="margin-bottom: 15px"></div>
+
+                <div id="div_for_expense_form"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" name="action" class="waves-effect waves-green btn-flat">Save</button>
+                <a class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+            </div>
+        </form>
+    </div>
+</div>

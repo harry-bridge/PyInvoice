@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Invoice List{% endblock %}
+
+{% block main %}
+
+    <h2>Expense List</h2>
+
+    <table class="bordered highlight">
+        <thead>
+        <tr>
+            <th>Invoice</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in object_list %}
+            <tr>
+                <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' item.invoice.pk %}">{{ item.invoice.invoice_number }}</a></td>
+                <td>{{ item.description }}</td>
+                <td>£ {{ item.cost|floatformat:2 }}</td>
+                <td>
+                    <a class="tooltipped light-blue-text text-lighten-1" data-position="top" data-tooltip="View Expense" href="{% url 'invoice_detail' item.invoice.pk %}">
+                        <i class="material-icons icon-hoverable">visibility</i>
+                    </a>
+
+                    <a class="tooltipped orange-text text-lighten-1" data-position="top" data-tooltip="Edit Expense" onclick="getExpenseItemsForModal({{ item.pk }}, {{ item.invoice.pk }})">
+                        <i class="material-icons icon-hoverable">edit</i>
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="center-align">
+                    <h5>Wow, look at all those expenses. Maybe <a href="{% url 'expense_create' %}" class="hover-link orange-text">create one</a>.</h5>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'expense_modal.html' %}
+
+{% endblock %}

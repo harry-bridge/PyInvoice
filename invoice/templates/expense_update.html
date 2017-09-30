@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <input type="hidden">
+    <h4>
+        {% if expense.pk %}
+            Expenses for - <a class="orange-text text-lighten-1 hover-link" href="{% url 'invoice_detail' expense.invoice.pk %}">{{ expense.invoice.invoice_number }}</a>
+        {% else %}
+            Add Expense
+        {% endif %}
+    </h4>
+
+
+    <div class="divider"></div>
+
+    {% if edit or not expense.pk %}
+
+        <form method="POST" role="form" id="expense-form">
+            {% csrf_token %}
+            {% include 'expense_form.html' %}
+
+    {% else %}
+
+        {% include 'expense_detail.html' %}
+
+    {% endif %}
+
+            <div class="fixed-action-btn horizontal">
+                <a class="btn-floating btn-large red">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul>
+                    {% if not expense.pk or edit %}
+                        <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons">save</i></button></li>
+                    {% endif %}
+                </ul>
+                <ul>
+                    {% if expense.pk and not edit %}
+                        <li><a href="#" onclick="getExpenseItemsForModal( 0, {{ expense.invoice.pk }} )" class="btn-floating light-blue lighten-1"><i class="material-icons">add</i></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </form>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('#expense-form').on('submit', function(event){
+            event.preventDefault();
+            var expense_pk = $('#expense_pk').val();
+            updateExpense(expense_pk);
+            $('#expenseModal').modal('close');
+            return false;
+        });
+    </script>
+{% endblock %}
