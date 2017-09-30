@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Sum
 
 
 class Profile(AbstractUser):
@@ -65,6 +66,12 @@ class Invoice(models.Model):
     def date_delta(self):
         return timezone.now() - self.created
 
+    def expenses_total(self):
+        return self.expenses.all().aggregate(total=Sum('cost'))['total']
+
+    def num_expenses(self):
+        return self.expenses.all().count()
+
     def __str__(self):
         return self.company.name
 
@@ -90,3 +97,12 @@ class InvoiceItem(models.Model):
         self.total = float(self.quantity) * float(self.cost)
 
         super(InvoiceItem, self).save(*args, **kwargs)
+
+
+class Expense(models.Model):
+    invoice = models.ForeignKey(Invoice, related_name='expenses')
+    description = models.CharField(max_length=200)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.description + 'for' + self.invoice.__str__()
