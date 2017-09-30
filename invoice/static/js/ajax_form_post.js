@@ -184,3 +184,49 @@ function updateProfile() {
 
   });
 }
+
+function getExpenseItemsForModal(expense_pk, invoice_pk) {
+  $.ajax({
+      url: "/api/get_expense_items_for_modal/", // the endpoint
+      type: "POST", // http method
+      data: {
+          expense_pk: expense_pk,
+          invoice_pk: invoice_pk
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          // console.log(data);
+          $('#div_for_expense_form').html(data);
+          Materialize.updateTextFields();
+          $('#invoice-select').material_select();
+          $('#expenseModal').modal('open')
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}
+
+function updateExpense() {
+  $.ajax({
+      url: "/expense/update/", // the endpoint
+      type: "POST", // http method
+      data: {
+          expense_form: $('#expense-form').serialize()
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          // console.log(data);
+
+          if (data['url']) {
+              window.location.href = data['url'];
+          } else {
+            $('#expense-table').html(data);
+          }
+
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}

@@ -50,7 +50,13 @@ urlpatterns = [
     url(r'^company/update/$', views.company_update, name='company_update'),
     url(r'^company/delete/$', views.company_delete, name='company_delete'),
 
+    url(r'^expense/list/$', views.ExpenseList.as_view(), name='expense_list'),
+    url(r'^expense/(?P<pk>\d+)/$', views.ExpenseDetail.as_view(), name='expense_detail'),
+    url(r'^expense/update/$', views.expense_update, name='expense_update'),
+    url(r'^expense/create/$', views.ExpenseCreate.as_view(), name='expense_create'),
+
     url(r'^api/get_items_for_table/$', api.get_items_for_table, name='get_items_for_table'),
     url(r'^api/get_company_for_modal/$', api.get_company_for_modal, name='get_company_for_modal'),
     url(r'^api/invoice_logo_upload/$', api.invoice_photo_upload, name='invoice_photo_upload'),
+    url(r'^api/get_expense_items_for_modal/$', api.get_expense_items_for_modal, name='get_expense_items_for_modal'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

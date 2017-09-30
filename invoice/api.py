@@ -1,4 +1,5 @@
 from django.shortcuts import HttpResponse, get_object_or_404
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 import simplejson as json
 
@@ -49,3 +50,22 @@ def get_company_for_modal(request):
 @login_required()
 def invoice_photo_upload(request):
     pass
+
+
+@login_required()
+def get_expense_items_for_modal(request):
+    context = dict()
+    if request.method == 'POST' and request.is_ajax():
+        expense_pk = request.POST.get('expense_pk', '0')
+        invoice_pk = request.POST.get('invoice_pk', '0')
+        context['invoices'] = models.Invoice.objects.all()
+
+        if expense_pk != '0':
+            context['expense'] = get_object_or_404(models.Expense, pk=expense_pk)
+        else:
+            context['add'] = True
+            context['add_invoice_pk'] = int(invoice_pk)
+
+        html = render_to_string('expense_form.html', context=context)
+
+        return HttpResponse(html)

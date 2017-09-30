@@ -1,11 +1,11 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render_to_response
+from django.template.loader import render_to_string
 from django.http import HttpResponse, QueryDict
 from django.contrib.auth import views
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.db.models import Q
 import json
@@ -296,3 +296,57 @@ def profile_update(request):
 #         else:
 #             data = {'is_valid': False}
 #         return JsonResponse(data)
+
+
+class ExpenseList(LoginRequiredMixin, generic.ListView):
+    model = models.Expense
+    template_name = 'expense_list.html'
+
+
+class ExpenseDetail(LoginRequiredMixin, generic.DetailView):
+    model = models.Expense
+    template_name = 'expense_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpenseDetail, self).get_context_data(**kwargs)
+        context['expense_list'] = self.object.invoice.expenses
+
+        return context
+
+
+class ExpenseCreate(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'expense_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpenseCreate, self).get_context_data(**kwargs)
+        context['edit'] = True
+        context['invoices'] = models.Invoice.objects.all()
+        context['redirect_on_save'] = 1
+
+        return context
+
+
+@login_required()
+def expense_update(request):
+    context = dict()
+    if request.method == 'POST' and request.is_ajax():
+        defaults = QueryDict(request.POST['expense_form'].encode('ASCII')).dict()
+        defaults.pop('csrfmiddlewaretoken')
+        defaults['invoice'] = models.Invoice.objects.get(pk=defaults.pop('invoice'))
+        context['expense_pk'] = defaults.pop('expense_pk')
+        redirect = defaults.pop('redirect_on_save')
+
+        if context['expense_pk'] != '0':
+            expense, created = models.Expense.objects.update_or_create(pk=context['expense_pk'], defaults=defaults)
+
+        else:
+            expense = models.Expense.objects.create(**defaults)
+
+        if redirect == '1':
+            context['url'] = reverse('expense_detail', args=[expense.pk])
+
+            return HttpResponse(json.dumps(context), content_type='application/json')
+        else:
+            context['expense_list'] = expense.invoice.expenses
+            html = render_to_string('expense_table.html', context=context)
+            return HttpResponse(html)
