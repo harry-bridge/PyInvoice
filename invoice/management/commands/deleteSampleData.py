@@ -22,3 +22,7 @@ class Command(BaseCommand):
     def delete_invoices(self):
         for invoice in models.Invoice.objects.all():
             invoice.delete()
+
+    def delete_expenses(self):
+        for expense in models.Expense.objects.all():
+            expense.delete()

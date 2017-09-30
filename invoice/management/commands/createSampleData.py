@@ -21,6 +21,7 @@ class Command(BaseCommand):
 
         self.create_companies()
         self.create_invoices()
+        self.create_expenses()
         self.update_user_profile()
 
     def create_companies(self):
@@ -40,7 +41,7 @@ class Command(BaseCommand):
         invoice_items = ['Some lights and PA', 'Get-out in a muddy field', 'Boring show call', 'Corproate job in Manchester', 'Dealing in child actors', 'Literal waste of my time']
         names = ["Regulus Black","Sirius Black","Lavender Brown","Cho Chang","Vincent Crabbe","Vincent Crabbe","Bartemius Crouch","Fleur Delacour","Cedric Diggory","Alberforth Dumbledore","Albus Dumbledore","Dudley Dursley","Petunia Dursley","Vernon Dursley","Argus Filch","Seamus Finnigan","Nicolas Flamel","Cornelius Fudge","Goyle","Gregory Goyle","Hermione Granger","Rubeus Hagrid","Igor Karkaroff","Viktor Krum","Bellatrix Lestrange","Alice Longbottom","Frank Longbottom","Neville Longbottom","Luna Lovegood","Xenophilius Lovegood","Remus Lupin","Draco Malfoy","Lucius Malfoy","Narcissa Malfoy","Olympe Maxime","Minerva McGonagall","Mad-Eye Moody","Peter Pettigrew","Harry Potter","James Potter","Lily Potter","Quirinus Quirrell","Tom Riddle","Mary Riddle","Lord Voldemort","Rita Skeeter","Severus Snape","Nymphadora Tonks","Dolores Janes Umbridge","Arthur Weasley","Bill Weasley","Charlie Weasley","Fred Weasley","George Weasley","Ginny Weasley","Molly Weasley","Percy Weasley","Ron Weasley","Dobby","Fluffy","Hedwig","Moaning Myrtle","Aragog","Grawp"]
 
-        for i in range(20):  # Create 10 random invoices
+        for i in range(30):  # Create 10 random invoices
             company = random.choice(models.Company.objects.all())
 
             invoice = models.Invoice.objects.create(
@@ -55,6 +56,9 @@ class Command(BaseCommand):
             if i % 5 == 0:
                 invoice.utr = True
 
+            if i % 10 == 0:
+                invoice.is_quote == True
+
             invoice.save()
 
             for j in range(random.randint(2, 8)):  # Create a random number of items
@@ -62,8 +66,20 @@ class Command(BaseCommand):
                     invoice=invoice,
                     description=random.choice(invoice_items),
                     quantity=random.randint(1, 20),
-                    cost=random.randint(5, 200) / 1.25,
+                    cost=random.randint(5, 200) / 1.25,   # Coerce that to a float
                 )
+
+    def create_expenses(self):
+        expense_items = ['Some petrols', 'Tools n stuff', 'Random bits of metal', 'Strippers (wire)', 'Last minute posters', 'Fixing things people broke']
+
+        for i in range(100):
+            invoice = random.choice(models.Invoice.objects.all())
+
+            models.Expense.objects.create(
+                invoice=invoice,
+                description=random.choice(expense_items),
+                cost=random.randint(5, 100) / 1.25,   # Coerce that to a float
+            )
 
     def update_user_profile(self):
         self.user.address = 'Number 17\nBehind The Bins\nBarnaby Street'
