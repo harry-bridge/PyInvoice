@@ -58,10 +58,7 @@ class Invoice(models.Model):
         return self.items.all()
 
     def total(self):
-        total = 0
-        for item in self.get_items():
-            total += item.total
-        return total
+        return self.items.all().aggregate(total=Sum('total'))['total']
 
     def date_delta(self):
         return timezone.now() - self.created
