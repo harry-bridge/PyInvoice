@@ -8,12 +8,12 @@
     <td>£&nbsp;<span class="cost">{{ item.cost|floatformat:2 }}</span></td>
     <td>£ <span>{{ item.total|floatformat:2 }}</span></td>
     {% if edit %}
-        <td>
-            <a class="btn waves-effect waves-dark grey" onclick="showItemModal({{ item.pk }})">
-                <i class="material-icons">edit</i>
+        <td class="center-align">
+            <a class="tooltipped blue-text text-lighten-1" data-position="top" data-tooltip="Edit Item" onclick="showItemModal({{ item.pk }})">
+                <i class="material-icons icon-hoverable">edit</i>
             </a>
-            <a class="btn waves-effect waves-dark red lighten-2" onclick="deleteItem({{ item.pk }})">
-                <i class="material-icons">delete</i>
+            <a class="tooltipped red-text text-lighten-2" data-position="top" data-tooltip="Delete Item" onclick="deleteItem({{ item.pk }})">
+                <i class="material-icons icon-hoverable">delete</i>
             </a>
         </td>
     {% endif %}
