@@ -16,6 +16,11 @@ class InvoicePrint(generic.View):
         if invoice.user != user:
             raise PermissionDenied()
 
+        if user.username == 'harry':
+            logo_path = 'hb-invoice-logo.png'
+        else:
+            logo_path = 'default-logo.png'
+
         template = get_template('invoice_print.xml')
 
         context = {
@@ -27,7 +32,7 @@ class InvoicePrint(generic.View):
                     'bold': 'invoice/static/fonts/roboto/Roboto-Light.ttf',
                 }
             },
-            'logo': 'invoice/static/imgs/paperwork/default-logo.png'
+            'logo': 'invoice/static/imgs/paperwork/{}'.format(logo_path)
         }
 
         rml = template.render(context)
