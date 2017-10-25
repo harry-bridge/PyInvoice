@@ -56,7 +56,7 @@
             <lineStyle start="-2,-1" stop="-2,-1" kind="lineafter" colorName="lightGrey" thickness="1" cap="butt" />
         </blockTableStyle>
 
-        <paraStyle name="itemPara" fontName="Roboto" fontSize="14" leading="18" textColor="darkGrey" />
+        <paraStyle name="tableParaItem" fontName="Roboto" fontSize="14" leading="18" textColor="darkGrey" />
 
     </stylesheet>
 
@@ -141,7 +141,7 @@
         <setNextFrame name="companyTable"/>
         <nextFrame/>
         <blockTable style="companyTable" colWidths="220">
-            <tr><td content="" ><para text="" style="tablePara">{{ invoice.company.name }}</para></td></tr>
+            <tr><td content="" ><para text="" style="tableParaCompany">{{ invoice.company.name }}</para></td></tr>
             <tr><td content="" >{{ invoice.company.address }}</td></tr>
         </blockTable>
         <setNextFrame name="itemTable"/>
@@ -155,7 +155,7 @@
             </tr>
             {% for item in invoice.items.all %}
                 <tr>
-                    <td content="" ><para text="" style="itemPara">{{ item.description }}</para></td>
+                    <td content="" ><para text="" style="tableParaItem">{{ item.description }}</para></td>
                     <td content="" >{{ item.quantity|floatformat:-1 }}</td>
                     <td content="" >£ {{ item.cost }}</td>
                     <td content="" >£ {{ item.total }}</td>
