@@ -40,11 +40,12 @@ class Invoice(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     person = models.CharField(max_length=80)
     phone = models.IntegerField(blank=True, null=True)
-    created = models.DateTimeField(blank=True)
+    created = models.DateTimeField(blank=True, auto_now_add=True)
     updated = models.DateTimeField(blank=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
     is_quote = models.BooleanField(default=False)
+    sent_date = models.DateTimeField(blank=True, null=True)
     user_invoice_number = models.CharField(max_length=15, blank=True, null=True)
 
     def invoice_number(self):
@@ -65,12 +66,13 @@ class Invoice(models.Model):
     def date_delta(self):
         return timezone.now() - self.created
 
+    def sent_date_delta(self):
+        return timezone.now() - self.sent_date
+
     def __str__(self):
         return self.company.name
 
     def save(self, *args, **kwargs):
-        if not self.created:
-            self.created = timezone.now()
         self.updated = timezone.now()
 
         super(Invoice, self).save(*args, **kwargs)
