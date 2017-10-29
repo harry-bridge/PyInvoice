@@ -79,6 +79,10 @@
                     <rect height="24" width="220" x="350" y="592" round="2" fill="yes" stroke="no" /> {# UTR No #}
                 {% endif %}
 
+                {% if not invoice.is_quote %}
+                    <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
+                {% endif %}
+
                 <image file="{{ logo }}" x="0" y="745" height="97" width="262"/>
 
                 <fill color="white" />
@@ -90,10 +94,10 @@
                 {% if invoice.utr %}
                     <drawString x="360" y="599" text="">UTR NO.</drawString>
                 {% endif %}
-                {%  if not invoice.is_quote %}
-                    <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
+                {% if not invoice.is_quote %}
                     <drawString x="35" y="147.5" text="">PAYMENT</drawString>
                 {% endif %}
+
 
                 <setFont name="Roboto-Bold" size="13" />
                 <drawString x="400" y="669.5" text="">{{ invoice.created.date }}</drawString> {# date now #}
