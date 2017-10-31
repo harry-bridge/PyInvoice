@@ -11,8 +11,22 @@
                     <dt>Address</dt>
                     <dd>{{ company.address|linebreaksbr }}</dd>
 
+                    <dt>Person</dt>
+                    <dd>{{ company.person }}</dd>
+
+                    <dt>Phone</dt>
+                    <dd>
+                        <a class="hover-link orange-text text-lighten-1" href="tel:{{ company.phone }}">
+                            {{ company.phone }}
+                        </a>
+                    </dd>
+
                     <dt>Email</dt>
-                    <dd>{{ company.email }}</dd>
+                    <dd>
+                        <a class="hover-link orange-text text-lighten-1" href="mailto:{{ company.email}}">
+                            {{ company.email }}
+                        </a>
+                    </dd>
                 </dl>
             </div>
         </div>

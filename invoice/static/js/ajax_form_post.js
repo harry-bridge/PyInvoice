@@ -107,16 +107,12 @@ function updateCompany() {
       url: "/company/update/", // the endpoint
       type: "POST", // http method
       data: {
-          company_pk: $('#company_pk').val(),
-          name: $('#nameInput').val(),
-          address: $('#addressInput').val(),
-          email: $('#emailInput').val(),
-          redirect_on_save: $('#redirect_on_save').val()
+          company_form: $('#company-form').serialize()
       }, // data sent with the post request
 
       // handle a successful response
       success: function (data) {
-          console.log(data);
+          // console.log(data);
           if (data['redirect']) {
                 window.location.href = data['url'];
           } else {

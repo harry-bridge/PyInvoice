@@ -58,22 +58,35 @@
 {#                                <a class="btn btn-square" onclick="showCompanyModal()"><i class="material-icons">edit</i></a>#}
                             </div>
                             <div class="input-field col s12">
-                                <input type="text" id="person" name="person" class="validate" value="{{ invoice.person|default:'' }}">
+                                <input type="text" id="person" name="person" class="validate" value="{{ invoice.company.person|default:'' }}">
                                 <label for="person">Person</label>
                             </div>
                             <div class="input-field col s12">
-                                <input type="tel" id="phone" name="phone" value="{{ invoice.phone|default:'' }}">
-                                <label for="phone">Phone - optional</label>
+                                <input type="tel" id="phone" name="phone" value="{{ invoice.company.phone|default:'' }}">
+                                <label for="phone">Phone</label>
                             </div>
                         </div>
                     {% else %}
                     <dl class="dl-horizontal">
                         <dt>Company</dt>
-                        <dd>{{ invoice.company }}</dd>
+                        <dd>
+                            <a class="hover-link orange-text text-lighten-1" href="{% url 'company_detail' invoice.company.pk %}">
+                                {{ invoice.company }}
+                            </a>
+                        </dd>
 
                         {% if invoice.person %}
                             <dt>Person</dt>
                             <dd>{{ invoice.person }}</dd>
+                        {% endif %}
+
+                        {% if invoice.phone %}
+                            <dt>Phone</dt>
+                            <dd>
+                                <a class="hover-link orange-text text-lighten-1" href="tel:{{ invoice.phone }}">
+                                    {{ invoice.phone }}
+                                </a>
+                            </dd>
                         {% endif %}
 
                         <dt>Email</dt>
@@ -86,11 +99,6 @@
                         <br>
                         <dt>Address</dt>
                         <dd>{{ invoice.company.address|linebreaksbr }}</dd>
-
-                        {% if invoice.phone %}
-                            <dt>Phone</dt>
-                            <dd>{{ invoice.phone }}</dd>
-                        {% endif %}
                     </dl>
                     {% endif %}
                 </div>

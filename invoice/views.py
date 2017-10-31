@@ -213,13 +213,10 @@ class CompanyEdit(LoginRequiredMixin, generic.TemplateView):
 def company_update(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        defaults = dict()
-        context['company_pk'] = int(request.POST.get('company_pk', '0'))
-        context['redirect'] = bool(int(request.POST.get('redirect_on_save', '0')))
-
-        defaults['name'] = request.POST['name']
-        defaults['address'] = request.POST['address']
-        defaults['email'] = request.POST['email']
+        defaults = QueryDict(request.POST['company_form'].encode('ASCII')).dict()
+        defaults.pop('csrfmiddlewaretoken')
+        context['company_pk'] = int(defaults.pop('company_pk'))
+        context['redirect'] = bool(int(defaults.pop('redirect_on_save')))
 
         if context['company_pk'] == 0:
             company = models.Company.objects.create(**defaults)

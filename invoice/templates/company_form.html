@@ -1,17 +1,27 @@
-<input type="hidden" id="company_pk" value="{{ company.id|default:0 }}">
-<input type="hidden" id="redirect_on_save" value="1">
+<input type="hidden" name="company_pk" value="{{ company.id|default:0 }}">
+<input type="hidden" name="redirect_on_save" value="1">
 
 <div class="input-field col s12">
-    <input type="text" id="nameInput" class="validate" value="{{ company.name|default:'' }}">
-    <label for="nameInput" id="nameInputLabel">Name</label>
+    <input type="text" name="name" class="validate" value="{{ company.name|default:'' }}">
+    <label for="name">Name</label>
 </div>
 
 <div class="input-field col s12">
-    <textarea id="addressInput" class="materialize-textarea"></textarea>
-    <label for="addressInput" id="addressInputLabel">Address</label>
+    <textarea id="addressInput" name="address" class="materialize-textarea"></textarea>
+    <label for="address">Address</label>
 </div>
 
 <div class="input-field col s12">
-    <input type="email" id="emailInput" class="validate" value="{{ company.email|default:'' }}">
-    <label for="emailInput" id="emailInputLabel">Email</label>
+    <input type="email" name="email" class="validate" value="{{ company.email|default:'' }}">
+    <label for="emailInput">Email</label>
+</div>
+
+<div class="input-field col s6">
+    <input type="text" name="person" class="validate" value="{{ company.person|default:'' }}">
+    <label for="person">Person</label>
+</div>
+
+<div class="input-field col s6">
+    <input type="text" name="phone" class="validate" value="{{ company.phone|default:'' }}">
+    <label for="phone">Phone</label>
 </div>
