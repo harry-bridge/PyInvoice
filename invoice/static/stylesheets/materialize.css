@@ -9258,13 +9258,19 @@ td {
   border-radius: 2px;
 }
 
-/* line 265, ../sass/materialize.scss */
+/* line 261, ../sass/materialize.scss */
+.autocomplete-content {
+  position: absolute;
+  width: calc(100% - 1.5em);
+}
+
+/* line 270, ../sass/materialize.scss */
 ._no_pad_top_bottom {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 
-/* line 270, ../sass/materialize.scss */
+/* line 275, ../sass/materialize.scss */
 ._height_100 {
   height: 100% !important;
 }

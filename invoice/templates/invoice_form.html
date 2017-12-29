@@ -40,22 +40,27 @@
                 <div class="panel-body">
                     {% if edit %}
                         <div class="row">
-                            <div class="input-field col s9">
-                                <select class="validate" id="company-select" name="company">
-                                    <option value="" disabled {% if not invoice.company %}selected{% endif %}>---</option>
-                                    {% for company in companies %}
-                                        <option value="{{ company.pk }}"
-                                                {% if invoice.company.pk == company.pk %}
-                                                active selected
-                                                {% endif %}
-                                        >{{ company }}</option>
-                                    {% endfor %}
-                                </select>
-                                <label for="company-select">Company</label>
-                            </div>
-                            <div class="col s3">
-                                <a class="btn btn-square tooltipped" data-position="top" data-tooltip="Create Company" onclick="showCompanyModal(0)"><i class="material-icons">add</i></a>
+{#                            <div class="input-field col s9">#}
+{#                                <select class="validate" id="company-select" name="company">#}
+{#                                    <option value="" disabled {% if not invoice.company %}selected{% endif %}>---</option>#}
+{#                                    {% for company in companies %}#}
+{#                                        <option value="{{ company.pk }}"#}
+{#                                                {% if invoice.company.pk == company.pk %}#}
+{#                                                active selected#}
+{#                                                {% endif %}#}
+{#                                        >{{ company }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                                <label for="company-select">Company</label>#}
+{#                            </div>#}
+{#                            <div class="col s3">#}
+{#                                <a class="btn btn-square tooltipped" data-position="top" data-tooltip="Create Company" onclick="showCompanyModal(0)"><i class="material-icons">add</i></a>#}
 {#                                <a class="btn btn-square" onclick="showCompanyModal()"><i class="material-icons">edit</i></a>#}
+{#                            </div>#}
+                            <div class="input-field col s12">
+{#                                <i class="material-icons prefix">textsms</i>#}
+                                <input type="text" id="single-input" name="company" class="autocomplete" value="{{ invoice.company.name|default:'' }}">
+                                <label for="single-input">Company</label>
                             </div>
                             <div class="input-field col s12">
                                 <input type="text" id="person" name="person" class="validate" value="{{ invoice.company.person|default:'' }}">
@@ -210,6 +215,7 @@
     {% include 'company_modal.html' %}
 
     {% block script %}
+
         <script>
             function showItemModal( itemPk ) {
                 getItemsForModal( itemPk );
@@ -229,6 +235,23 @@
                 $('#redirect_on_save').val('0');
                 Materialize.updateTextFields();
             }
+        </script>
+
+        <script>
+        $(document).ready(function() {
+            $('#single-input').autocomplete({
+                data: {
+                    {% for company in companies %}
+                        "{{ company }}": null,
+                    {% endfor %}
+                },
+                limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+                onAutocomplete: function (val) {
+                    // Callback function when value is autcompleted.
+                },
+                minLength: 1 // The minimum length of the input for the autocomplete to start. Default: 1.
+            });
+        });
         </script>
 
         <script>

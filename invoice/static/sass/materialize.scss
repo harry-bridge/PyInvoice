@@ -258,6 +258,11 @@ td {
   border-radius: 2px;
 }
 
+.autocomplete-content {
+  position: absolute;
+  width: calc(100% - 1.5em);
+}
+
 
 // 3. Helpers
 // ==========================================================================

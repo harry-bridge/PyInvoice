@@ -104,7 +104,7 @@ def invoice_update(request):
         defaults.pop('csrfmiddlewaretoken')
         invoice_pk = int(defaults.pop('pk'))
 
-        defaults['company'] = get_object_or_404(models.Company, pk=int(defaults.pop('company')))
+        defaults['company'] = get_object_or_404(models.Company, name=defaults.pop('company'))
         defaults['user'] = get_object_or_404(models.Profile, pk=int(defaults.pop('user')))
 
         phone = defaults.pop('phone')
