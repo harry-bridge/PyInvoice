@@ -27,7 +27,7 @@ class Company(models.Model):
         verbose_name = 'Company'
         verbose_name_plural = 'Companies'
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     address = models.TextField()
     email = models.CharField(max_length=150)
     person = models.CharField(max_length=100, blank=True, null=True)
