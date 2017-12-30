@@ -69,7 +69,10 @@ class Invoice(models.Model):
         return timezone.now() - self.created
 
     def sent_date_delta(self):
-        return timezone.now() - self.sent_date
+        if self.sent_date:
+            return (timezone.now() - self.sent_date).days
+        else:
+            return None
 
     def __str__(self):
         return self.company.name

@@ -134,6 +134,9 @@
                                 <dt>Quote</dt>
                                 <dd>{{ invoice.is_quote }}</dd>
                             {% endif %}
+
+                            <dt>Sent</dt>
+                            <dd id="invoice-sent-date">{{ invoice.sent_date.date|default:'-' }}</dd>
                         {% endif %}
                     </dl>
                     {% if edit %}
@@ -159,7 +162,12 @@
                                 {% if invoice.is_quote %}checked="checked"{% endif %}>
                                 <label for="is_quote">Quote</label>
                             </div>
+                            <div class="col s12 datepicker">
+                                <label for="send-date-picker">Sent Date</label>
+                                <input type="text" class="datepicker no-margin-bottom" id="send-date-picker" name="sent_date" data-value="{{ invoice.sent_date|default_if_none:'' }}">
+                            </div>
                         </div>
+
                     {% endif %}
                 </div>
             </div>
@@ -188,11 +196,14 @@
         <ul>
             <!-- Reverse Order -->
             {% if not edit %}
-                <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1"><i class="material-icons">print</i></a></li>
-                <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
+                {% if not invoice.sent_date %}
+                    <li><a onclick="markInvoiceSent({{ invoice.id }})" class="btn-floating green lighten-1 tooltipped" data-position="top" data-tooltip="Mark Sent"><i class="material-icons">done</i></a></li>
+                {% endif %}
+                <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1 tooltipped" data-position="top" data-tooltip="Print"><i class="material-icons">print</i></a></li>
+                <li><a href="edit/" class="btn-floating"><i class="material-icons tooltipped" data-position="top" data-tooltip="Edit">edit</i></a></li>
             {% else %}
-                <li><a class="btn-floating pink lighten-1" href="#deleteModalInvoice"><i class="material-icons">delete</i></a></li>
-                <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons">save</i></button></li>
+                <li><a class="btn-floating pink lighten-1" href="#deleteModalInvoice"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete Invoice">delete</i></a></li>
+                <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons tooltipped" data-position="top" data-tooltip="Save">save</i></button></li>
             {% endif %}
         </ul>
     </div>

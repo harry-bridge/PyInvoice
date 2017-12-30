@@ -27,6 +27,7 @@
 //  22. Flow Text
 //  23. Collections
 //  24. Progress Bar
+//  25. Date + Time Picker
 
 
 
@@ -325,3 +326,18 @@ $collection-line-height: 1.5rem !default;
 // ==========================================================================
 
 $progress-bar-color: $secondary-color !default;
+
+// 25. Date + Time Picker
+// ==========================================================================
+
+$datepicker-display-font-size: 2.8rem;
+$datepicker-weekday-color: rgba(0, 0, 0, .87) !default;
+$datepicker-weekday-bg: darken($secondary-color, 7%) !default;
+$datepicker-date-bg: $secondary-color !default;
+$datepicker-year: rgba(255, 255, 255, .7) !default;
+$datepicker-focus: rgba(0,0,0, .05) !default;
+$datepicker-selected: $secondary-color !default;
+$datepicker-selected-outfocus: desaturate(lighten($secondary-color, 35%), 15%) !default;
+
+$timepicker-clock-color: rgba(0, 0, 0, .87) !default;
+$timepicker-clock-plate-bg: #eee;

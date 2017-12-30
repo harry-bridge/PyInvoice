@@ -5,7 +5,7 @@ from django.contrib.auth import views
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
+from dateutil import parser
 from django.urls import reverse
 from django.db.models import Q
 import json
@@ -113,6 +113,11 @@ def invoice_update(request):
         defaults['utr'] = bool(defaults.pop('utr', None))
         defaults['paid'] = bool(defaults.pop('paid', None))
         defaults['is_quote'] = bool(defaults.pop('is_quote', None))
+
+        if not defaults['sent_date'] == '':
+            defaults['sent_date'] = parser.parse(defaults.pop('sent_date', None))
+        else:
+            defaults['sent_date'] = None
 
         if invoice_pk == 0:
             invoice = models.Invoice.objects.create(**defaults)

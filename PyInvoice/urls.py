@@ -53,4 +53,5 @@ urlpatterns = [
     url(r'^api/get_items_for_table/$', api.get_items_for_table, name='get_items_for_table'),
     url(r'^api/get_company_for_modal/$', api.get_company_for_modal, name='get_company_for_modal'),
     url(r'^api/invoice_logo_upload/$', api.invoice_photo_upload, name='invoice_photo_upload'),
+    url(r'^api/mark_sent', api.mark_invoice_sent, name='mark_invoice_sent'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

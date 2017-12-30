@@ -14,6 +14,22 @@ function updateInvoice() {
     });
 }
 
+function markInvoiceSent(invoice_pk) {
+    $.ajax({
+        url : "/api/mark_sent", // the endpoint
+        type : "POST", // http method
+        data : {
+            invoice_pk: invoice_pk
+        },
+        traditional: true,
+
+        success : function(data) {
+            // console.log(data);
+            $('#invoice-sent-date').text(data['sent_date'])
+        }
+    });
+}
+
 function updateItem() {
     $.ajax({
         url : "/invoice/item/update/", // the endpoint
