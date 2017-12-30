@@ -6,6 +6,7 @@ from django.contrib.auth import views
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from dateutil import parser
 from django.urls import reverse
 from django.db.models import Q
 import json
@@ -104,7 +105,7 @@ def invoice_update(request):
         defaults.pop('csrfmiddlewaretoken')
         invoice_pk = int(defaults.pop('pk'))
 
-        defaults['company'] = get_object_or_404(models.Company, pk=int(defaults.pop('company')))
+        defaults['company'] = get_object_or_404(models.Company, name=defaults.pop('company'))
         defaults['user'] = get_object_or_404(models.Profile, pk=int(defaults.pop('user')))
 
         phone = defaults.pop('phone')
@@ -113,6 +114,11 @@ def invoice_update(request):
         defaults['utr'] = bool(defaults.pop('utr', None))
         defaults['paid'] = bool(defaults.pop('paid', None))
         defaults['is_quote'] = bool(defaults.pop('is_quote', None))
+
+        if not defaults['sent_date'] == '':
+            defaults['sent_date'] = parser.parse(defaults.pop('sent_date', None))
+        else:
+            defaults['sent_date'] = None
 
         if invoice_pk == 0:
             invoice = models.Invoice.objects.create(**defaults)
@@ -213,13 +219,10 @@ class CompanyEdit(LoginRequiredMixin, generic.TemplateView):
 def company_update(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        defaults = dict()
-        context['company_pk'] = int(request.POST.get('company_pk', '0'))
-        context['redirect'] = bool(int(request.POST.get('redirect_on_save', '0')))
-
-        defaults['name'] = request.POST['name']
-        defaults['address'] = request.POST['address']
-        defaults['email'] = request.POST['email']
+        defaults = QueryDict(request.POST['company_form'].encode('ASCII')).dict()
+        defaults.pop('csrfmiddlewaretoken')
+        context['company_pk'] = int(defaults.pop('company_pk'))
+        context['redirect'] = bool(int(defaults.pop('redirect_on_save')))
 
         if context['company_pk'] == 0:
             company = models.Company.objects.create(**defaults)

@@ -18,6 +18,7 @@
         </initialize>
 
         <paraStyle name="roboto9" fontName="Roboto" fontSize="9" leading="24" textColor="white" />
+        <paraStyle name="tableParaCompany" fontName="Roboto" fontSize="13" leading="18" textColor="darkGrey" />
 
         <blockTableStyle id="infoTable">
             <blockFont start="0,0" stop="-1,-1" name="Roboto" size="9" />
@@ -55,7 +56,7 @@
             <lineStyle start="-2,-1" stop="-2,-1" kind="lineafter" colorName="lightGrey" thickness="1" cap="butt" />
         </blockTableStyle>
 
-        <paraStyle name="itemPara" fontName="Roboto" fontSize="14" leading="18" textColor="darkGrey" />
+        <paraStyle name="tableParaItem" fontName="Roboto" fontSize="14" leading="18" textColor="darkGrey" />
 
     </stylesheet>
 
@@ -78,7 +79,11 @@
                     <rect height="24" width="220" x="350" y="592" round="2" fill="yes" stroke="no" /> {# UTR No #}
                 {% endif %}
 
-                <image file="{% if user.invoice_logo %}{{ user.invoice_logo.path }}{% else %}{{ logo }}{% endif %}" x="0" y="745" height="97" width="262"/>
+                {% if not invoice.is_quote %}
+                    <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
+                {% endif %}
+
+                <image file="{{ logo }}" x="0" y="745" height="97" width="262"/>
 
                 <fill color="white" />
                 <setFont name="Roboto" size="15" />
@@ -89,10 +94,10 @@
                 {% if invoice.utr %}
                     <drawString x="360" y="599" text="">UTR NO.</drawString>
                 {% endif %}
-                {%  if not invoice.is_quote %}
-                    <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
+                {% if not invoice.is_quote %}
                     <drawString x="35" y="147.5" text="">PAYMENT</drawString>
                 {% endif %}
+
 
                 <setFont name="Roboto-Bold" size="13" />
                 <drawString x="400" y="669.5" text="">{{ invoice.created.date }}</drawString> {# date now #}
@@ -140,7 +145,7 @@
         <setNextFrame name="companyTable"/>
         <nextFrame/>
         <blockTable style="companyTable" colWidths="220">
-            <tr><td content="" >{{ invoice.company.name }}</td></tr>
+            <tr><td content="" ><para text="" style="tableParaCompany">{{ invoice.company.name }}</para></td></tr>
             <tr><td content="" >{{ invoice.company.address }}</td></tr>
         </blockTable>
         <setNextFrame name="itemTable"/>
@@ -154,7 +159,7 @@
             </tr>
             {% for item in invoice.items.all %}
                 <tr>
-                    <td content="" ><para style="itemPara" text="">{{ item.description }}</para></td>
+                    <td content="" ><para text="" style="tableParaItem">{{ item.description }}</para></td>
                     <td content="" >{{ item.quantity|floatformat:-1 }}</td>
                     <td content="" >£ {{ item.cost }}</td>
                     <td content="" >£ {{ item.total }}</td>

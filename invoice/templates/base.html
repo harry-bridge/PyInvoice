@@ -100,7 +100,7 @@
     {% endblock %}
 </footer>
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="{% static 'js/materialize.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/ajax_form_post.js' %}"></script>
@@ -115,6 +115,18 @@
             });
             $('.tooltipped').tooltip({delay: 100});
             $(".button-collapse").sideNav();
+
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year,
+                today: 'Today',
+                clear: 'Clear',
+                close: 'Ok',
+                closeOnSelect: true, // Close upon selecting a date,
+                container: 'body',
+                format: 'dd mmm yyyy'
+            });
+
         });
     </script>
 

@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import Sum
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Sum
@@ -28,9 +29,11 @@ class Company(models.Model):
         verbose_name = 'Company'
         verbose_name_plural = 'Companies'
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     address = models.TextField()
     email = models.CharField(max_length=150)
+    person = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -41,11 +44,12 @@ class Invoice(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     person = models.CharField(max_length=80)
     phone = models.IntegerField(blank=True, null=True)
-    created = models.DateTimeField(blank=True)
+    created = models.DateTimeField(blank=True, auto_now_add=True)
     updated = models.DateTimeField(blank=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
     is_quote = models.BooleanField(default=False)
+    sent_date = models.DateTimeField(blank=True, null=True)
     user_invoice_number = models.CharField(max_length=15, blank=True, null=True)
 
     def invoice_number(self):
@@ -63,6 +67,12 @@ class Invoice(models.Model):
     def date_delta(self):
         return timezone.now() - self.created
 
+    def sent_date_delta(self):
+        if self.sent_date:
+            return (timezone.now() - self.sent_date).days
+        else:
+            return None
+
     def expenses_total(self):
         return self.expenses.all().aggregate(total=Sum('cost'))['total']
 
@@ -73,8 +83,6 @@ class Invoice(models.Model):
         return self.company.name
 
     def save(self, *args, **kwargs):
-        if not self.created:
-            self.created = timezone.now()
         self.updated = timezone.now()
 
         super(Invoice, self).save(*args, **kwargs)

@@ -37,9 +37,9 @@
 @import "materialize/components/preloader";
 @import "materialize/components/slider";
 //@import "materialize/components/carousel";
-//@import "materialize/components/date_picker/default";
-//@import "materialize/components/date_picker/default.date";
-//@import "materialize/components/date_picker/default.time";
+@import "materialize/components/date_picker/default";
+@import "materialize/components/date_picker/default.date";
+@import "materialize/components/date_picker/default.time";
 
 
 
@@ -257,6 +257,15 @@ td {
   border-radius: 2px;
 }
 
+.autocomplete-content {
+  position: absolute;
+  width: calc(100% - 1.5em);
+}
+
+.datepicker {
+  margin-top: 0.8em;
+}
+
 
 // 3. Helpers
 // ==========================================================================
@@ -280,6 +289,10 @@ td {
 
 .no-margin-top {
   margin-top: 0 !important;
+}
+
+.no-margin-bottom {
+  margin-bottom: 0 !important;
 }
 
 .pad-s3 {
