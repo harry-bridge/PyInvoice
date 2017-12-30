@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import Sum
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
@@ -60,10 +61,7 @@ class Invoice(models.Model):
         return self.items.all()
 
     def total(self):
-        total = 0
-        for item in self.get_items():
-            total += item.total
-        return total
+        return self.items.all().aggregate(sum_total=Sum('total'))['sum_total']
 
     def date_delta(self):
         return timezone.now() - self.created
