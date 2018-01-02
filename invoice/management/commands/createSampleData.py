@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from django.utils import timezone
 import random
 
 from invoice import models
@@ -56,8 +57,11 @@ class Command(BaseCommand):
             if i % 5 == 0:
                 invoice.utr = True
 
+            if i % 4 == 0:
+                invoice.sent_date = timezone.now() - timezone.timedelta(days=random.randint(0, 50))
+
             if i % 10 == 0:
-                invoice.is_quote == True
+                invoice.is_quote = True
 
             invoice.save()
 
