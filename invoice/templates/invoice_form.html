@@ -203,7 +203,7 @@
             <!-- Reverse Order -->
             {% if not edit %}
                 {% if not invoice.sent_date %}
-                    <li><a onclick="markInvoiceSent({{ invoice.id }})" class="btn-floating green lighten-1 tooltipped" data-position="top" data-tooltip="Mark Sent"><i class="material-icons">done</i></a></li>
+                    <li><a onclick="markInvoiceSent({{ invoice.id }})" id="mark_sent_button" class="btn-floating green lighten-1 tooltipped" data-position="top" data-tooltip="Mark Sent"><i class="material-icons">done</i></a></li>
                 {% endif %}
                 <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1 tooltipped" data-position="top" data-tooltip="Print"><i class="material-icons">print</i></a></li>
                 <li><a href="edit/" class="btn-floating"><i class="material-icons tooltipped" data-position="top" data-tooltip="Edit">edit</i></a></li>

@@ -266,6 +266,11 @@ td {
   margin-top: 0.8em;
 }
 
+.scale-out-button {
+  transition: all 0.3s ease-in-out !important;
+  transform: scaleX(0.01) scaleY(0.01) translateY(0px) translateX(-40px) !important;
+}
+
 
 // 3. Helpers
 // ==========================================================================
@@ -279,8 +284,8 @@ td {
   height: 100% !important;
 }
 
-._width_70 {
-  width: 70% !important;
+._width_65 {
+  width: 65% !important;
 }
 
 .no-margin {

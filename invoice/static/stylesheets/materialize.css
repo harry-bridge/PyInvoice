@@ -10032,69 +10032,75 @@ td {
   border-radius: 2px;
 }
 
-/* line 261, ../sass/materialize.scss */
+/* line 260, ../sass/materialize.scss */
 .autocomplete-content {
   position: absolute;
   width: calc(100% - 1.5em);
 }
 
-/* line 266, ../sass/materialize.scss */
+/* line 265, ../sass/materialize.scss */
 .datepicker {
   margin-top: 0.8em;
 }
 
-/* line 274, ../sass/materialize.scss */
+/* line 269, ../sass/materialize.scss */
+.scale-out-button {
+  transition: all 0.3s ease-in-out !important;
+  transform: scaleX(0.01) scaleY(0.01) translateY(0px) translateX(-40px) !important;
+}
+
+/* line 278, ../sass/materialize.scss */
 ._no_pad_top_bottom {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 
-/* line 279, ../sass/materialize.scss */
+/* line 283, ../sass/materialize.scss */
 ._height_100 {
   height: 100% !important;
 }
 
-/* line 283, ../sass/materialize.scss */
-._width_70 {
-  width: 70% !important;
+/* line 287, ../sass/materialize.scss */
+._width_65 {
+  width: 65% !important;
 }
 
-/* line 287, ../sass/materialize.scss */
+/* line 291, ../sass/materialize.scss */
 .no-margin {
   margin: 0 !important;
 }
 
-/* line 291, ../sass/materialize.scss */
+/* line 295, ../sass/materialize.scss */
 .no-margin-top {
   margin-top: 0 !important;
 }
 
-/* line 295, ../sass/materialize.scss */
+/* line 299, ../sass/materialize.scss */
 .no-margin-bottom {
   margin-bottom: 0 !important;
 }
 
-/* line 299, ../sass/materialize.scss */
+/* line 303, ../sass/materialize.scss */
 .pad-s3 {
   padding: 0.6rem;
 }
 
-/* line 303, ../sass/materialize.scss */
+/* line 307, ../sass/materialize.scss */
 ._pad_05_top {
   padding-top: 0.5em;
 }
 
-/* line 307, ../sass/materialize.scss */
+/* line 311, ../sass/materialize.scss */
 ._margin_2_top {
   margin-top: 2em;
 }
 
-/* line 311, ../sass/materialize.scss */
+/* line 315, ../sass/materialize.scss */
 ._medium_text {
   font-size: 4em !important;
 }
 
-/* line 315, ../sass/materialize.scss */
+/* line 319, ../sass/materialize.scss */
 ._3pad5_left {
   padding-left: 3.5em !important;
 }
@@ -10318,69 +10324,75 @@ td {
   border-radius: 2px;
 }
 
-/* line 261, ../sass/materialize.scss */
+/* line 260, ../sass/materialize.scss */
 .autocomplete-content {
   position: absolute;
   width: calc(100% - 1.5em);
 }
 
-/* line 266, ../sass/materialize.scss */
+/* line 265, ../sass/materialize.scss */
 .datepicker {
   margin-top: 0.8em;
 }
 
-/* line 274, ../sass/materialize.scss */
+/* line 269, ../sass/materialize.scss */
+.scale-out-button {
+  transition: all 0.3s ease-in-out !important;
+  transform: scaleX(0.01) scaleY(0.01) translateY(0px) translateX(-40px) !important;
+}
+
+/* line 278, ../sass/materialize.scss */
 ._no_pad_top_bottom {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 
-/* line 279, ../sass/materialize.scss */
+/* line 283, ../sass/materialize.scss */
 ._height_100 {
   height: 100% !important;
 }
 
-/* line 283, ../sass/materialize.scss */
-._width_70 {
-  width: 70% !important;
+/* line 287, ../sass/materialize.scss */
+._width_65 {
+  width: 65% !important;
 }
 
-/* line 287, ../sass/materialize.scss */
+/* line 291, ../sass/materialize.scss */
 .no-margin {
   margin: 0 !important;
 }
 
-/* line 291, ../sass/materialize.scss */
+/* line 295, ../sass/materialize.scss */
 .no-margin-top {
   margin-top: 0 !important;
 }
 
-/* line 295, ../sass/materialize.scss */
+/* line 299, ../sass/materialize.scss */
 .no-margin-bottom {
   margin-bottom: 0 !important;
 }
 
-/* line 299, ../sass/materialize.scss */
+/* line 303, ../sass/materialize.scss */
 .pad-s3 {
   padding: 0.6rem;
 }
 
-/* line 303, ../sass/materialize.scss */
+/* line 307, ../sass/materialize.scss */
 ._pad_05_top {
   padding-top: 0.5em;
 }
 
-/* line 307, ../sass/materialize.scss */
+/* line 311, ../sass/materialize.scss */
 ._margin_2_top {
   margin-top: 2em;
 }
 
-/* line 311, ../sass/materialize.scss */
+/* line 315, ../sass/materialize.scss */
 ._medium_text {
   font-size: 4em !important;
 }
 
-/* line 315, ../sass/materialize.scss */
+/* line 319, ../sass/materialize.scss */
 ._3pad5_left {
   padding-left: 3.5em !important;
 }

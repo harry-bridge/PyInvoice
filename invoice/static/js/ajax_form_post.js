@@ -25,7 +25,8 @@ function markInvoiceSent(invoice_pk) {
 
         success : function(data) {
             // console.log(data);
-            $('#invoice-sent-date').text(data['sent_date'])
+            $('#invoice-sent-date').text(data['sent_date']);
+            $('#mark_sent_button').addClass('scale-out-button')
         }
     });
 }
