@@ -104,18 +104,19 @@ class InvoiceItem(models.Model):
         super(InvoiceItem, self).save(*args, **kwargs)
 
 
-class Expense(models.Model):
-    invoice = models.ForeignKey(Invoice, related_name='expenses')
-    description = models.CharField(max_length=200)
-    cost = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return self.description + 'for' + self.invoice.__str__()
-
-
 class ExpenseGroup(models.Model):
-    expense = models.ForeignKey(Invoice, related_name='group', blank=True, null=True)
     name = models.CharField(max_length=80)
 
     def __str__(self):
         return self.name
+
+
+class Expense(models.Model):
+    invoice = models.ForeignKey(Invoice, related_name='expenses', blank=True, null=True)
+    group = models.ForeignKey(ExpenseGroup, blank=True, null=True)
+    description = models.CharField(max_length=200)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    created = models.DateTimeField(blank=True, auto_now_add=True)
+
+    def __str__(self):
+        return self.description + 'for' + self.invoice.__str__()
