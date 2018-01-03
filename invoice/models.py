@@ -111,3 +111,11 @@ class Expense(models.Model):
 
     def __str__(self):
         return self.description + 'for' + self.invoice.__str__()
+
+
+class ExpenseGroup(models.Model):
+    expense = models.ForeignKey(Invoice, related_name='group', blank=True, null=True)
+    name = models.CharField(max_length=80)
+
+    def __str__(self):
+        return self.name
