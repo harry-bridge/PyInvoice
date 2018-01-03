@@ -117,7 +117,7 @@ class ExpenseGroup(models.Model):
 
 class Expense(models.Model):
     invoice = models.ForeignKey(Invoice, related_name='expenses', blank=True, null=True)
-    group = models.ForeignKey(ExpenseGroup, blank=True, null=True)
+    group = models.ForeignKey(ExpenseGroup, related_name='expense_group', blank=True, null=True)
     description = models.CharField(max_length=200)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     created = models.DateTimeField(blank=True, auto_now_add=True)
