@@ -305,14 +305,8 @@ class ExpenseList(LoginRequiredMixin, generic.ListView):
     model = models.Expense
     template_name = 'expense_list.html'
 
-
-class ExpenseDetail(LoginRequiredMixin, generic.DetailView):
-    model = models.Expense
-    template_name = 'expense_update.html'
-
     def get_context_data(self, **kwargs):
-        context = super(ExpenseDetail, self).get_context_data(**kwargs)
-        context['expense_list'] = self.object.invoice.expenses
+        context = super(ExpenseList, self).get_context_data(**kwargs)
 
         return context
 
@@ -351,5 +345,24 @@ def expense_update(request):
             return HttpResponse(json.dumps(context), content_type='application/json')
         else:
             context['expense_list'] = expense.invoice.expenses
+            context['edit'] = True
             html = render_to_string('expense_table.html', context=context)
             return HttpResponse(html)
+
+
+@login_required()
+def expense_delete(request):
+    context = dict()
+    if request.method == 'POST' and request.is_ajax():
+        pass
+
+
+class ExpenseGroupDetail(LoginRequiredMixin, generic.DetailView):
+    model = models.ExpenseGroup
+    template_name = 'expense_group_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpenseGroupDetail, self).get_context_data(**kwargs)
+        context['expense_list'] = self.object.expense_group.all()
+
+        return context

@@ -1,3 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<h4>
+    Expenses in - <span class="orange-text">{{ object.name }}</span>
+</h4>
+
+
+    <div class="divider"></div>
+
 <div class="row description-row">
     <div class="col s6">
         <div class="panel">
@@ -6,14 +17,11 @@
             </div>
             <div class="panel-body">
                 <dl class="dl-horizontal">
-                    <dt>Company</dt>
-                    <dd>{{ expense.invoice.company }}</dd>
-
-                    <dt>Invoice Total</dt>
-                    <dd>£ {{ expense.invoice.total }}</dd>
+                    <dt>Invoices</dt>
+                    <dd>{{ object.num_invoices }}</dd>
 
                     <dt>Expenses Total</dt>
-                    <dd>£ {{ expense.invoice.expenses_total }}</dd>
+                    <dd>£ {{ object.expenses_total }}</dd>
                 </dl>
             </div>
         </div>
@@ -21,7 +29,9 @@
 </div>
 
 <div class="row" id="expense-table">
-    {% include 'expense_table.html' with edit='True' %}
+    {% include 'expense_table.html' with edit='true' detail='true' %}
 </div>
 
 {% include 'expense_modal.html' %}
+
+{% endblock %}

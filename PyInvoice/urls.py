@@ -51,9 +51,11 @@ urlpatterns = [
     url(r'^company/delete/$', views.company_delete, name='company_delete'),
 
     url(r'^expense/list/$', views.ExpenseList.as_view(), name='expense_list'),
-    url(r'^expense/(?P<pk>\d+)/$', views.ExpenseDetail.as_view(), name='expense_detail'),
     url(r'^expense/update/$', views.expense_update, name='expense_update'),
     url(r'^expense/create/$', views.ExpenseCreate.as_view(), name='expense_create'),
+    url(r'^expense/delete/$', views.expense_delete, name='expense_delete'),
+
+    url(r'^expense/group/(?P<pk>\d+)/$', views.ExpenseGroupDetail.as_view(), name='expense_group_detail'),
 
     url(r'^api/get_items_for_table/$', api.get_items_for_table, name='get_items_for_table'),
     url(r'^api/get_company_for_modal/$', api.get_company_for_modal, name='get_company_for_modal'),
