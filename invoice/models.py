@@ -105,6 +105,10 @@ class InvoiceItem(models.Model):
 
 
 class ExpenseGroup(models.Model):
+    class Meta:
+        verbose_name = 'Expense Group'
+        verbose_name_plural = 'Expense Groups'
+
     name = models.CharField(max_length=80)
 
     def __str__(self):

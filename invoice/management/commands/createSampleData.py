@@ -22,6 +22,7 @@ class Command(BaseCommand):
 
         self.create_companies()
         self.create_invoices()
+        self.create_expense_groups()
         self.create_expenses()
         self.update_user_profile()
 
@@ -73,17 +74,31 @@ class Command(BaseCommand):
                     cost=random.randint(5, 200) / 1.25,   # Coerce that to a float
                 )
 
+    def create_expense_groups(self):
+        groups = ['Uni Group', 'Random jobs', 'Things I didn\'t need', 'Explosives and stuff']
+
+        for i in enumerate(groups):
+            models.ExpenseGroup.objects.create(
+                name=i[1]
+            )
+
     def create_expenses(self):
         expense_items = ['Some petrols', 'Tools n stuff', 'Random bits of metal', 'Strippers (wire)', 'Last minute posters', 'Fixing things people broke']
+        groups = models.ExpenseGroup.objects.all()
 
         for i in range(100):
             invoice = random.choice(models.Invoice.objects.all())
 
-            models.Expense.objects.create(
+            expense = models.Expense.objects.create(
                 invoice=invoice,
                 description=random.choice(expense_items),
                 cost=random.randint(5, 100) / 1.25,   # Coerce that to a float
             )
+
+            if i % 5 == 0:
+                expense.group = random.choice(groups)
+
+            expense.save()
 
     def update_user_profile(self):
         self.user.address = 'Number 17\nBehind The Bins\nBarnaby Street'
