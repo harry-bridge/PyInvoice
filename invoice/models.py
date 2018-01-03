@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models import Sum
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-from django.db.models import Sum
 
 
 class Profile(AbstractUser):
@@ -45,7 +43,7 @@ class Invoice(models.Model):
     person = models.CharField(max_length=80)
     phone = models.IntegerField(blank=True, null=True)
     created = models.DateTimeField(blank=True, auto_now_add=True)
-    updated = models.DateTimeField(blank=True)
+    updated = models.DateTimeField(blank=True, auto_now=True)
     paid = models.BooleanField(default=False)
     utr = models.BooleanField(default=False)
     is_quote = models.BooleanField(default=False)
@@ -62,7 +60,7 @@ class Invoice(models.Model):
         return self.items.all()
 
     def total(self):
-        return self.items.all().aggregate(total=Sum('total'))['total']
+        return self.items.all().aggregate(total=models.Sum('total'))['total']
 
     def date_delta(self):
         return timezone.now() - self.created
@@ -74,7 +72,7 @@ class Invoice(models.Model):
             return None
 
     def expenses_total(self):
-        return self.expenses.all().aggregate(total=Sum('cost'))['total']
+        return self.expenses.all().aggregate(total=models.Sum('cost'))['total']
 
     def num_expenses(self):
         return self.expenses.all().count()
@@ -99,7 +97,7 @@ class InvoiceItem(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
 
     def save(self, *args, **kwargs):
-        self.total = float(self.quantity) * float(self.cost)
+        self.total = self.quantity * self.cost
 
         super(InvoiceItem, self).save(*args, **kwargs)
 
@@ -110,6 +108,12 @@ class ExpenseGroup(models.Model):
         verbose_name_plural = 'Expense Groups'
 
     name = models.CharField(max_length=80)
+
+    def expenses_total(self):
+        return self.expense_group.all().aggregate(total=models.Sum('cost'))['total']
+
+    def num_invoices(self):
+        return self.expense_group.all().aggregate(count=models.Count('invoice'))['count']
 
     def __str__(self):
         return self.name
