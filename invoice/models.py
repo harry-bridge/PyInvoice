@@ -78,7 +78,7 @@ class Invoice(models.Model):
         return self.expenses.all().count()
 
     def __str__(self):
-        return self.company.name
+        return self.invoice_number() + ' - ' + self.company.name
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
