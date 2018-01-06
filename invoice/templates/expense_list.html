@@ -7,13 +7,9 @@
     <h2>Expense List</h2>
 
     <table class="bordered highlight" id="expense-table">
-        {% include 'expense_table.html' with list='true' %}
+        {% include 'expense_table.html' with expense_view='list' %}
     </table>
 
-    {% include 'expense_modal.html' %}
+    {% include 'expense_modal.html' with expense_view='list' %}
 
-{% endblock %}
-
-{% block script %}
-    {% include 'expense_js.html' %}
 {% endblock %}

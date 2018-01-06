@@ -19,10 +19,6 @@
             {% csrf_token %}
             {% include 'expense_form.html' %}
 
-    {% else %}
-
-        {% include 'expense_detail.html' %}
-
     {% endif %}
 
             <div class="fixed-action-btn horizontal">
@@ -30,11 +26,9 @@
                     <i class="material-icons">menu</i>
                 </a>
                 <ul>
-                    {% if not expense.pk or edit %}
-                        <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons">save</i></button></li>
-                    {% endif %}
-                </ul>
-                <ul>
+{#                    {% if not expense.pk or edit %}#}
+                        <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons tooltipped" data-position="top" data-tooltip="Save">save</i></button></li>
+{#                    {% endif %}#}
                     {% if expense.pk and not edit %}
                         <li><a href="#" onclick="getExpenseItemsForModal( 0, {{ expense.invoice.pk }} )" class="btn-floating light-blue lighten-1"><i class="material-icons">add</i></a></li>
                     {% endif %}
@@ -42,16 +36,4 @@
             </div>
         </form>
 
-{% endblock %}
-
-{% block script %}
-    <script>
-        $('#expense-form').on('submit', function(event){
-            event.preventDefault();
-            var expense_pk = $('#expense_pk').val();
-            updateExpense(expense_pk);
-            $('#expenseModal').modal('close');
-            return false;
-        });
-    </script>
 {% endblock %}

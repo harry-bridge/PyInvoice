@@ -1,14 +1,14 @@
-<table class="table highlight">
+<table class="table {% if expense_view == 'list' %}bordered{% endif %} highlight">
     <thead>
     <tr>
-        {% if list or detail %}<th>Invoice</th>{% endif %}
-        {% if list or invoice %}<th>Group</th>{% endif %}
+        {% if expense_view == 'list' or expense_view == 'detail' %}<th>Invoice</th>{% endif %}
+        {% if expense_view == 'list' or expense_view == 'invoice' %}<th>Group</th>{% endif %}
         <th>Created</th>
         <th>Description</th>
         <th>Amount</th>
         {% if edit %}
-            <th class="center-align">
-                <a onclick="getExpenseItemsForModal(0, {{ invoice.pk }})" class="btn-floating orange lighten-2">
+            <th class="right-align">
+                <a onclick="getExpenseItemsForModal([0, {{ invoice.pk|default:0 }}, {{ expense_group.pk|default:0 }}])" class="btn-floating orange lighten-2">
                     <i class="material-icons">add</i>
                 </a>
             </th>
@@ -17,26 +17,8 @@
     </thead>
     <tbody>
     {% for item in expense_list.all %}
-        <tr>
-            {% if list or detail %}
-                <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' item.invoice.pk %}">{{ item.invoice.invoice_number }}</a></td>
-            {% endif %}
-            {% if list or invoice %}
-                <td>{% if item.group %}<a class="hover-link orange-text" href="{% url 'expense_group_detail' item.group.pk %}">{{ item.group }}</a>{% else %}-{% endif %}</td>
-            {% endif %}
-            <td>{{ item.created.date }}</td>
-            <td class="_width_70"><i>{{ item.description }}</i></td>
-            <td>£ {{ item.cost|floatformat:2 }}</td>
-            {% if edit or list %}
-                <td class="center-align">
-                    <a class="tooltipped light-blue-text text-lighten-1" data-position="top" data-tooltip="Edit Expense" onclick="getExpenseItemsForModal({{ item.pk }}, {{ item.invoice.pk }})">
-                        <i class="material-icons icon-hoverable cursor_pointer">edit</i>
-                    </a>
-                    <a class="tooltipped red-text text-lighten-1" data-position="top" data-tooltip="Delete Expense" onclick="openDeleteModal({{ item.pk }})">
-                        <i class="material-icons icon-hoverable cursor_pointer">delete</i>
-                    </a>
-                </td>
-            {% endif %}
+        <tr id="expense-{{ item.pk }}">
+            {% include 'expense_table_row.html' %}
         </tr>
     {% endfor %}
     </tbody>

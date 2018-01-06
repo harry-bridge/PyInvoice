@@ -307,6 +307,7 @@ class ExpenseList(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ExpenseList, self).get_context_data(**kwargs)
+        # context['expense_view'] = 'list'
 
         return context
 
@@ -326,16 +327,28 @@ class ExpenseCreate(LoginRequiredMixin, generic.TemplateView):
 @login_required()
 def expense_update(request):
     context = dict()
+    data = dict()
     if request.method == 'POST' and request.is_ajax():
         defaults = QueryDict(request.POST['expense_form'].encode('ASCII')).dict()
         defaults.pop('csrfmiddlewaretoken')
-        defaults['invoice'] = models.Invoice.objects.get(pk=defaults.pop('invoice'))
+        context['expense_view'] = defaults.pop('expense_view_type')
+
+        try:
+            defaults['group'], created = models.ExpenseGroup.objects.get_or_create(name=defaults.pop('group'))
+        except KeyError:
+            defaults['group'] = None
+
+        try:
+            invoice_pk = int(defaults.pop('invoice').split()[0].split('N')[1])
+            defaults['invoice'] = models.Invoice.objects.get(pk=invoice_pk)
+        except KeyError:
+            defaults['invoice'] = None
+
         context['expense_pk'] = defaults.pop('expense_pk')
         redirect = defaults.pop('redirect_on_save')
 
         if context['expense_pk'] != '0':
             expense, created = models.Expense.objects.update_or_create(pk=context['expense_pk'], defaults=defaults)
-
         else:
             expense = models.Expense.objects.create(**defaults)
 
@@ -344,10 +357,20 @@ def expense_update(request):
 
             return HttpResponse(json.dumps(context), content_type='application/json')
         else:
-            context['expense_list'] = expense.invoice.expenses
+
+            if context['expense_view'] == 'detail':
+                context['expense_list'] = expense.group.expense_group.all()
+            elif context['expense_view'] == 'invoice':
+                context['expense_list'] = expense.invoice.expenses.all()
+            else:
+                context['expense_list'] = models.Expense.objects.all()
+
             context['edit'] = True
-            html = render_to_string('expense_table.html', context=context)
-            return HttpResponse(html)
+            data['html'] = render_to_string('expense_table.html', context)
+            data['expense_pk'] = context['expense_pk']
+
+            return HttpResponse(json.dumps(data), content_type='application/json')
+            # return render_to_response('expense_table.html', context)
 
 
 @login_required()
@@ -364,5 +387,6 @@ class ExpenseGroupDetail(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ExpenseGroupDetail, self).get_context_data(**kwargs)
         context['expense_list'] = self.object.expense_group.all()
+        context['expense_group'] = self.object
 
         return context

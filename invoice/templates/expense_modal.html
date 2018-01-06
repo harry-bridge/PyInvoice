@@ -2,9 +2,10 @@
     <div class="row">
         <form method="POST" role="form" id="expense-form">
             {% csrf_token %}
-            <input type="hidden" name="redirect_on_save" value="0">
+{#            <input type="hidden" name="redirect_on_save" value="0">#}
+            <input type="hidden" name="expense_view_type" value="{{ expense_view }}">
             <div class="modal-content">
-                <h4 id="editStatusCompany">Add Expense</h4>
+                <h4 id="editStatusExpense">Add Expense</h4>
                 <div class="divider" style="margin-bottom: 15px"></div>
 
                 <div id="div_for_expense_form"></div>

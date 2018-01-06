@@ -3,7 +3,7 @@
 {% block main %}
 
 <h4>
-    Expenses in - <span class="orange-text">{{ object.name }}</span>
+    Expenses in - <span class="orange-text">{{ expense_group.name }}</span>
 </h4>
 
 
@@ -29,9 +29,9 @@
 </div>
 
 <div class="row" id="expense-table">
-    {% include 'expense_table.html' with edit='true' detail='true' %}
+    {% include 'expense_table.html' with edit='true' expense_view='detail' %}
 </div>
 
-{% include 'expense_modal.html' %}
+{% include 'expense_modal.html' with expense_view='detail' %}
 
 {% endblock %}

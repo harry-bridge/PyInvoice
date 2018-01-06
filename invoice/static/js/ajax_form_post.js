@@ -198,13 +198,12 @@ function updateProfile() {
     });
 }
 
-function getExpenseItemsForModal(expense_pk, invoice_pk) {
+function getExpenseItemsForModal(pk_array) {
   $.ajax({
       url: "/api/get_expense_items_for_modal/", // the endpoint
       type: "POST", // http method
       data: {
-          expense_pk: expense_pk,
-          invoice_pk: invoice_pk
+          pk_array: pk_array
       }, // data sent with the post request
 
       // handle a successful response
@@ -212,7 +211,10 @@ function getExpenseItemsForModal(expense_pk, invoice_pk) {
           // console.log(data);
           $('#div_for_expense_form').html(data);
           Materialize.updateTextFields();
-          $('#invoice-select').material_select();
+          // $('#invoice-select').material_select();
+          if (pk_array[0] !== 0) {
+            $('#editStatusExpense').html('Edit Expense');
+          }
           $('#expenseModal').modal('open')
       },
       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
@@ -235,6 +237,30 @@ function updateExpense() {
           if (data['url']) {
               window.location.href = data['url'];
           } else {
+            $('#expense-table').html(data['html']);
+          }
+
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}
+
+function deleteExpenseItem() {
+  $.ajax({
+      url: "/expense/delete/", // the endpoint
+      type: "POST", // http method
+      data: {
+          expense_form: $('#expense-form').serialize()
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          // console.log(data);
+
+          if (data['url']) {
+              window.location.href = data['url'];
+          } else {
             $('#expense-table').html(data);
           }
 
@@ -243,3 +269,27 @@ function updateExpense() {
 
   });
 }
+
+// function showDeleteModal() {
+//   $.ajax({
+//       url: "/expense/delete/", // the endpoint
+//       type: "POST", // http method
+//       data: {
+//           expense_form: $('#expense-form').serialize()
+//       }, // data sent with the post request
+//
+//       // handle a successful response
+//       success: function (data) {
+//           // console.log(data);
+//
+//           if (data['url']) {
+//               window.location.href = data['url'];
+//           } else {
+//             $('#expense-table').html(data);
+//           }
+//
+//       },
+//       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+//
+//   });
+// }

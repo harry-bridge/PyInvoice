@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from datetime import datetime
-# import simplejson as json
-import json
+import simplejson as json
+# import json
 from invoice import models
 
 
@@ -59,20 +59,30 @@ def invoice_photo_upload(request):
 def get_expense_items_for_modal(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():
-        expense_pk = request.POST.get('expense_pk', '0')
-        invoice_pk = request.POST.get('invoice_pk', '0')
-        context['invoices'] = models.Invoice.objects.all()
+        # 0: expense_pk, 1: group_pk
+        expense_pks = request.POST.getlist('pk_array[]')
 
-        if expense_pk != '0':
-            context['expense'] = get_object_or_404(models.Expense, pk=expense_pk)
+        context['invoices'] = models.Invoice.objects.all()
+        context['groups'] = models.ExpenseGroup.objects.all()
+
+        if expense_pks[0] != '0':
+            context['expense'] = get_object_or_404(models.Expense, pk=expense_pks[0])
         else:
             context['add'] = True
-            context['add_invoice_pk'] = int(invoice_pk)
+            context['add_invoice_pk'] = int(expense_pks[1])
+
+        if expense_pks[1] != '0':
+            context['invoice'] = get_object_or_404(models.Invoice, pk=expense_pks[1])
+            context['invoices'] = None
+
+        if expense_pks[2] != '0':
+            context['expense_group'] = get_object_or_404(models.ExpenseGroup, pk=expense_pks[2])
+            context['groups'] = None
 
         html = render_to_string('expense_form.html', context=context)
 
         return HttpResponse(html)
-
+        # return HttpResponse(json.dumps(pk_array), content_type='application/json')
 
 @login_required()
 def mark_invoice_sent(request):

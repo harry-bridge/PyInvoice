@@ -2,17 +2,13 @@
 <input type="hidden" name="redirect_on_save" value="{{ redirect_on_save|default:0 }}">
 
 <div class="input-field col s12">
-    <select class="validate select" id="invoice-select" name="invoice">
-        <option value="" disabled {% if not expense.invoice and add_invoice_pk %}selected{% endif %}>---</option>
-        {% for invoice in invoices %}
-            <option value="{{ invoice.pk }}"
-                    {% if expense.invoice.pk == invoice.pk or add_invoice_pk == invoice.pk %}
-                    active selected
-                    {% endif %}
-            >{{ invoice.invoice_number }} - {{ invoice.company }}</option>
-        {% endfor %}
-    </select>
-    <label for="invoice-select">Invoice</label>
+    <input type="text" id="invoice-autocomplete" name="invoice" class="autocomplete" onclick="this.select()" {% if expense.invoice or invoice %}readonly{% endif %} value="{% if expense %}{{ expense.invoice }}{% elif invoice %}{{ invoice }}{% else %} {% endif %}">
+    <label for="invoice-autocomplete">Invoice</label>
+</div>
+
+<div class="input-field col s12">
+    <input type="text" id="group-autocomplete" name="group" class="autocomplete" onclick="this.select()" value="{{ expense_group|default:'' }}">
+    <label for="group-autocomplete">Group</label>
 </div>
 
 <div class="input-field col s6">
@@ -23,4 +19,46 @@
 <div class="input-field col s6">
     <input type="number" name="cost" class="validate" value="{% if not add %}{{ expense.cost|default:'' }}{% endif %}" min="0" max="99999999.99" step="0.01">
     <label for="cost">Cost</label>
+</div>
+
+<div>
+    <script>
+        $('#expense-form').on('submit', function(event){
+            event.preventDefault();
+            var expense_pk = $('#expense_pk').val();
+            updateExpense(expense_pk);
+            $('#expenseModal').modal('close');
+            return false;
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#invoice-autocomplete').autocomplete({
+                data: {
+                    {% for invoice in invoices %}
+                        "{{ invoice }}": null,
+                    {% endfor %}
+                },
+                limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+                onAutocomplete: function (val) {
+                    // Callback function when value is autcompleted.
+                },
+                minLength: 1 // The minimum length of the input for the autocomplete to start. Default: 1.
+            });
+
+            $('#group-autocomplete').autocomplete({
+                data: {
+                    {% for group in groups %}
+                        "{{ group }}": null,
+                    {% endfor %}
+                },
+                limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+                onAutocomplete: function (val) {
+                    // Callback function when value is autcompleted.
+                },
+                minLength: 1 // The minimum length of the input for the autocomplete to start. Default: 1.
+            });
+        });
+    </script>
 </div>
