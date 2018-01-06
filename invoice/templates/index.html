@@ -26,11 +26,11 @@
                 <div class="panel-body">
                     {{ not_paid_count }} invoice{% if not_paid_count != 1 %}s{% endif %} waiting to be paid
                     <br>
-                    Totalling £{{ not_paid_total }}
+                    Totalling: £{{ not_paid_total }}
                     <br>
                     {% url 'invoice_detail' last_invoice.pk as latest_invoice_url %}
-                    Latest Invoice
-                    {% if latest_invoice_url %}<a class="orange-text text-lighten-1 hover-link" href="{{ latest_invoice_url }}">{{ last_invoice.invoice_number }} - {{ last_invoice }}</a>
+                    Latest Invoice:
+                    {% if latest_invoice_url %}<a class="orange-text text-lighten-1 hover-link" href="{{ latest_invoice_url }}">{{ last_invoice }}</a>
                     {% else %}
                         <strong>N/A</strong>
                     {% endif %}
