@@ -10,7 +10,7 @@
 {% endif %}
 <td>{{ item.created.date }}</td>
 <td class="_width_70"><i>{{ item.description }}</i></td>
-<td>£ {{ item.cost|floatformat:2 }}</td>
+<td>£{{ item.cost|floatformat:2 }}</td>
 {% if edit or expense_view == 'list' %}
     <td class="right-align">
         <a class="tooltipped light-blue-text text-lighten-1" data-position="top" data-tooltip="Edit Expense" onclick="getExpenseItemsForModal([{{ item.pk }}, {{ item.invoice.pk|default:0 }}, {{ item.group.pk|default:0 }}])">

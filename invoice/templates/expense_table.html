@@ -5,7 +5,7 @@
         {% if expense_view == 'list' or expense_view == 'invoice' %}<th>Group</th>{% endif %}
         <th>Created</th>
         <th>Description</th>
-        <th>Amount</th>
+        <th>Cost</th>
         {% if edit %}
             <th class="right-align">
                 <a onclick="getExpenseItemsForModal([0, {{ invoice.pk|default:0 }}, {{ expense_group.pk|default:0 }}])" class="btn-floating orange lighten-2">
@@ -28,7 +28,7 @@
             <td></td>
             <td></td>
             <td class="right"><strong>Total</strong></td>
-            <td><strong>£ {{ invoice.expenses_total|default:0|floatformat:2 }}</strong></td>
+            <td><strong>£{{ invoice.expenses_total|default:0|floatformat:2 }}</strong></td>
         </tr>
     </tfoot>
     {% endif %}

@@ -5,8 +5,8 @@
         </div>
     </td>
     <td><span>{{ item.quantity|floatformat:-1 }}</span></td>
-    <td>£ <span class="cost">{{ item.cost|floatformat:2 }}</span></td>
-    <td>£ <span>{{ item.total|floatformat:2 }}</span></td>
+    <td>£<span class="cost">{{ item.cost|floatformat:2 }}</span></td>
+    <td>£<span>{{ item.total|floatformat:2 }}</span></td>
     {% if edit %}
         <td class="right-align">
             <a class="tooltipped blue-text text-lighten-1" data-position="top" data-tooltip="Edit Item" onclick="showItemModal({{ item.pk }})">
