@@ -59,8 +59,8 @@
 {#                            </div>#}
                             <div class="input-field col s12">
 {#                                <i class="material-icons prefix">textsms</i>#}
-                                <input type="text" id="single-input" name="company" class="autocomplete" value="{{ invoice.company.name|default:'' }}">
-                                <label for="single-input">Company</label>
+                                <input type="text" id="company-autocomplete" name="company" class="autocomplete" value="{{ invoice.company.name|default:'' }}">
+                                <label for="company-autocomplete">Company</label>
                             </div>
                             <div class="input-field col s12">
                                 <input type="text" id="person" name="person" class="validate" value="{{ invoice.company.person|default:'' }}">
@@ -191,7 +191,7 @@
     {% if invoice.expenses.all %}
         <h4>Expenses</h4>
         <div id="expense-table">
-            {% include 'expense_table.html' with expense_list=invoice.expenses %}
+            {% include 'expense_table.html' with expense_list=invoice.expenses expense_view='invoice' %}
         </div>
     {% endif %}
 
@@ -208,7 +208,7 @@
                 <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1 tooltipped" data-position="top" data-tooltip="Print"><i class="material-icons">print</i></a></li>
                 <li><a href="edit/" class="btn-floating"><i class="material-icons tooltipped" data-position="top" data-tooltip="Edit">edit</i></a></li>
             {% else %}
-                <li><a class="btn-floating pink lighten-1" href="#deleteModalInvoice"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete Invoice">delete</i></a></li>
+                <li><a class="btn-floating pink lighten-1" href="#deleteModalInvoice"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete">delete</i></a></li>
                 <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons tooltipped" data-position="top" data-tooltip="Save">save</i></button></li>
             {% endif %}
         </ul>
@@ -230,6 +230,7 @@
 
     {% include 'item_modal.html' %}
     {% include 'company_modal.html' %}
+    {% include 'expense_modal.html' with expense_view='invoice' %}
 
     {% block script %}
 
@@ -255,20 +256,20 @@
         </script>
 
         <script>
-        $(document).ready(function() {
-            $('#single-input').autocomplete({
-                data: {
-                    {% for company in companies %}
-                        "{{ company }}": null,
-                    {% endfor %}
-                },
-                limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
-                onAutocomplete: function (val) {
-                    // Callback function when value is autcompleted.
-                },
-                minLength: 1 // The minimum length of the input for the autocomplete to start. Default: 1.
+            $(document).ready(function() {
+                $('#company-autocomplete').autocomplete({
+                    data: {
+                        {% for company in companies %}
+                            "{{ company }}": null,
+                        {% endfor %}
+                    },
+                    limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+                    onAutocomplete: function (val) {
+                        // Callback function when value is autcompleted.
+                    },
+                    minLength: 1 // The minimum length of the input for the autocomplete to start. Default: 1.
+                });
             });
-        });
         </script>
 
         <script>
@@ -295,6 +296,13 @@
                 $('#companyModal').modal('close');
                 return false;
             });
+        </script>
+
+        <script>
+            function openDeleteModal(item_pk) {
+                $('#div_for_expense_form').html(item_pk);
+                $('#expenseModal').modal('open')
+            }
         </script>
 
     {% endblock %}

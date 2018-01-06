@@ -10105,6 +10105,11 @@ td {
   padding-left: 3.5em !important;
 }
 
+/* line 323, ../sass/materialize.scss */
+.cursor_pointer {
+  cursor: pointer !important;
+}
+
 /* line 64, ../sass/materialize.scss */
 #full-div {
   height: 90vh;
@@ -10395,4 +10400,9 @@ td {
 /* line 319, ../sass/materialize.scss */
 ._3pad5_left {
   padding-left: 3.5em !important;
+}
+
+/* line 323, ../sass/materialize.scss */
+.cursor_pointer {
+  cursor: pointer !important;
 }

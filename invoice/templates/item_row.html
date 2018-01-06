@@ -1,19 +1,19 @@
 <tr id="item-{{item.pk}}" data-pk="{{item.pk}}">
-    <td class="_width_70">
+    <td class="_width_65">
         <div class="item-description">
             <em class="description">{{item.description|linebreaksbr}}</em>
         </div>
     </td>
     <td><span>{{ item.quantity|floatformat:-1 }}</span></td>
-    <td>£&nbsp;<span class="cost">{{ item.cost|floatformat:2 }}</span></td>
+    <td>£ <span class="cost">{{ item.cost|floatformat:2 }}</span></td>
     <td>£ <span>{{ item.total|floatformat:2 }}</span></td>
     {% if edit %}
-        <td class="center-align">
+        <td class="right-align">
             <a class="tooltipped blue-text text-lighten-1" data-position="top" data-tooltip="Edit Item" onclick="showItemModal({{ item.pk }})">
-                <i class="material-icons icon-hoverable">edit</i>
+                <i class="material-icons icon-hoverable cursor_pointer">edit</i>
             </a>
             <a class="tooltipped red-text text-lighten-2" data-position="top" data-tooltip="Delete Item" onclick="deleteItem({{ item.pk }})">
-                <i class="material-icons icon-hoverable">delete</i>
+                <i class="material-icons icon-hoverable cursor_pointer">delete</i>
             </a>
         </td>
     {% endif %}

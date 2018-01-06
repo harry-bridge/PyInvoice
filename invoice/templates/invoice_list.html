@@ -10,10 +10,9 @@
     <thead>
         <tr>
             <th>Invoice</th>
-            <th>Number</th>
-            <th>Expenses</th>
             <th>Created</th>
             <th>Amount</th>
+            <th>Sent</th>
             <th>Paid</th>
             <th>Actions</th>
         </tr>
@@ -22,10 +21,9 @@
         {% for item in object_list %}
         <tr class="{% if item.is_quote %}blue lighten-5{% endif %}">
             <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' item.pk %}">{{ item }}</a></td>
-            <td>{{ item.invoice_number }}</td>
-            <td>{{ item.num_expenses }}</td>
             <td>{{ item.created.date }}</td>
             <td>£ {{ item.total|floatformat:2 }}</td>
+            <td><i class="material-icons text-lighten-1{% if item.sent_date %} green-text">done{% else %} red-text">clear{% endif %}</i></td>
             <td><i class="material-icons text-lighten-1{% if item.paid %} green-text">done{% else %} red-text">clear{% endif %}</i></td>
             <td>{% include 'helpers/table_buttons.html' with type='invoice' %}</td>
         </tr>
