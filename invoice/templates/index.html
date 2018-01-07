@@ -53,7 +53,7 @@
                                     <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice.company }}</a>
                                 </td>
                                 <td>{{ invoice.created|date:'d M y' }}</td>
-                                <td>£{{ invoice.total|floatformat:2 }}</td>
+                                <td>£{{ invoice.total|default:0|floatformat:2 }}</td>
                                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                             </tr>
                         {% empty %}
