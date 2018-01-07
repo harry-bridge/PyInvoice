@@ -275,6 +275,7 @@ def profile_update(request):
 class ExpenseList(LoginRequiredMixin, generic.ListView):
     model = models.Expense
     template_name = 'expense_list.html'
+    ordering = '-created'
 
     def get_context_data(self, **kwargs):
         context = super(ExpenseList, self).get_context_data(**kwargs)

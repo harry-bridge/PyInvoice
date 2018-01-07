@@ -68,9 +68,9 @@
         <thead>
             <tr>
                 <th>Invoice</th>
-                <th>Invoice Number</th>
                 <th>Created</th>
                 <th>Amount</th>
+                <th>Sent</th>
                 <th>Paid</th>
                 <th>Actions</th>
             </tr>
@@ -79,9 +79,9 @@
             {% for invoice in all_invoices %}
             <tr>
                 <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice }}</a></td>
-                <td>{{ invoice.invoice_number }}</td>
                 <td>{{ invoice.created.date }}</td>
                 <td>£{{ invoice.total|floatformat:2 }}</td>
+                <td><i class="material-icons text-lighten-1{% if invoice.sent_date %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                 <td>{% include 'helpers/table_buttons.html' %}</td>
             </tr>
