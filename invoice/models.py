@@ -39,7 +39,7 @@ class Company(models.Model):
 
 class Invoice(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     person = models.CharField(max_length=80)
     phone = models.IntegerField(blank=True, null=True)
     created = models.DateTimeField(blank=True, auto_now_add=True)
@@ -78,7 +78,8 @@ class Invoice(models.Model):
         return self.expenses.all().count()
 
     def __str__(self):
-        return self.invoice_number() + ' - ' + self.company.name
+        company = self.company.name if self.company else 'None'
+        return self.invoice_number() + ' - ' + company
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()

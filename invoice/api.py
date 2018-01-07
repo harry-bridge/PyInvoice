@@ -145,4 +145,14 @@ def delete_item(request):
             invoice_item.delete()
             data['html'] = render_to_string('item_table.html', context)
 
+        if data['type'] == 'company':
+            company = get_object_or_404(models.Company, pk=item_pk)
+
+            if company.invoice_set:
+                for invoice in company.invoice_set.all():
+                    invoice.company = None
+                    invoice.save()
+            company.delete()
+            data['url'] = reverse('company_list')
+
         return HttpResponse(json.dumps(data), content_type='application/json')

@@ -75,7 +75,7 @@
                     <dl class="dl-horizontal">
                         <dt>Company</dt>
                         <dd>
-                            <a class="hover-link orange-text text-lighten-1" href="{% url 'company_detail' invoice.company.pk %}">
+                            <a class="{% if invoice.company %}hover-link{% endif %} orange-text text-lighten-1" href="{% if invoice.company %}{% url 'company_detail' invoice.company.pk %}{% endif %}">
                                 {{ invoice.company }}
                             </a>
                         </dd>
