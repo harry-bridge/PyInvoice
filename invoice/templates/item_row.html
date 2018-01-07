@@ -12,7 +12,7 @@
             <a class="tooltipped blue-text text-lighten-1" data-position="top" data-tooltip="Edit Item" onclick="showItemModal({{ item.pk }})">
                 <i class="material-icons icon-hoverable cursor_pointer">edit</i>
             </a>
-            <a class="tooltipped red-text text-lighten-2" data-position="top" data-tooltip="Delete Item" onclick="deleteItem({{ item.pk }})">
+            <a class="tooltipped red-text text-lighten-2" data-position="top" data-tooltip="Delete Item" onclick="showDeleteModal('{{ item.description }}', {{ item.pk }}, 'Invoice Item')">
                 <i class="material-icons icon-hoverable cursor_pointer">delete</i>
             </a>
         </td>

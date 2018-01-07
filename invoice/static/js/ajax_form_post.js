@@ -41,24 +41,7 @@ function updateItem() {
         }, // data sent with the post request
 
         success : function(data) {
-            $('.item_table').html(data);
-            // console.log(data);
-        },
-        error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
-    });
-}
-
-function deleteItem(item_pk) {
-    $.ajax({
-        url : "/invoice/item/delete/", // the endpoint
-        type : "POST", // http method
-        data : {
-            invoice_pk: $('#invoice_pk').val(),
-            item_pk : item_pk
-        }, // data sent with the post request
-
-        success : function(data) {
-            $('.item_table').html(data);
+            $('#invoice_item_table').html(data);
             // console.log(data);
         },
         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
@@ -138,24 +121,6 @@ function updateCompany() {
                     text: data['company_name']
                 })).val(data['company_pk']).material_select();
             }
-        },
-        error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
-
-    });
-}
-
-function deleteInvoice() {
-    $.ajax({
-        url: "/invoice/delete/", // the endpoint
-        type: "POST", // http method
-        data: {
-            invoice_pk: $('#invoice_pk').val()
-        }, // data sent with the post request
-
-        // handle a successful response
-        success: function (data) {
-            // console.log(data);
-            window.location.href = data['url']
         },
         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
 
@@ -246,12 +211,14 @@ function updateExpense() {
   });
 }
 
-function deleteExpenseItem() {
+// Set dynamically in showDeleteModal function
+function deleteItem(item_pk, type) {
   $.ajax({
-      url: "/expense/delete/", // the endpoint
+      url: "/api/delete_item/", // the endpoint
       type: "POST", // http method
       data: {
-          expense_form: $('#expense-form').serialize()
+          item_pk: item_pk,
+          type: type
       }, // data sent with the post request
 
       // handle a successful response
@@ -261,7 +228,7 @@ function deleteExpenseItem() {
           if (data['url']) {
               window.location.href = data['url'];
           } else {
-            $('#expense-table').html(data);
+            $('#' + data['type'] + '_table').html(data['html']);
           }
 
       },
@@ -270,26 +237,9 @@ function deleteExpenseItem() {
   });
 }
 
-// function showDeleteModal() {
-//   $.ajax({
-//       url: "/expense/delete/", // the endpoint
-//       type: "POST", // http method
-//       data: {
-//           expense_form: $('#expense-form').serialize()
-//       }, // data sent with the post request
-//
-//       // handle a successful response
-//       success: function (data) {
-//           // console.log(data);
-//
-//           if (data['url']) {
-//               window.location.href = data['url'];
-//           } else {
-//             $('#expense-table').html(data);
-//           }
-//
-//       },
-//       error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
-//
-//   });
-// }
+function showDeleteModal(item, item_pk, type) {
+    $('#deleteContent').html(item);
+    $('#delete_modal_confirm').attr('onClick', 'deleteItem(' + item_pk + ', ' + '"' + type + '"' + ');');
+    $('#deleteStatus').html(type);
+    $('#deleteModal').modal('open')
+}

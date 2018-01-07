@@ -16,7 +16,7 @@
         <a class="tooltipped light-blue-text text-lighten-1" data-position="top" data-tooltip="Edit Expense" onclick="getExpenseItemsForModal([{{ item.pk }}, {{ item.invoice.pk|default:0 }}, {{ item.group.pk|default:0 }}])">
             <i class="material-icons icon-hoverable cursor_pointer">edit</i>
         </a>
-        <a class="tooltipped red-text text-lighten-1" data-position="top" data-tooltip="Delete Expense" onclick="openDeleteModal({{ item.pk }})">
+        <a class="tooltipped red-text text-lighten-1" data-position="top" data-tooltip="Delete Expense" onclick="showDeleteModal('{{ item.description }}', {{ item.pk }}, 'Expense')">
             <i class="material-icons icon-hoverable cursor_pointer">delete</i>
         </a>
     </td>

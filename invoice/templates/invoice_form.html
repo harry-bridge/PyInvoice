@@ -185,12 +185,14 @@
     {% endif %}
 
     {% if invoice.pk %}
-        {% include 'item_table.html' %}
+        <div id="invoice_item_table">
+            {% include 'item_table.html' %}
+        </div>
     {% endif %}
 
     {% if invoice.expenses.all %}
         <h4>Expenses</h4>
-        <div id="expense-table">
+        <div id="expense_table">
             {% include 'expense_table.html' with expense_list=invoice.expenses expense_view='invoice' %}
         </div>
     {% endif %}
@@ -208,7 +210,7 @@
                 <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1 tooltipped" data-position="top" data-tooltip="Print"><i class="material-icons">print</i></a></li>
                 <li><a href="edit/" class="btn-floating"><i class="material-icons tooltipped" data-position="top" data-tooltip="Edit">edit</i></a></li>
             {% else %}
-                <li><a class="btn-floating pink lighten-1" href="#deleteModalInvoice"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete">delete</i></a></li>
+                <li><a class="btn-floating pink lighten-1" onclick="showDeleteModal('{{ invoice }}', {{ invoice.pk }}, 'Invoice')"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete">delete</i></a></li>
                 <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons tooltipped" data-position="top" data-tooltip="Save">save</i></button></li>
             {% endif %}
         </ul>
@@ -216,21 +218,22 @@
 
     </form>
 
-    <div id="deleteModalInvoice" class="modal">
-        <div class="modal-content">
-            <h4>Delete Invoice</h4>
-            <p>Are you sure you want to delete <strong>{{ invoice.invoice_number }}&boxv;{{ invoice.company }}?</strong></p>
-            <p>Invoice total: {{ invoice.total }}</p>
-        </div>
-        <div class="modal-footer">
-            <button onclick="deleteInvoice()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
-            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-        </div>
-    </div>
+{#    <div id="deleteModalInvoice" class="modal">#}
+{#        <div class="modal-content">#}
+{#            <h4>Delete Invoice</h4>#}
+{#            <p>Are you sure you want to delete <strong>{{ invoice.invoice_number }}&boxv;{{ invoice.company }}?</strong></p>#}
+{#            <p>Invoice total: {{ invoice.total }}</p>#}
+{#        </div>#}
+{#        <div class="modal-footer">#}
+{#            <button onclick="deleteItem({{ invoice.pk }}, 'Invoice')" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>#}
+{#            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>#}
+{#        </div>#}
+{#    </div>#}
 
     {% include 'item_modal.html' %}
     {% include 'company_modal.html' %}
     {% include 'expense_modal.html' with expense_view='invoice' %}
+    {% include 'delete_modal.html' %}
 
     {% block script %}
 
@@ -298,12 +301,12 @@
             });
         </script>
 
-        <script>
-            function openDeleteModal(item_pk) {
-                $('#div_for_expense_form').html(item_pk);
-                $('#expenseModal').modal('open')
-            }
-        </script>
+{#        <script>#}
+{#            function openDeleteModal(item_pk) {#}
+{#                $('#div_for_expense_form').html(item_pk);#}
+{#                $('#expenseModal').modal('open')#}
+{#            }#}
+{#        </script>#}
 
     {% endblock %}
 {% endblock %}

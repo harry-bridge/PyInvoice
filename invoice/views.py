@@ -152,35 +152,6 @@ def invoice_item_update(request):
 
     return render_to_response('item_table.html', context)
 
-@login_required()
-def invoice_item_delete(request):
-    context = dict()
-    if request.method == 'POST' and request.is_ajax():
-        invoice_pk = request.POST['invoice_pk']
-        item_pk = request.POST['item_pk']
-        item = get_object_or_404(models.InvoiceItem, pk=item_pk)
-        item.delete(keep_parents=True)
-
-        context['invoice'] = get_object_or_404(models.Invoice, pk=invoice_pk)
-        context['edit'] = True
-
-        return render_to_response('item_table.html', context)
-
-
-@login_required()
-def invoice_delete(request):
-    context = dict()
-    if request.method == 'POST' and request.is_ajax():
-        invoice_pk = request.POST['invoice_pk']
-
-        invoice = get_object_or_404(models.Invoice, pk=invoice_pk)
-        invoice.delete()
-
-        context['deleted'] = True
-        context['url'] = '/invoice/list/'
-
-    return HttpResponse(json.dumps(context), content_type='application/json')
-
 
 class CompanyList(LoginRequiredMixin, generic.ListView):
     model = models.Company

@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from datetime import datetime
-import simplejson as json
-# import json
+from django.urls import reverse
+# import simplejson as json
+import json
 from invoice import models
 
 
@@ -84,6 +85,7 @@ def get_expense_items_for_modal(request):
         return HttpResponse(html)
         # return HttpResponse(json.dumps(pk_array), content_type='application/json')
 
+
 @login_required()
 def mark_invoice_sent(request):
     context = dict()
@@ -97,3 +99,50 @@ def mark_invoice_sent(request):
         context['sent_date'] = datetime.strftime(invoice[0].sent_date.date(), '%d %b %Y')
 
     return HttpResponse(json.dumps(context, cls=DjangoJSONEncoder), content_type='application/json')
+
+
+@login_required()
+def get_items_for_delete_modal(request):
+    context = dict()
+    if request.method == 'POST' and request.is_ajax():
+        item_pk = request.POST.get('item_pk', '0')
+        context['type'] = request.POST.get('type')
+
+        if context['type'] == 'invoice':
+            context['object'] = get_object_or_404(models.Invoice, item_pk)
+        elif context['type'] == 'expense':
+            context['object'] = get_object_or_404(models.Expense, item_pk)
+
+        html = render_to_string('delete_modal.html', context)
+
+        return HttpResponse(json.dumps(html), content_type='application/json')
+
+
+@login_required()
+def delete_item(request):
+    context = dict()
+    data = dict()
+    if request.method == 'POST' and request.is_ajax():
+        item_pk = request.POST.get('item_pk', '0')
+        data['type'] = request.POST.get('type').lower().replace(' ', '_')
+        context['edit'] = True
+
+        if data['type'] == 'expense':
+            expense_item = get_object_or_404(models.Expense, pk=item_pk)
+            context['expense_list'] = expense_item.invoice.expenses
+            context['invoice'] = expense_item.invoice
+            context['expense_view'] = 'invoice'
+            expense_item.delete()
+            data['html'] = render_to_string('expense_table.html', context)
+
+        if data['type'] == 'invoice':
+            get_object_or_404(models.Invoice, pk=item_pk).delete()
+            data['url'] = reverse('invoice_list')
+
+        if data['type'] == 'invoice_item':
+            invoice_item = get_object_or_404(models.InvoiceItem, pk=item_pk)
+            context['invoice'] = invoice_item.invoice
+            invoice_item.delete()
+            data['html'] = render_to_string('item_table.html', context)
+
+        return HttpResponse(json.dumps(data), content_type='application/json')

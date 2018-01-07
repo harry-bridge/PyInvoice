@@ -37,11 +37,9 @@ urlpatterns = [
     url(r'^invoice/(?P<pk>\d+)/edit/$', views.InvoiceEdit.as_view(), name='invoice_edit'),
     url(r'^invoice/create/$', views.InvoiceCreate.as_view(), name='invoice_create'),
     url(r'^invoice/update/$', views.invoice_update, name='invoice_update'),
-    url(r'^invoice/delete/$', views.invoice_delete, name='invoice_delete'),
     url(r'^invoice/(?P<pk>\d+)/print/$', invoice_print.InvoicePrint.as_view(), name='invoice_print'),
 
     url(r'^invoice/item/update/$', views.invoice_item_update, name='invoice_item_update'),
-    url(r'^invoice/item/delete/$', views.invoice_item_delete, name='invoice_item_delete'),
 
     url(r'^company/list/$', views.CompanyList.as_view(), name='company_list'),
     url(r'^company/(?P<pk>\d+)/$', views.CompanyDetail.as_view(), name='company_detail'),
@@ -62,4 +60,6 @@ urlpatterns = [
     url(r'^api/invoice_logo_upload/$', api.invoice_photo_upload, name='invoice_photo_upload'),
     url(r'^api/mark_sent', api.mark_invoice_sent, name='mark_invoice_sent'),
     url(r'^api/get_expense_items_for_modal/$', api.get_expense_items_for_modal, name='get_expense_items_for_modal'),
+    url(r'^api/get_items_for_delete_modal/$', api.get_items_for_delete_modal, name='get_items_for_delete_modal'),
+    url(r'^api/delete_item', api.delete_item, name='delete_item'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
