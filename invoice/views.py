@@ -42,7 +42,7 @@ class Index(LoginRequiredMixin, generic.TemplateView):
 
         context['not_paid_total'] = 0
         for invoice in models.Invoice.objects.filter(user=self.request.user, paid=False):
-            context['not_paid_total'] += invoice.total()
+            context['not_paid_total'] += invoice.total() if invoice.total() else 0
 
         return context
 
