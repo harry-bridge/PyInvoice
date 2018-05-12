@@ -6,8 +6,8 @@ from django.utils import timezone
 from django.forms.models import model_to_dict
 from datetime import datetime
 from django.urls import reverse
-# import simplejson as json
-import json
+import simplejson as json # needed for decimal json encoding
+# import json
 from invoice import models
 
 
