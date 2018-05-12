@@ -1,28 +1,30 @@
-<div class="item_table">
-    <table class="table highlight">
-        <thead>
-            <td>Description</td>
-            <td>Quantity</td>
-            <td>Cost</td>
-            <td>Total</td>
-            {% if edit %}
-                <td style="width: 30%; padding-bottom: 11px;">
-                    <a class="btn blue" onclick="showItemModal(0)">Add</a>
-                </td>
-            {% endif %}
-        </thead>
-        <tbody>
-            {% for item in invoice.items.all %}
-                {% include 'item_row.html' %}
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td></td>
-                <td></td>
-                <td class="right"><strong>Total</strong></td>
-                <td><strong>£ {{ invoice.total|default:0|floatformat:2 }}</strong></td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
+<table class="table highlight">
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+        <th>Total</th>
+        {% if edit %}
+            <th style="width: 30%; padding-bottom: 11px;" class="right-align">
+                <a class="btn-floating orange lighten-2" onclick="showItemModal(0)">
+                    <i class="material-icons">add</i>
+                </a>
+            </th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in invoice.items.all %}
+        {% include 'item_row.html' %}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td></td>
+        <td></td>
+        <td class="right"><strong>Total</strong></td>
+        <td><strong>£{{ invoice.total|default:0|floatformat:2 }}</strong></td>
+    </tr>
+    </tfoot>
+</table>

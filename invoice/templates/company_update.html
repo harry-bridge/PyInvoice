@@ -18,6 +18,7 @@
     {% if edit or not company.pk %}
 
         <form method="POST" role="form" class="row" id="company-form">
+            <input type="hidden" name="sender" value="company_update">
             {% csrf_token %}
             {% include 'company_form.html' %}
 
@@ -32,7 +33,7 @@
                 <ul>
                     <!-- Reverse Order -->
                     {% if edit and company.pk %}
-                        <li><a class="btn-floating pink lighten-1" href="#deleteModalCompany"><i class="material-icons">delete</i></a></li>
+                        <li><a class="btn-floating pink lighten-1" onclick="showDeleteModal('{{ company }}', {{ company.pk }}, 'Company')"><i class="material-icons">delete</i></a></li>
                     {% endif %}
                     {% if not edit and company.pk %}
                         <li><a href="edit/" class="btn-floating"><i class="material-icons">edit</i></a></li>
@@ -43,18 +44,7 @@
             </div>
         </form>
 
-    <div id="deleteModalCompany" class="modal">
-        <div class="modal-content">
-            <h4>Delete Company</h4>
-            <p>Are you sure you want to delete <strong>{{ company.name }}?</strong></p>
-            <p>Invoices: {{ company.total_invoices }}</p>
-            <p>{% for invoice in company.list_invoices %}{{ invoice.invoice_number }}{% endfor %}</p>
-        </div>
-        <div class="modal-footer">
-            <button onclick="deleteCompany()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
-            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-        </div>
-    </div>
+    {% include 'delete_modal.html' with type='company' %}
 
 {% endblock %}
 
@@ -66,12 +56,6 @@
     </script>
     {% endif %}
 
-    <script>
-        $('#company-form').on('submit', function(event){
-            event.preventDefault();
-            updateCompany();
-            return false;
-        });
-    </script>
+
 
 {% endblock %}

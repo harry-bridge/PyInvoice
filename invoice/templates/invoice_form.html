@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load invoice_tags %}
 
 {% block title %}
     {% if invoice.invoice_number %}
@@ -40,59 +41,49 @@
                 <div class="panel-body">
                     {% if edit %}
                         <div class="row">
-{#                            <div class="input-field col s9">#}
-{#                                <select class="validate" id="company-select" name="company">#}
-{#                                    <option value="" disabled {% if not invoice.company %}selected{% endif %}>---</option>#}
-{#                                    {% for company in companies %}#}
-{#                                        <option value="{{ company.pk }}"#}
-{#                                                {% if invoice.company.pk == company.pk %}#}
-{#                                                active selected#}
-{#                                                {% endif %}#}
-{#                                        >{{ company }}</option>#}
-{#                                    {% endfor %}#}
-{#                                </select>#}
-{#                                <label for="company-select">Company</label>#}
+                                <div class="input-field col s10">
+                                    <input type="text" id="company-autocomplete" name="company" class="autocomplete" value="{{ invoice.company.name|default:'' }}">
+                                    <label for="company-autocomplete">Company</label>
+                                </div>
+                                <div class="input-field col s2">
+                                    <a id="add-company-button" class="btn-floating tooltipped" data-position="top" data-tooltip="Add Company" onclick="getCompanyForForm('', 'modal')"><i class="material-icons">add</i></a>
+                                    <a id="edit-company-button" class="btn-floating tooltipped hidden" data-position="top" data-tooltip="Edit Company" onclick="getCompanyForForm($('#company-autocomplete').val(), 'modal')"><i class="material-icons">edit</i></a>
+                                </div>
+{#                            <div class="input-field col s12">#}
+{#                                <input type="text" id="company-person" name="person" class="validate" value="{{ invoice.company.person|default:'' }}">#}
+{#                                <label for="company-person">Person</label>#}
 {#                            </div>#}
-{#                            <div class="col s3">#}
-{#                                <a class="btn btn-square tooltipped" data-position="top" data-tooltip="Create Company" onclick="showCompanyModal(0)"><i class="material-icons">add</i></a>#}
-{#                                <a class="btn btn-square" onclick="showCompanyModal()"><i class="material-icons">edit</i></a>#}
+{#                            <div class="input-field col s12">#}
+{#                                <input class="no-margin-bottom" type="tel" id="company-phone" name="phone" value="{{ invoice.company.phone|default:'' }}">#}
+{#                                <label for="company-phone">Phone</label>#}
 {#                            </div>#}
-                            <div class="input-field col s12">
-{#                                <i class="material-icons prefix">textsms</i>#}
-                                <input type="text" id="single-input" name="company" class="autocomplete" value="{{ invoice.company.name|default:'' }}">
-                                <label for="single-input">Company</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <input type="text" id="person" name="person" class="validate" value="{{ invoice.company.person|default:'' }}">
-                                <label for="person">Person</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <input class="no-margin-bottom" type="tel" id="phone" name="phone" value="{{ invoice.company.phone|default:'' }}">
-                                <label for="phone">Phone</label>
-                            </div>
                         </div>
                     {% else %}
                     <dl class="dl-horizontal">
                         <dt>Company</dt>
                         <dd>
-                            <a class="hover-link orange-text text-lighten-1" href="{% url 'company_detail' invoice.company.pk %}">
+                            <a class="{% if invoice.company %}hover-link{% endif %} orange-text text-lighten-1" href="{% if invoice.company %}{% url 'company_detail' invoice.company.pk %}{% endif %}">
                                 {{ invoice.company }}
                             </a>
                         </dd>
 
-                        {% if invoice.person %}
-                            <dt>Person</dt>
-                            <dd>{{ invoice.person }}</dd>
-                        {% endif %}
+                        <br>
+                        <dt>Address</dt>
+                        <dd>{{ invoice.company.address|linebreaksbr }}</dd>
 
-                        {% if invoice.phone %}
-                            <dt>Phone</dt>
-                            <dd>
-                                <a class="hover-link orange-text text-lighten-1" href="tel:{{ invoice.phone }}">
-                                    {{ invoice.phone }}
-                                </a>
-                            </dd>
-                        {% endif %}
+                        <dt>Person</dt>
+                        <dd>{{ invoice.company.person|default:'-' }}</dd>
+
+                        <dt>Phone</dt>
+                        <dd>
+                            {% if invoice.company.phone %}
+                            <a class="hover-link orange-text text-lighten-1" href="tel:{{ invoice.company.phone }}">
+                                {{ invoice.company.phone }}
+                            </a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </dd>
 
                         <dt>Email</dt>
                         <dd>
@@ -101,9 +92,7 @@
                             </a>
                         </dd>
 
-                        <br>
-                        <dt>Address</dt>
-                        <dd>{{ invoice.company.address|linebreaksbr }}</dd>
+
                     </dl>
                     {% endif %}
                 </div>
@@ -114,8 +103,10 @@
                 <div class="panel-heading">Invoice Details</div>
                 <div class="panel-body">
                     <dl class="dl-horizontal">
+                        {% if invoice.created.date %}
                             <dt>Invoice Created:</dt>
-                            <dd>{{ invoice.created.date }}</dd>
+                            <dd>{{ invoice.created }}</dd>
+                        {% endif %}
                         {% if not edit %}
                             <dt>Invoice Updated:</dt>
                             <dd>{{ invoice.updated }}</dd>
@@ -127,8 +118,10 @@
                             <dt>Paid</dt>
                             <dd>{{ invoice.paid }}</dd>
 
-                            <dt>UTR</dt>
-                            <dd>{{ invoice.utr }}</dd>
+                            {% if invoice.utr %}
+                                <dt>UTR</dt>
+                                <dd>{{ invoice.utr }}</dd>
+                            {% endif %}
 
                             {% if invoice.is_quote %}
                                 <dt>Quote</dt>
@@ -143,7 +136,7 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <input type="text" id="user_invoice_number" name="user_invoice_number" value="{{ invoice.user_invoice_number|default_if_none:'' }}">
-                                <label for="user_invoice_number">User Invoice Number - Optional</label>
+                                <label for="user_invoice_number">Custom Invoice Number - Optional</label>
                             </div>
                             <div class="col s6 _3pad5_left">
                                 <input type="checkbox" class="filled-in" id="paid" name="paid"
@@ -185,9 +178,17 @@
     {% endif %}
 
     {% if invoice.pk %}
-        {% include 'item_table.html' %}
+        <div id="invoice_item_table">
+            {% include 'item_table.html' %}
+        </div>
     {% endif %}
 
+{#    {% if invoice.expenses.all %}#}
+{#        <h4>Expenses</h4>#}
+{#        <div id="expense_table">#}
+{#            {% include 'expense_table.html' with expense_list=invoice.expenses expense_view='invoice' %}#}
+{#        </div>#}
+{#    {% endif %}#}
 
     <div class="fixed-action-btn horizontal">
         <a class="btn-floating btn-large red">
@@ -197,12 +198,12 @@
             <!-- Reverse Order -->
             {% if not edit %}
                 {% if not invoice.sent_date %}
-                    <li><a onclick="markInvoiceSent({{ invoice.id }})" class="btn-floating green lighten-1 tooltipped" data-position="top" data-tooltip="Mark Sent"><i class="material-icons">done</i></a></li>
+                    <li><a onclick="markInvoiceSent({{ invoice.id }})" id="mark_sent_button" class="btn-floating green lighten-1 tooltipped" data-position="top" data-tooltip="Mark Sent"><i class="material-icons">done</i></a></li>
                 {% endif %}
                 <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1 tooltipped" data-position="top" data-tooltip="Print"><i class="material-icons">print</i></a></li>
                 <li><a href="edit/" class="btn-floating"><i class="material-icons tooltipped" data-position="top" data-tooltip="Edit">edit</i></a></li>
             {% else %}
-                <li><a class="btn-floating pink lighten-1" href="#deleteModalInvoice"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete Invoice">delete</i></a></li>
+                <li><a class="btn-floating pink lighten-1" onclick="showDeleteModal('{{ invoice }}', {{ invoice.pk }}, 'Invoice')"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete">delete</i></a></li>
                 <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons tooltipped" data-position="top" data-tooltip="Save">save</i></button></li>
             {% endif %}
         </ul>
@@ -210,20 +211,22 @@
 
     </form>
 
-    <div id="deleteModalInvoice" class="modal">
-        <div class="modal-content">
-            <h4>Delete Invoice</h4>
-            <p>Are you sure you want to delete <strong>{{ invoice.invoice_number }}&boxv;{{ invoice.company }}?</strong></p>
-            <p>Invoice total: {{ invoice.total }}</p>
-        </div>
-        <div class="modal-footer">
-            <button onclick="deleteInvoice()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>
-            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
-        </div>
-    </div>
+{#    <div id="deleteModalInvoice" class="modal">#}
+{#        <div class="modal-content">#}
+{#            <h4>Delete Invoice</h4>#}
+{#            <p>Are you sure you want to delete <strong>{{ invoice.invoice_number }}&boxv;{{ invoice.company }}?</strong></p>#}
+{#            <p>Invoice total: {{ invoice.total }}</p>#}
+{#        </div>#}
+{#        <div class="modal-footer">#}
+{#            <button onclick="deleteItem({{ invoice.pk }}, 'Invoice')" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, I'm Sure</button>#}
+{#            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>#}
+{#        </div>#}
+{#    </div>#}
 
     {% include 'item_modal.html' %}
     {% include 'company_modal.html' %}
+    {% include 'expense_modal.html' with expense_view='invoice' %}
+    {% include 'delete_modal.html' %}
 
     {% block script %}
 
@@ -235,34 +238,73 @@
             }
         </script>
 
+{#        <script>#}
+{#            function showCompanyModal( company_pk ) {#}
+{#                if (company_pk != 0) {#}
+{#                    getCompanyForModal( company_pk );#}
+{#                } else {#}
+{#                    $('#company-form')[0].reset();#}
+{#                }#}
+{#                $('#companyModal').modal('open');#}
+{#                $('#redirect_on_save').val('0');#}
+{#                Materialize.updateTextFields();#}
+{#            }#}
+{#        </script>#}
+
         <script>
-            function showCompanyModal( company_pk ) {
-                if (company_pk != 0) {
-                    getCompanyForModal( company_pk );
-                } else {
-                    $('#company-form')[0].reset();
-                }
-                $('#companyModal').modal('open');
-                $('#redirect_on_save').val('0');
-                Materialize.updateTextFields();
+            function enableCompanyAddButton() {
+                $('#add-company-button').removeClass('hidden');
+                $('#edit-company-button').addClass('hidden')
+            }
+
+            function enableCompanyEditButton() {
+                $('#add-company-button').addClass('hidden');
+                $('#edit-company-button').removeClass('hidden')
             }
         </script>
 
         <script>
-        $(document).ready(function() {
-            $('#single-input').autocomplete({
-                data: {
-                    {% for company in companies %}
-                        "{{ company }}": null,
-                    {% endfor %}
-                },
-                limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
-                onAutocomplete: function (val) {
-                    // Callback function when value is autcompleted.
-                },
-                minLength: 1 // The minimum length of the input for the autocomplete to start. Default: 1.
+            $(document).ready(function() {
+                if ($('#company-autocomplete').val() !== '') {
+                    enableCompanyEditButton()
+                } else {
+                    enableCompanyAddButton();
+                }
+            })
+        </script>
+
+        <script>
+            $('#company-autocomplete').keyup(function () {
+                enableCompanyAddButton();
+            })
+        </script>
+
+
+        <script>
+            $(document).ready(function() {
+                makeAutocomplete();
             });
-        });
+        </script>
+
+        <script>
+            function makeAutocomplete() {
+                {#var companies = {% get_company_list_for_autocomplete %}#}
+                $('#company-autocomplete').autocomplete({
+                    data: {
+                        {% for company in companies %}
+                            "{{ company }}": null,
+                        {% endfor %}
+                    },
+                    limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+                    onAutocomplete: function (val) {
+                        console.log(val);
+                        enableCompanyEditButton();
+                        getCompanyForForm(val, 'form');
+
+                    },
+                    minLength: 1 // The minimum length of the input for the autocomplete to start. Default: 1.
+                });
+            }
         </script>
 
         <script>
@@ -282,14 +324,21 @@
             });
         </script>
 
-        <script>
-            $('#company-form').on('submit', function(event){
-                event.preventDefault();
-                updateCompany();
-                $('#companyModal').modal('close');
-                return false;
-            });
-        </script>
+{#        <script>#}
+{#            $('#company-form').on('submit', function(event){#}
+{#                event.preventDefault();#}
+{#                updateCompany();#}
+{#                $('#companyModal').modal('close');#}
+{#                return false;#}
+{#            });#}
+{#        </script>#}
+
+{#        <script>#}
+{#            function openDeleteModal(item_pk) {#}
+{#                $('#div_for_expense_form').html(item_pk);#}
+{#                $('#expenseModal').modal('open')#}
+{#            }#}
+{#        </script>#}
 
     {% endblock %}
 {% endblock %}

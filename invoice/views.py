@@ -1,5 +1,6 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render_to_response
+from django.template.loader import render_to_string
 from django.http import HttpResponse, QueryDict
 from django.contrib.auth import views
 from django.urls import reverse_lazy
@@ -41,7 +42,7 @@ class Index(LoginRequiredMixin, generic.TemplateView):
 
         context['not_paid_total'] = 0
         for invoice in models.Invoice.objects.filter(user=self.request.user, paid=False):
-            context['not_paid_total'] += invoice.total()
+            context['not_paid_total'] += invoice.total() if invoice.total() else 0
 
         return context
 
@@ -107,9 +108,6 @@ def invoice_update(request):
         defaults['company'] = get_object_or_404(models.Company, name=defaults.pop('company'))
         defaults['user'] = get_object_or_404(models.Profile, pk=int(defaults.pop('user')))
 
-        phone = defaults.pop('phone')
-        defaults['phone'] = int(phone) if phone.strip() else None
-
         defaults['utr'] = bool(defaults.pop('utr', None))
         defaults['paid'] = bool(defaults.pop('paid', None))
         defaults['is_quote'] = bool(defaults.pop('is_quote', None))
@@ -151,35 +149,6 @@ def invoice_item_update(request):
 
     return render_to_response('item_table.html', context)
 
-@login_required()
-def invoice_item_delete(request):
-    context = dict()
-    if request.method == 'POST' and request.is_ajax():
-        invoice_pk = request.POST['invoice_pk']
-        item_pk = request.POST['item_pk']
-        item = get_object_or_404(models.InvoiceItem, pk=item_pk)
-        item.delete(keep_parents=True)
-
-        context['invoice'] = get_object_or_404(models.Invoice, pk=invoice_pk)
-        context['edit'] = True
-
-        return render_to_response('item_table.html', context)
-
-
-@login_required()
-def invoice_delete(request):
-    context = dict()
-    if request.method == 'POST' and request.is_ajax():
-        invoice_pk = request.POST['invoice_pk']
-
-        invoice = get_object_or_404(models.Invoice, pk=invoice_pk)
-        invoice.delete()
-
-        context['deleted'] = True
-        context['url'] = '/invoice/list/'
-
-    return HttpResponse(json.dumps(context), content_type='application/json')
-
 
 class CompanyList(LoginRequiredMixin, generic.ListView):
     model = models.Company
@@ -220,21 +189,20 @@ def company_update(request):
     if request.method == 'POST' and request.is_ajax():
         defaults = QueryDict(request.POST['company_form'].encode('ASCII')).dict()
         defaults.pop('csrfmiddlewaretoken')
-        context['company_pk'] = int(defaults.pop('company_pk'))
-        context['redirect'] = bool(int(defaults.pop('redirect_on_save')))
+        company_pk = int(defaults.pop('company_pk'))
+        sender = defaults.pop('sender')
+        # context['redirect'] = bool(int(defaults.pop('redirect_on_save')))
 
-        if context['company_pk'] == 0:
+        if company_pk == 0:
             company = models.Company.objects.create(**defaults)
-            context['company_pk'] = company.pk
-            context['company_name'] = company.name
-
         else:
-            company, created = models.Company.objects.update_or_create(pk=context['company_pk'], defaults=defaults)
+            company, created = models.Company.objects.update_or_create(pk=company_pk, defaults=defaults)
 
-            context['name'] = company.name
+        context['company'] = company.name
 
-        if context['redirect']:
-            context['url'] = '/company/' + str(context['company_pk'])
+        if sender != 'company_modal':
+            context['url'] = reverse('company_detail', args=[company.pk])
+            # context['url'] = '/company/' + str(context['company_pk'])
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 
@@ -298,3 +266,95 @@ def profile_update(request):
 #         else:
 #             data = {'is_valid': False}
 #         return JsonResponse(data)
+
+
+class ExpenseList(LoginRequiredMixin, generic.ListView):
+    model = models.Expense
+    template_name = 'expense_list.html'
+    ordering = '-created'
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpenseList, self).get_context_data(**kwargs)
+        # context['expense_view'] = 'list'
+
+        return context
+
+
+class ExpenseCreate(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'expense_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpenseCreate, self).get_context_data(**kwargs)
+        context['edit'] = True
+        context['invoices'] = models.Invoice.objects.all()
+        context['redirect_on_save'] = 1
+
+        return context
+
+
+@login_required()
+def expense_update(request):
+    context = dict()
+    data = dict()
+    if request.method == 'POST' and request.is_ajax():
+        defaults = QueryDict(request.POST['expense_form'].encode('ASCII')).dict()
+        defaults.pop('csrfmiddlewaretoken')
+        context['expense_view'] = defaults.pop('expense_view_type')
+
+        try:
+            defaults['group'], created = models.ExpenseGroup.objects.get_or_create(name=defaults.pop('group'))
+        except KeyError:
+            defaults['group'] = None
+
+        try:
+            invoice_pk = int(defaults.pop('invoice').split()[0].split('N')[1])
+            defaults['invoice'] = models.Invoice.objects.get(pk=invoice_pk)
+        except KeyError:
+            defaults['invoice'] = None
+
+        context['expense_pk'] = defaults.pop('expense_pk')
+        redirect = defaults.pop('redirect_on_save')
+
+        if context['expense_pk'] != '0':
+            expense, created = models.Expense.objects.update_or_create(pk=context['expense_pk'], defaults=defaults)
+        else:
+            expense = models.Expense.objects.create(**defaults)
+
+        if redirect == '1':
+            context['url'] = reverse('expense_detail', args=[expense.pk])
+
+            return HttpResponse(json.dumps(context), content_type='application/json')
+        else:
+
+            if context['expense_view'] == 'detail':
+                context['expense_list'] = expense.group.expense_group.all()
+            elif context['expense_view'] == 'invoice':
+                context['expense_list'] = expense.invoice.expenses.all()
+            else:
+                context['expense_list'] = models.Expense.objects.all()
+
+            context['edit'] = True
+            data['html'] = render_to_string('expense_table.html', context)
+            data['expense_pk'] = context['expense_pk']
+
+            return HttpResponse(json.dumps(data), content_type='application/json')
+            # return render_to_response('expense_table.html', context)
+
+
+@login_required()
+def expense_delete(request):
+    context = dict()
+    if request.method == 'POST' and request.is_ajax():
+        pass
+
+
+class ExpenseGroupDetail(LoginRequiredMixin, generic.DetailView):
+    model = models.ExpenseGroup
+    template_name = 'expense_group_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ExpenseGroupDetail, self).get_context_data(**kwargs)
+        context['expense_list'] = self.object.expense_group.all()
+        context['expense_group'] = self.object
+
+        return context

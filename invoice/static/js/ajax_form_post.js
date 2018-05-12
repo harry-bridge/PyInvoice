@@ -25,7 +25,8 @@ function markInvoiceSent(invoice_pk) {
 
         success : function(data) {
             // console.log(data);
-            $('#invoice-sent-date').text(data['sent_date'])
+            $('#invoice-sent-date').text(data['sent_date']);
+            $('#mark_sent_button').addClass('scale-out-button')
         }
     });
 }
@@ -40,24 +41,7 @@ function updateItem() {
         }, // data sent with the post request
 
         success : function(data) {
-            $('.item_table').html(data);
-            // console.log(data);
-        },
-        error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
-    });
-}
-
-function deleteItem(item_pk) {
-    $.ajax({
-        url : "/invoice/item/delete/", // the endpoint
-        type : "POST", // http method
-        data : {
-            invoice_pk: $('#invoice_pk').val(),
-            item_pk : item_pk
-        }, // data sent with the post request
-
-        success : function(data) {
-            $('.item_table').html(data);
+            $('#invoice_item_table').html(data);
             // console.log(data);
         },
         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
@@ -93,26 +77,28 @@ function getItemsForModal(item_pk) {
     });
 }
 
-function getCompanyForModal(company_pk) {
+function getCompanyForForm(company_name, form_type) {
     $.ajax({
-        url: "/api/get_company_for_modal/", // the endpoint
+        url: "/api/get_company_for_form/", // the endpoint
         type: "POST", // http method
         data: {
-            company_pk: company_pk
+            company_name: company_name,
+            form_type: form_type
         }, // data sent with the post request
 
         // handle a successful response
         success: function (data) {
-            $('#editStatusCompany').text('Edit Company');
-            $('#nameInput').val(data['name']);
-            $('#nameInputLabel').addClass('active');
-            $('#addressInput').val(data['address']);
-            $('#addressInputLabel').addClass('active');
-            $('#emailInput').val(data['email']);
-            $('#emailInputLabel').addClass('active');
-            $('#company_pk').val(data['company_pk']);
-            $('#redirect_on_save').val('0');
-            console.log(data);
+            console.log('get company');
+            if (data['form_type'] === 'modal') {
+                $('#editStatusCompany').html(data['editStatus']);
+                $('#div_for_company_form').html(data['html']);
+                $('#companyModal').modal('open')
+            } else {
+                $('#company-person').val(data['company']['person']);
+                $('#company-phone').val(data['company']['phone'])
+            }
+
+            Materialize.updateTextFields()
         },
         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
     });
@@ -128,56 +114,39 @@ function updateCompany() {
 
         // handle a successful response
         success: function (data) {
-            // console.log(data);
-            if (data['redirect']) {
+            console.log("update");
+
+            if (data['url']) {
                 window.location.href = data['url'];
             } else {
-                $('#company-select').append($('<option>', {
-                    value: data['company_pk'],
-                    text: data['company_name']
-                })).val(data['company_pk']).material_select();
+                $('#companyModal').modal('close');
+                // getCompanyForForm(data['company_name'], 'form');
+                $('#company-autocomplete').val(data['company']);
+                Materialize.updateTextFields();
             }
+
         },
         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
 
     });
 }
 
-function deleteInvoice() {
-    $.ajax({
-        url: "/invoice/delete/", // the endpoint
-        type: "POST", // http method
-        data: {
-            invoice_pk: $('#invoice_pk').val()
-        }, // data sent with the post request
-
-        // handle a successful response
-        success: function (data) {
-            // console.log(data);
-            window.location.href = data['url']
-        },
-        error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
-
-    });
-}
-
-function deleteCompany() {
-    $.ajax({
-        url: "/company/delete/", // the endpoint
-        type: "POST", // http method
-        data: {
-            company_pk: $('#company_pk').val()
-        }, // data sent with the post request
-
-        // handle a successful response
-        success: function (data) {
-            // console.log(data);
-            window.location.href = data['url']
-        },
-        error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
-
-    });
-}
+// function fillFormFieldsWithCompany(company_name) {
+//     $.ajax({
+//         url: "/api//", // the endpoint
+//         type: "POST", // http method
+//         data: {
+//             company_name: company_name
+//         }, // data sent with the post request
+//
+//         // handle a successful response
+//         success: function (data) {
+//             console.log(data);
+//         },
+//         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+//
+//     });
+// }
 
 function updateProfile() {
     $.ajax({
@@ -195,4 +164,85 @@ function updateProfile() {
         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
 
     });
+}
+
+function getExpenseItemsForModal(pk_array) {
+  $.ajax({
+      url: "/api/get_expense_items_for_modal/", // the endpoint
+      type: "POST", // http method
+      data: {
+          pk_array: pk_array
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          // console.log(data);
+          $('#div_for_expense_form').html(data);
+          Materialize.updateTextFields();
+          // $('#invoice-select').material_select();
+          if (pk_array[0] !== 0) {
+            $('#editStatusExpense').html('Edit Expense');
+          }
+          $('#expenseModal').modal('open')
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}
+
+function updateExpense() {
+  $.ajax({
+      url: "/expense/update/", // the endpoint
+      type: "POST", // http method
+      data: {
+          expense_form: $('#expense-form').serialize()
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          // console.log(data);
+
+          if (data['url']) {
+              window.location.href = data['url'];
+          } else {
+            $('#expense-table').html(data['html']);
+          }
+
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}
+
+// Set dynamically in showDeleteModal function
+function deleteItem(item_pk, type) {
+  $.ajax({
+      url: "/api/delete_item/", // the endpoint
+      type: "POST", // http method
+      data: {
+          item_pk: item_pk,
+          type: type
+      }, // data sent with the post request
+
+      // handle a successful response
+      success: function (data) {
+          // console.log(data);
+
+          if (data['url']) {
+              window.location.href = data['url'];
+          } else {
+            $('#' + data['type'] + '_table').html(data['html']);
+          }
+
+      },
+      error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}
+
+  });
+}
+
+function showDeleteModal(item, item_pk, type) {
+    $('#deleteContent').html(item);
+    $('#delete_modal_confirm').attr('onClick', 'deleteItem(' + item_pk + ', ' + '"' + type + '"' + ');');
+    $('#deleteStatus').html(type);
+    $('#deleteModal').modal('open')
 }

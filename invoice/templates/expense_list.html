@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Invoice List{% endblock %}
+
+{% block main %}
+
+    <h2>Expense List</h2>
+
+    <table class="bordered highlight" id="expense-table">
+        {% include 'expense_table.html' with expense_view='list' %}
+    </table>
+
+    {% include 'expense_modal.html' with expense_view='list' %}
+    {% include 'delete_modal.html' %}
+
+{% endblock %}

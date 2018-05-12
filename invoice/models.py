@@ -34,18 +34,20 @@ class Company(models.Model):
     person = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
 
+    def company_invoice_total(self):
+        return Sum(self.invoice_set.all)
+
     def __str__(self):
         return self.name
 
 
 class Invoice(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    person = models.CharField(max_length=80)
-    phone = models.IntegerField(blank=True, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(blank=True, auto_now_add=True)
-    updated = models.DateTimeField(blank=True)
+    updated = models.DateTimeField(blank=True, auto_now=True)
     paid = models.BooleanField(default=False)
+    paid_date = models.DateTimeField(blank=True, null=True)
     utr = models.BooleanField(default=False)
     is_quote = models.BooleanField(default=False)
     sent_date = models.DateTimeField(blank=True, null=True)
@@ -61,7 +63,7 @@ class Invoice(models.Model):
         return self.items.all()
 
     def total(self):
-        return self.items.all().aggregate(sum_total=Sum('total'))['sum_total']
+        return self.items.all().aggregate(total=models.Sum('total'))['total']
 
     def date_delta(self):
         return timezone.now() - self.created
@@ -72,11 +74,23 @@ class Invoice(models.Model):
         else:
             return None
 
+    def expenses_total(self):
+        return self.expenses.all().aggregate(total=models.Sum('cost'))['total']
+
+    def num_expenses(self):
+        return self.expenses.all().count()
+
     def __str__(self):
-        return self.company.name
+        company = self.company.name if self.company else 'None'
+        return self.invoice_number() + ' - ' + company
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
+
+        if self.paid and not self.paid_date:
+            self.paid_date = timezone.now()
+        elif self.paid_date and not self.paid:
+            self.paid_date = None
 
         super(Invoice, self).save(*args, **kwargs)
 
@@ -95,3 +109,31 @@ class InvoiceItem(models.Model):
         self.total = float(self.quantity) * float(self.cost)
 
         super(InvoiceItem, self).save(*args, **kwargs)
+
+
+class ExpenseGroup(models.Model):
+    class Meta:
+        verbose_name = 'Expense Group'
+        verbose_name_plural = 'Expense Groups'
+
+    name = models.CharField(max_length=80)
+
+    def expenses_total(self):
+        return self.expense_group.all().aggregate(total=models.Sum('cost'))['total']
+
+    def num_invoices(self):
+        return self.expense_group.all().aggregate(count=models.Count('invoice'))['count']
+
+    def __str__(self):
+        return self.name
+
+
+class Expense(models.Model):
+    invoice = models.ForeignKey(Invoice, related_name='expenses', blank=True, null=True)
+    group = models.ForeignKey(ExpenseGroup, related_name='expense_group', blank=True, null=True)
+    description = models.CharField(max_length=200)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    created = models.DateTimeField(blank=True, auto_now_add=True)
+
+    def __str__(self):
+        return self.description + ' for ' + self.invoice.__str__()

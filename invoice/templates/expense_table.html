@@ -1,0 +1,35 @@
+<table class="table {% if expense_view == 'list' %}bordered{% endif %} highlight">
+    <thead>
+    <tr>
+        {% if expense_view == 'list' or expense_view == 'detail' %}<th>Invoice</th>{% endif %}
+        {% if expense_view == 'list' or expense_view == 'invoice' %}<th>Group</th>{% endif %}
+        <th>Created</th>
+        <th>Description</th>
+        <th>Cost</th>
+        {% if edit %}
+            <th class="right-align">
+                <a onclick="getExpenseItemsForModal([0, {{ invoice.pk|default:0 }}, {{ expense_group.pk|default:0 }}])" class="btn-floating orange lighten-2">
+                    <i class="material-icons">add</i>
+                </a>
+            </th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in expense_list.all %}
+        <tr id="expense-{{ item.pk }}">
+            {% include 'expense_table_row.html' %}
+        </tr>
+    {% endfor %}
+    </tbody>
+    {% if invoice %}
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="right"><strong>Total</strong></td>
+            <td><strong>£{{ invoice.expenses_total|default:0|floatformat:2 }}</strong></td>
+        </tr>
+    </tfoot>
+    {% endif %}
+</table>

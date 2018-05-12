@@ -47,3 +47,13 @@ class InvoiceAdmin(admin.ModelAdmin):
     inlines = [
         InvoiceItemInline
     ]
+
+
+@admin.register(models.Expense)
+class ExpenseAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.ExpenseGroup)
+class ExpenseGroupAdmin(admin.ModelAdmin):
+    pass

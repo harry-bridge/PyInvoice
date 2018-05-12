@@ -1,13 +1,14 @@
-<div id="companyModal" class="modal modal-fixed-footer">
+<div id="expenseModal" class="modal modal-fixed-footer">
     <div class="row">
-        <form method="POST" role="form" id="company-form">
-            <input type="hidden" name="sender" value="company_modal">
+        <form method="POST" role="form" id="expense-form">
             {% csrf_token %}
+{#            <input type="hidden" name="redirect_on_save" value="0">#}
+            <input type="hidden" name="expense_view_type" value="{{ expense_view }}">
             <div class="modal-content">
-                <h4><span id="editStatusCompany">Add</span> Company</h4>
+                <h4 id="editStatusExpense">Add Expense</h4>
                 <div class="divider" style="margin-bottom: 15px"></div>
 
-                <div id="div_for_company_form"></div>
+                <div id="div_for_expense_form"></div>
             </div>
             <div class="modal-footer">
                 <button type="submit" name="action" class="waves-effect waves-green btn-flat">Save</button>

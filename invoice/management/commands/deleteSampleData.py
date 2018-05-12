@@ -14,6 +14,8 @@ class Command(BaseCommand):
 
         self.delete_companies()
         self.delete_invoices()
+        self.delete_expenses()
+        self.delete_expense_groups()
 
     def delete_companies(self):
         for company in models.Company.objects.all():
@@ -22,3 +24,11 @@ class Command(BaseCommand):
     def delete_invoices(self):
         for invoice in models.Invoice.objects.all():
             invoice.delete()
+
+    def delete_expenses(self):
+        for expense in models.Expense.objects.all():
+            expense.delete()
+
+    def delete_expense_groups(self):
+        for group in models.ExpenseGroup.objects.all():
+            group.delete()

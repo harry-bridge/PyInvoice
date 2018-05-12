@@ -26,11 +26,11 @@
                 <div class="panel-body">
                     {{ not_paid_count }} invoice{% if not_paid_count != 1 %}s{% endif %} waiting to be paid
                     <br>
-                    Totalling £ {{ not_paid_total }}
+                    Totalling: £{{ not_paid_total|default:0|floatformat:2 }}
                     <br>
                     {% url 'invoice_detail' last_invoice.pk as latest_invoice_url %}
-                    Latest Invoice
-                    {% if latest_invoice_url %}<a class="orange-text text-lighten-1 hover-link" href="{{ latest_invoice_url }}">{{ last_invoice.invoice_number }} - {{ last_invoice }}</a>
+                    Latest Invoice:
+                    {% if latest_invoice_url %}<a class="orange-text text-lighten-1 hover-link" href="{{ latest_invoice_url }}">{{ last_invoice }}</a>
                     {% else %}
                         <strong>N/A</strong>
                     {% endif %}
@@ -53,7 +53,7 @@
                                     <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice.company }}</a>
                                 </td>
                                 <td>{{ invoice.created|date:'d M y' }}</td>
-                                <td>£ {{ invoice.total|floatformat:2 }}</td>
+                                <td>£{{ invoice.total|default:0|floatformat:2 }}</td>
                                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                             </tr>
                         {% empty %}
@@ -81,9 +81,13 @@
                                     <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice.company }}</a>
                                 </td>
                                 <td class="{% if invoice.sent_date_delta > 30 %}red-text text-lighten-1{% endif %}">
-                                    {{ invoice.sent_date_delta|default_if_none:'-' }} day{% if invoice.sent_date_delta is not 1 %}s{% endif %}
+                                    {% if invoice.sent_date_delta is not None %}
+                                        {{ invoice.sent_date_delta }} day{% if invoice.sent_date_delta is not 1 %}s{% endif %}
+                                    {% else %}
+                                        Not Sent
+                                    {% endif %}
                                 </td>
-                                <td>£ {{ invoice.total|floatformat:2 }}</td>
+                                <td>£{{ invoice.total|default:0|floatformat:2 }}</td>
                                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
                             </tr>
                         {% empty %}

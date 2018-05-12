@@ -4,28 +4,30 @@
 
 {% block main %}
 
-<h1>Invoice List</h1>
+<h2>Invoice List</h2>
 
 <table class="bordered highlight">
     <thead>
         <tr>
             <th>Invoice</th>
-            <th>Invoice Number</th>
             <th>Created</th>
             <th>Amount</th>
+            <th>Sent</th>
             <th>Paid</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for invoice in object_list %}
-        <tr>
-            <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice }}</a></td>
-            <td>{{ invoice.invoice_number }}</td>
-            <td>{{ invoice.created.date }}</td>
-            <td>£ {{ invoice.total|floatformat:2 }}</td>
-            <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
-            <td>{% include 'helpers/table_buttons.html' %}</td>
+        {% for item in object_list %}
+        <tr class="{% if item.is_quote %}blue lighten-5{% endif %}">
+            <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' item.pk %}">{{ item }}</a></td>
+            <td>{{ item.created.date }}</td>
+            <td>£{{ item.total|default:0|floatformat:2 }}</td>
+            <td><i class="material-icons text-lighten-1{% if item.sent_date %} green-text tooltipped" data-position="top" data-tooltip="{{ item.sent_date.date }}">
+                done{% else %} grey-text">clear{% endif %}</i></td>
+            <td><i class="material-icons text-lighten-1{% if item.paid %} green-text">
+                done{% else %} grey-text">clear{% endif %}</i></td>
+            <td>{% include 'helpers/table_buttons.html' with type='invoice' %}</td>
         </tr>
         {% empty %}
         <tr>
@@ -39,5 +41,3 @@
 
 
 {% endblock %}
-
-
