@@ -6,8 +6,8 @@ from django.utils import timezone
 from django.forms.models import model_to_dict
 from datetime import datetime
 from django.urls import reverse
-import simplejson as json # needed for decimal json encoding
-# import json
+import simplejson as json  # needed for decimal json encoding
+import json as std_json
 from invoice import models
 
 
@@ -104,7 +104,7 @@ def mark_invoice_sent(request):
 
         context['sent_date'] = datetime.strftime(invoice[0].sent_date.date(), '%d %b %Y')
 
-    return HttpResponse(json.dumps(context, cls=DjangoJSONEncoder), content_type='application/json')
+    return HttpResponse(std_json.dumps(context, cls=DjangoJSONEncoder), content_type='application/json')
 
 
 @login_required()
