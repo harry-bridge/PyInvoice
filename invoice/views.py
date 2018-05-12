@@ -108,8 +108,8 @@ def invoice_update(request):
         defaults['company'] = get_object_or_404(models.Company, name=defaults.pop('company'))
         defaults['user'] = get_object_or_404(models.Profile, pk=int(defaults.pop('user')))
 
-        phone = defaults.pop('phone')
-        defaults['phone'] = int(phone) if phone.strip() else None
+        # phone = defaults.pop('phone')
+        # defaults['phone'] = int(phone) if phone.strip() else None
 
         defaults['utr'] = bool(defaults.pop('utr', None))
         defaults['paid'] = bool(defaults.pop('paid', None))
@@ -192,21 +192,18 @@ def company_update(request):
     if request.method == 'POST' and request.is_ajax():
         defaults = QueryDict(request.POST['company_form'].encode('ASCII')).dict()
         defaults.pop('csrfmiddlewaretoken')
-        context['company_pk'] = int(defaults.pop('company_pk'))
-        context['redirect'] = bool(int(defaults.pop('redirect_on_save')))
+        company_pk = int(defaults.pop('company_pk'))
+        # context['redirect'] = bool(int(defaults.pop('redirect_on_save')))
 
-        if context['company_pk'] == 0:
+        if company_pk == 0:
             company = models.Company.objects.create(**defaults)
-            context['company_pk'] = company.pk
-            context['company_name'] = company.name
-
         else:
-            company, created = models.Company.objects.update_or_create(pk=context['company_pk'], defaults=defaults)
+            company, created = models.Company.objects.update_or_create(pk=company_pk, defaults=defaults)
 
-            context['name'] = company.name
+        context['company'] = company.name
 
-        if context['redirect']:
-            context['url'] = '/company/' + str(context['company_pk'])
+        # if context['redirect']:
+        #     context['url'] = '/company/' + str(context['company_pk'])
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 

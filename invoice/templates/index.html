@@ -81,7 +81,11 @@
                                     <a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' invoice.pk %}">{{ invoice.company }}</a>
                                 </td>
                                 <td class="{% if invoice.sent_date_delta > 30 %}red-text text-lighten-1{% endif %}">
-                                    {{ invoice.sent_date_delta|default_if_none:'-' }} day{% if invoice.sent_date_delta is not 1 %}s{% endif %}
+                                    {% if invoice.sent_date_delta %}
+                                        {{ invoice.sent_date_delta}} day{% if invoice.sent_date_delta is not 1 %}s{% endif %}
+                                    {% else %}
+                                        Not Sent
+                                    {% endif %}
                                 </td>
                                 <td>£{{ invoice.total|floatformat:2 }}</td>
                                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>

@@ -1,8 +1,9 @@
-from django.shortcuts import HttpResponse, get_object_or_404
+from django.shortcuts import HttpResponse, get_object_or_404, render_to_response
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
+from django.forms.models import model_to_dict
 from datetime import datetime
 from django.urls import reverse
 # import simplejson as json
@@ -36,19 +37,24 @@ def get_items_for_table(request):
 
 
 @login_required()
-def get_company_for_modal(request):
+def get_company_for_form(request):
     context = dict()
+    data = dict()
     if request.method == 'POST' and request.is_ajax():
-        company_pk = request.POST.get('company_pk', '0')
+        company_name = request.POST.get('company_name', None)
+        data['form_type'] = request.POST.get('form_type', None)
+        data['editStatus'] = 'Add'
 
-        if company_pk != '0':
-            company = get_object_or_404(models.Company, pk=company_pk)
-            context['company_pk'] = company.pk
-            context['name'] = company.name
-            context['address'] = company.address
-            context['email'] = company.email
+        if company_name:
+            context['company'] = get_object_or_404(models.Company, name=company_name)
+            data['editStatus'] = 'Edit'
 
-    return HttpResponse(json.dumps(context), content_type='application/json')
+        if data['form_type'] == 'modal':
+            data['html'] = render_to_string('company_form.html', context)
+        else:
+            data['company'] = model_to_dict(context['company'])
+
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 @login_required()

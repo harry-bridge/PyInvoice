@@ -42,7 +42,7 @@
                 <a class="tooltipped light-blue-text text-lighten-1" data-position="top" data-tooltip="View Company" href="{% url 'company_detail' company.pk %}">
                     <i class="material-icons icon-hoverable">visibility</i>
                 </a>
-                <a class="tooltipped orange-text text-lighten-1" data-position="top" data-tooltip="Edit Company" href="{% url 'company_edit' company.pk %}">
+                <a class="tooltipped orange-text text-lighten-1" data-position="top" data-tooltip="Edit Company" onclick="getCompanyForModal('{{ company.name }}')">
                     <i class="material-icons icon-hoverable">edit</i>
                 </a>
             </td>

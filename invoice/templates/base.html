@@ -6,7 +6,7 @@
 <head>
     <title>{% block title %}{% endblock %} | PyInvoice</title>
     <!--Import Google Icon Font-->
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="{% static 'stylesheets/materialize.css' %}" media="screen,projection"/>
 
     <!--Let browser know website is optimized for mobile-->
@@ -34,7 +34,7 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'index' %}">Home</a></li>
                     <li><a class="dropdown-button" href="#" data-activates="invoice_dropdown">Invoice<i class="material-icons right">arrow_drop_down</i></a></li>
-                    <li><a class="dropdown-button" href="#" data-activates="expense_dropdown">Expenses<i class="material-icons right">arrow_drop_down</i></a></li>
+{#                    <li><a class="dropdown-button" href="#" data-activates="expense_dropdown">Expenses<i class="material-icons right">arrow_drop_down</i></a></li>#}
                     <li><a class="dropdown-button" href="#" data-activates="company_dropdown">Company<i class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a class="dropdown-button" href="#" data-activates="user_dropdown">{{ user.first_name|default:user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
                 {% else %}
@@ -67,12 +67,12 @@
 
     <ul id="expense_dropdown" class="dropdown-content">
         <li><a href="{% url 'expense_list' %}">View All</a></li>
-        <li><a href="{% url 'expense_create' %}">Add</a></li>
+        <li><a onclick="getExpenseItemsForModal([0, 0, 0])">Add</a></li>
     </ul>
 
     <ul id="company_dropdown" class="dropdown-content">
         <li><a href="{% url 'company_list' %}">View All</a></li>
-        <li><a href="{% url 'company_create' %}">Add</a></li>
+        <li><a onclick="getCompanyForModal(0)">Add</a></li>
     </ul>
 
     <ul id="user_dropdown" class="dropdown-content">
@@ -92,6 +92,9 @@
         {% block main %}
         {% endblock %}
     </div>
+
+    {% include 'expense_modal.html' %}
+    {% include 'company_modal.html' %}
 </main>
 
 
@@ -103,6 +106,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="{% static 'js/materialize.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/form_submit.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/ajax_form_post.js' %}"></script>
 
     <script>
