@@ -49,6 +49,7 @@ class Invoice(models.Model):
     paid = models.BooleanField(default=False)
     paid_date = models.DateTimeField(blank=True, null=True)
     utr = models.BooleanField(default=False)
+    po_number = models.CharField(max_length=30, blank=True, null=True)
     is_quote = models.BooleanField(default=False)
     sent_date = models.DateTimeField(blank=True, null=True)
     user_invoice_number = models.CharField(max_length=15, blank=True, null=True)
