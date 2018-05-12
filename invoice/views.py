@@ -108,9 +108,6 @@ def invoice_update(request):
         defaults['company'] = get_object_or_404(models.Company, name=defaults.pop('company'))
         defaults['user'] = get_object_or_404(models.Profile, pk=int(defaults.pop('user')))
 
-        # phone = defaults.pop('phone')
-        # defaults['phone'] = int(phone) if phone.strip() else None
-
         defaults['utr'] = bool(defaults.pop('utr', None))
         defaults['paid'] = bool(defaults.pop('paid', None))
         defaults['is_quote'] = bool(defaults.pop('is_quote', None))

@@ -47,6 +47,7 @@ class Invoice(models.Model):
     created = models.DateTimeField(blank=True, auto_now_add=True)
     updated = models.DateTimeField(blank=True, auto_now=True)
     paid = models.BooleanField(default=False)
+    paid_date = models.DateTimeField(blank=True, null=True)
     utr = models.BooleanField(default=False)
     is_quote = models.BooleanField(default=False)
     sent_date = models.DateTimeField(blank=True, null=True)
@@ -85,6 +86,11 @@ class Invoice(models.Model):
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()
+
+        if self.paid and not self.paid_date:
+            self.paid_date = timezone.now()
+        elif self.paid_date and not self.paid:
+            self.paid_date = None
 
         super(Invoice, self).save(*args, **kwargs)
 

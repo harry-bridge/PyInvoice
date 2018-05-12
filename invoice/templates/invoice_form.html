@@ -72,13 +72,17 @@
                         <dd>{{ invoice.company.address|linebreaksbr }}</dd>
 
                         <dt>Person</dt>
-                        <dd>{{ invoice.company.person }}</dd>
+                        <dd>{{ invoice.company.person|default:'-' }}</dd>
 
                         <dt>Phone</dt>
                         <dd>
+                            {% if invoice.company.phone %}
                             <a class="hover-link orange-text text-lighten-1" href="tel:{{ invoice.company.phone }}">
                                 {{ invoice.company.phone }}
                             </a>
+                            {% else %}
+                                -
+                            {% endif %}
                         </dd>
 
                         <dt>Email</dt>
