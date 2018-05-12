@@ -18,6 +18,7 @@
     {% if edit or not company.pk %}
 
         <form method="POST" role="form" class="row" id="company-form">
+            <input type="hidden" name="sender" value="company_update">
             {% csrf_token %}
             {% include 'company_form.html' %}
 

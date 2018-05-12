@@ -100,7 +100,7 @@ class InvoiceItem(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
 
     def save(self, *args, **kwargs):
-        self.total = self.quantity * self.cost
+        self.total = float(self.quantity) * float(self.cost)
 
         super(InvoiceItem, self).save(*args, **kwargs)
 

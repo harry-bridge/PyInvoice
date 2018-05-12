@@ -72,7 +72,8 @@
 
     <ul id="company_dropdown" class="dropdown-content">
         <li><a href="{% url 'company_list' %}">View All</a></li>
-        <li><a onclick="getCompanyForModal(0)">Add</a></li>
+{#        <li><a onclick="getCompanyForModal(0)">Add</a></li>#}
+        <li><a href="{% url 'company_create' %}">Add</a></li>
     </ul>
 
     <ul id="user_dropdown" class="dropdown-content">

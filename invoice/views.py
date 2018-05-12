@@ -193,6 +193,7 @@ def company_update(request):
         defaults = QueryDict(request.POST['company_form'].encode('ASCII')).dict()
         defaults.pop('csrfmiddlewaretoken')
         company_pk = int(defaults.pop('company_pk'))
+        sender = defaults.pop('sender')
         # context['redirect'] = bool(int(defaults.pop('redirect_on_save')))
 
         if company_pk == 0:
@@ -202,8 +203,9 @@ def company_update(request):
 
         context['company'] = company.name
 
-        # if context['redirect']:
-        #     context['url'] = '/company/' + str(context['company_pk'])
+        if sender != 'company_modal':
+            context['url'] = reverse('company_detail', args=[company.pk])
+            # context['url'] = '/company/' + str(context['company_pk'])
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 

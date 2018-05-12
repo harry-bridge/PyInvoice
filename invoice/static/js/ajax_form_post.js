@@ -116,18 +116,14 @@ function updateCompany() {
         success: function (data) {
             console.log("update");
 
-            // if (data['redirect']) {
-            //     window.location.href = data['url'];
-            // } else {
-            //     $('#company-select').append($('<option>', {
-            //         value: data['company_pk'],
-            //         text: data['company_name']
-            //     })).val(data['company_pk']).material_select();
-            // }
-            $('#companyModal').modal('close');
-            // getCompanyForForm(data['company_name'], 'form');
-            $('#company-autocomplete').val(data['company']);
-            Materialize.updateTextFields();
+            if (data['url']) {
+                window.location.href = data['url'];
+            } else {
+                $('#companyModal').modal('close');
+                // getCompanyForForm(data['company_name'], 'form');
+                $('#company-autocomplete').val(data['company']);
+                Materialize.updateTextFields();
+            }
 
         },
         error : function(xhr) {console.log(xhr.status + ": " + xhr.responseText)}

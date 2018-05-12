@@ -1,6 +1,7 @@
 <div id="companyModal" class="modal modal-fixed-footer">
     <div class="row">
         <form method="POST" role="form" id="company-form">
+            <input type="hidden" name="sender" value="company_modal">
             {% csrf_token %}
             <div class="modal-content">
                 <h4><span id="editStatusCompany">Add</span> Company</h4>
