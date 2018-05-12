@@ -44,8 +44,6 @@ class Company(models.Model):
 class Invoice(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    person = models.CharField(max_length=80)
-    phone = models.CharField(max_length=15, blank=True, null=True)
     created = models.DateTimeField(blank=True, auto_now_add=True)
     updated = models.DateTimeField(blank=True, auto_now=True)
     paid = models.BooleanField(default=False)

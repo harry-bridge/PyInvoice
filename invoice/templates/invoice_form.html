@@ -67,10 +67,19 @@
                             </a>
                         </dd>
 
-                        {% if invoice.person %}
-                            <dt>Person</dt>
-                            <dd>{{ invoice.person }}</dd>
-                        {% endif %}
+                        <br>
+                        <dt>Address</dt>
+                        <dd>{{ invoice.company.address|linebreaksbr }}</dd>
+
+                        <dt>Person</dt>
+                        <dd>{{ invoice.company.person }}</dd>
+
+                        <dt>Phone</dt>
+                        <dd>
+                            <a class="hover-link orange-text text-lighten-1" href="tel:{{ invoice.company.phone }}">
+                                {{ invoice.company.phone }}
+                            </a>
+                        </dd>
 
                         <dt>Email</dt>
                         <dd>
@@ -79,18 +88,7 @@
                             </a>
                         </dd>
 
-                        {% if invoice.phone %}
-                            <dt>Phone</dt>
-                            <dd>
-                                <a class="hover-link orange-text text-lighten-1" href="tel:{{ invoice.phone }}">
-                                    {{ invoice.phone }}
-                                </a>
-                            </dd>
-                        {% endif %}
 
-                        <br>
-                        <dt>Address</dt>
-                        <dd>{{ invoice.company.address|linebreaksbr }}</dd>
                     </dl>
                     {% endif %}
                 </div>
@@ -103,7 +101,7 @@
                     <dl class="dl-horizontal">
                         {% if invoice.created.date %}
                             <dt>Invoice Created:</dt>
-                            <dd>{{ invoice.created.date }}</dd>
+                            <dd>{{ invoice.created }}</dd>
                         {% endif %}
                         {% if not edit %}
                             <dt>Invoice Updated:</dt>
@@ -116,8 +114,10 @@
                             <dt>Paid</dt>
                             <dd>{{ invoice.paid }}</dd>
 
-                            <dt>UTR</dt>
-                            <dd>{{ invoice.utr }}</dd>
+                            {% if invoice.utr %}
+                                <dt>UTR</dt>
+                                <dd>{{ invoice.utr }}</dd>
+                            {% endif %}
 
                             {% if invoice.is_quote %}
                                 <dt>Quote</dt>
@@ -132,7 +132,7 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <input type="text" id="user_invoice_number" name="user_invoice_number" value="{{ invoice.user_invoice_number|default_if_none:'' }}">
-                                <label for="user_invoice_number">User Invoice Number - Optional</label>
+                                <label for="user_invoice_number">Custom Invoice Number - Optional</label>
                             </div>
                             <div class="col s6 _3pad5_left">
                                 <input type="checkbox" class="filled-in" id="paid" name="paid"

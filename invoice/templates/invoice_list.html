@@ -23,9 +23,10 @@
             <td><a class="hover-link orange-text text-lighten-1" href="{% url 'invoice_detail' item.pk %}">{{ item }}</a></td>
             <td>{{ item.created.date }}</td>
             <td>£{{ item.total|default:0|floatformat:2 }}</td>
-            <td><i class="material-icons text-lighten-1{% if item.sent_date %} green-text">
+            <td><i class="material-icons text-lighten-1{% if item.sent_date %} green-text tooltipped" data-position="top" data-tooltip="{{ item.sent_date.date }}">
                 done{% else %} grey-text">clear{% endif %}</i></td>
-            <td><i class="material-icons text-lighten-1{% if item.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
+            <td><i class="material-icons text-lighten-1{% if item.paid %} green-text">
+                done{% else %} grey-text">clear{% endif %}</i></td>
             <td>{% include 'helpers/table_buttons.html' with type='invoice' %}</td>
         </tr>
         {% empty %}
