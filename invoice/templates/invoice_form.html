@@ -114,6 +114,9 @@
                             <dt>Invoice Number:</dt>
                             <dd>{{ invoice.invoice_number }}</dd>
 
+                            <dt>PO Number:</dt>
+                            <dd>{{ invoice.po_number|default:'-' }}</dd>
+
                             <br>
                             <dt>Paid</dt>
                             <dd>{{ invoice.paid }}</dd>
@@ -137,6 +140,10 @@
                             <div class="input-field col s12">
                                 <input type="text" id="user_invoice_number" name="user_invoice_number" value="{{ invoice.user_invoice_number|default_if_none:'' }}">
                                 <label for="user_invoice_number">Custom Invoice Number - Optional</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input type="text" id="po_number" name="po_number" value="{{ invoice.po_number|default_if_none:'' }}">
+                                <label for="po_number">PO Number - Optional</label>
                             </div>
                             <div class="col s6 _3pad5_left">
                                 <input type="checkbox" class="filled-in" id="paid" name="paid"
