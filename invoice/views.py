@@ -38,7 +38,7 @@ class Index(LoginRequiredMixin, generic.TemplateView):
         context['not_paid_count'] = invoice.filter(paid=False).count()
         context['last_invoice'] = invoice.last()
         context['latest_invoices'] = invoice.order_by('-created')[:5]
-        context['pending_invoices'] = invoice.filter(paid=False).order_by('created')
+        context['pending_invoices'] = invoice.filter(paid=False).order_by('sent_date')
 
         context['not_paid_total'] = 0
         for invoice in models.Invoice.objects.filter(user=self.request.user, paid=False):
