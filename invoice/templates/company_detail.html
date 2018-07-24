@@ -84,7 +84,7 @@
                 <td><i class="material-icons text-lighten-1{% if invoice.sent_date %} green-text tooltipped" data-position="top" data-tooltip="{{ invoice.sent_date.date }}"
                     >done{% else %} grey-text">clear{% endif %}</i></td>
                 <td><i class="material-icons text-lighten-1{% if invoice.paid %} green-text">done{% else %} grey-text">clear{% endif %}</i></td>
-                <td>{% include 'helpers/table_buttons.html' %}</td>
+                <td>{% include 'helpers/table_buttons.html' with type='invoice' item=invoice %}</td>
             </tr>
             {% endfor %}
         </tbody>
