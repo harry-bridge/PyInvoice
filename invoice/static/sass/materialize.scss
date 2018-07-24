@@ -271,6 +271,23 @@ td {
   transform: scaleX(0.01) scaleY(0.01) translateY(0px) translateX(-40px) !important;
 }
 
+#itemModal {
+  height: auto !important;
+
+  .modal-content {
+    display: inline-block;
+    position: relative;
+    height: 100% !important;
+  }
+
+  .modal-footer {
+    display: inline-block;
+    position: relative;
+    bottom: 0;
+
+  }
+}
+
 
 // 3. Helpers
 // ==========================================================================

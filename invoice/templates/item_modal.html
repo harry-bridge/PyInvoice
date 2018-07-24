@@ -1,8 +1,8 @@
 <div id="itemModal" class="modal modal-fixed-footer">
-    <div class="row">
-        <form id="invoice-item-form" method="POST" class="col s12">
-            {% csrf_token %}
-            <div class="modal-content _height_100">
+    <div class="modal-content">
+        <div class="row no-margin-bottom">
+            <form id="invoice-item-form" method="POST" class="col s12">
+                {% csrf_token %}
                 <h4 id="editStatus">Add Item</h4>
                 <div class="divider" style="margin-bottom: 15px"></div>
 
@@ -14,21 +14,21 @@
                 </div>
 
                 <div class="input-field col s6">
-                    <input type="number" id="quantityInput" name="quantity" class="validate" min="0" max="99999.99" step="0.01">
+                    <input type="number" id="quantityInput" name="quantity" class="validate no-margin-bottom" min="0" max="99999.99" step="0.01">
                     <label for="quantity" id="quantityInputLabel">Quantity</label>
 
                 </div>
 
                 <div class="input-field col s6">
-                    <input type="number" id="costInput" name="cost" class="validate" min="-99999999.99" max="99999999.99" step="0.01">
+                    <input type="number" id="costInput" name="cost" class="validate no-margin-bottom" min="-99999999.99" max="99999999.99" step="0.01">
                     <label for="cost" id="costInputLabel">Cost</label>
                 </div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="submit" name="action" class="waves-effect waves-green btn-flat">Save</button>
-                <a class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
-            </div>
-        </form>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" name="action" class="waves-effect waves-green btn-flat">Save</button>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
     </div>
 </div>
