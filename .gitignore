@@ -6,6 +6,7 @@ db.sqlite3
 venv/*
 *.pyc
 /staticfiles
+invoice/static/stylesheets/
 .env
 postgres
 media/
