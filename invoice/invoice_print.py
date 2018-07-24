@@ -28,8 +28,8 @@ class InvoicePrint(generic.View):
             'user': user,
             'fonts': {
                 'roboto': {
-                    'regular': 'invoice/static/fonts/roboto/Roboto-Thin.ttf',
-                    'bold': 'invoice/static/fonts/roboto/Roboto-Light.ttf',
+                    'regular': 'invoice/static/fonts/roboto/Roboto-Light.ttf',
+                    'bold': 'invoice/static/fonts/roboto/Roboto-Regular.ttf',
                 }
             },
             'logo': 'invoice/static/imgs/paperwork/{}'.format(logo_path)
