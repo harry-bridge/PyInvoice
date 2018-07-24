@@ -189,6 +189,7 @@ def company_update(request):
     if request.method == 'POST' and request.is_ajax():
         defaults = QueryDict(request.POST['company_form'].encode('ASCII')).dict()
         defaults.pop('csrfmiddlewaretoken')
+        defaults['require_utr'] = bool(defaults.pop('require_utr', None))
         company_pk = int(defaults.pop('company_pk'))
         sender = defaults.pop('sender')
         # context['redirect'] = bool(int(defaults.pop('redirect_on_save')))

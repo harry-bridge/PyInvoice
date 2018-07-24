@@ -24,3 +24,9 @@
     <input type="text" name="phone" class="validate" value="{{ company.phone|default:'' }}">
     <label for="phone">Phone</label>
 </div>
+
+<div class="col s12">
+    <input type="checkbox" class="filled-in" id="require_utr" name="require_utr"
+    {% if company.require_utr %}checked="checked"{% endif %}>
+    <label for="require_utr">Require UTR</label>
+</div>

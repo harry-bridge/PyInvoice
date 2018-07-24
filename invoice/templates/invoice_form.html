@@ -121,9 +121,17 @@
                             <dt>Paid</dt>
                             <dd>{{ invoice.paid }}</dd>
 
-                            {% if invoice.utr %}
+                            {% if invoice.utr or invoice.utr != invoice.company.require_utr %}
                                 <dt>UTR</dt>
-                                <dd>{{ invoice.utr }}</dd>
+                                <dd>
+                                    {% if invoice.utr != invoice.company.require_utr %}
+                                        <span class="red-text tooltipped" data-position="top" data-tooltip="Company requires UTR">
+                                    {% else %}
+                                        <span>
+                                    {% endif %}
+                                    {{ invoice.utr }}
+                                    </span>
+                                </dd>
                             {% endif %}
 
                             {% if invoice.is_quote %}

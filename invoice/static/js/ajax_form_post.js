@@ -94,8 +94,9 @@ function getCompanyForForm(company_name, form_type) {
                 $('#div_for_company_form').html(data['html']);
                 $('#companyModal').modal('open')
             } else {
-                $('#company-person').val(data['company']['person']);
-                $('#company-phone').val(data['company']['phone'])
+                if (data['company']['require_utr']) {
+                    $('#utr').attr("checked", "checked")
+                }
             }
 
             Materialize.updateTextFields()

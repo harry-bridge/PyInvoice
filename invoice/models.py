@@ -33,6 +33,7 @@ class Company(models.Model):
     email = models.CharField(max_length=150)
     person = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
+    require_utr = models.BooleanField(default=False)
 
     def company_invoice_total(self):
         return Sum(self.invoice_set.all)

@@ -27,6 +27,12 @@
                             {{ company.email }}
                         </a>
                     </dd>
+
+                    {% if company.require_utr %}
+                    <dt>Require UTR</dt>
+                    <dd>{{ company.require_utr }}</dd>
+                    {% endif %}
+
                 </dl>
             </div>
         </div>
