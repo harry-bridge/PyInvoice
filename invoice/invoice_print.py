@@ -4,6 +4,7 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from z3c.rml import rml2pdf
+from django.utils import timezone
 
 from invoice import models
 
@@ -46,6 +47,10 @@ class InvoicePrint(generic.View):
         else:
             invoice_number = 'N%04d' % invoice.pk
 
-        response['Content-Disposition'] = "filename=%s | %s.pdf" % (invoice_number, str(invoice.company).replace(',', ''))
+        response['Content-Disposition'] = "filename={}_{}.pdf".format(
+            invoice_number,
+            str(invoice.company).replace(',', ' ')
+        )
+        # response['Content-Disposition'] = 'filename=test.pdf'
         response.write(buf.read())
         return response
