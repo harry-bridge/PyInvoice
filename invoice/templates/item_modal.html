@@ -1,7 +1,7 @@
 <div id="itemModal" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <div class="row no-margin-bottom">
-            <form id="invoice-item-form" method="POST" class="col s12">
+    <form id="invoice-item-form" method="POST" >
+        <div class="modal-content">
+            <div class="row no-margin-bottom">
                 {% csrf_token %}
                 <h4 id="editStatus">Add Item</h4>
                 <div class="divider" style="margin-bottom: 15px"></div>
@@ -24,11 +24,11 @@
                     <label for="cost" id="costInputLabel">Cost</label>
                 </div>
 
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="submit" name="action" class="waves-effect waves-green btn-flat">Save</button>
-        <a class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
-    </div>
+        <div class="modal-footer">
+            <button type="submit" name="action" class="waves-effect waves-green btn-flat">Save</button>
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+        </div>
+    </form>
 </div>
