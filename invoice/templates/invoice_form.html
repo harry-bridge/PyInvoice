@@ -125,7 +125,14 @@
                                 <dt>UTR</dt>
                                 <dd>
                                     {% if invoice.utr != invoice.company.require_utr %}
-                                        <span class="red-text tooltipped" data-position="top" data-tooltip="Company requires UTR">
+
+                                        <span class="red-text tooltipped" data-position="top" data-tooltip="Company
+                                        {% if invoice.utr %}
+                                        does not require
+                                        {% else %}
+                                        requires
+                                        {% endif %}
+                                        UTR">
                                     {% else %}
                                         <span>
                                     {% endif %}
