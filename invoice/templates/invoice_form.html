@@ -62,14 +62,14 @@
                     <dl class="dl-horizontal">
                         <dt>Company</dt>
                         <dd>
-                            <a class="{% if invoice.company %}hover-link{% endif %} orange-text text-lighten-1" href="{% if invoice.company %}{% url 'company_detail' invoice.company.pk %}{% endif %}">
+                            <a class="{% if invoice.company %}hover-link{% endif %} orange-text text-lighten-1 truncate" href="{% if invoice.company %}{% url 'company_detail' invoice.company.pk %}{% endif %}">
                                 {{ invoice.company }}
                             </a>
                         </dd>
 
                         <br>
                         <dt>Address</dt>
-                        <dd>{{ invoice.company.address|linebreaksbr }}</dd>
+                        <dd class="truncate">{{ invoice.company.address|linebreaksbr }}</dd>
 
                         <dt>Person</dt>
                         <dd>{{ invoice.company.person|default:'-' }}</dd>
@@ -87,7 +87,7 @@
 
                         <dt>Email</dt>
                         <dd>
-                            <a class="hover-link orange-text text-lighten-1" href="mailto:{{ invoice.company.email }}">
+                            <a class="hover-link orange-text text-lighten-1 truncate" href="mailto:{{ invoice.company.email }}">
                                 {{ invoice.company.email }}
                             </a>
                         </dd>
