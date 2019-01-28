@@ -76,7 +76,7 @@ class InvoiceCreate(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(InvoiceCreate, self).get_context_data(**kwargs)
-        context['companies'] = models.Company.objects.all()
+        context['companies'] = models.Company.objects.all().order_by('name')
 
         context['edit'] = True
         return context
@@ -87,7 +87,7 @@ class InvoiceEdit(LoginRequiredMixin, UserPassesTestMixin, generic.TemplateView)
 
     def get_context_data(self, **kwargs):
         context = super(InvoiceEdit, self).get_context_data(**kwargs)
-        context['companies'] = models.Company.objects.all()
+        context['companies'] = models.Company.objects.all().order_by('name')
         context['invoice'] = get_object_or_404(models.Invoice, pk=self.kwargs['pk'])
         context['edit'] = True
 
@@ -153,6 +153,7 @@ def invoice_item_update(request):
 class CompanyList(LoginRequiredMixin, generic.ListView):
     model = models.Company
     template_name = 'company_list.html'
+    ordering = 'name'
 
 
 class CompanyDetail(LoginRequiredMixin, generic.DetailView):
