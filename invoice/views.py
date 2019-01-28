@@ -6,6 +6,7 @@ from django.contrib.auth import views
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.utils import timezone
 from dateutil import parser
 from django.urls import reverse
 from django.db.models import Q
@@ -112,10 +113,18 @@ def invoice_update(request):
         defaults['paid'] = bool(defaults.pop('paid', None))
         defaults['is_quote'] = bool(defaults.pop('is_quote', None))
 
+        if defaults['paid']:
+            defaults['paid_date'] = timezone.now()
+        else:
+            defaults['paid_date'] = None
+
         if not defaults['sent_date'] == '':
             defaults['sent_date'] = parser.parse(defaults.pop('sent_date', None))
         else:
             defaults['sent_date'] = None
+
+            if defaults['paid']:
+                defaults['sent_date'] = timezone.now()
 
         if invoice_pk == 0:
             invoice = models.Invoice.objects.create(**defaults)

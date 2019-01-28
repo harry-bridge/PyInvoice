@@ -108,6 +108,22 @@ def mark_invoice_sent(request):
 
 
 @login_required()
+def mark_invoice_paid(request):
+    context = dict()
+    if request.method == 'POST' and request.is_ajax():
+        invoice_pk = request.POST.get('invoice_pk', '0')
+
+        invoice = models.Invoice.objects.update_or_create(pk=invoice_pk, defaults={
+            'paid_date': timezone.now(),
+            'paid': True,
+        })
+        # context['paid_date'] = invoice[0].paid_date
+        context['paid_date'] = datetime.strftime(invoice[0].paid_date.date(), '%d %b %Y')
+
+    return HttpResponse(std_json.dumps(context, cls=DjangoJSONEncoder), content_type='application/json')
+
+
+@login_required()
 def get_items_for_delete_modal(request):
     context = dict()
     if request.method == 'POST' and request.is_ajax():

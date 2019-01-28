@@ -31,6 +31,23 @@ function markInvoiceSent(invoice_pk) {
     });
 }
 
+function markInvoicePaid(invoice_pk) {
+    $.ajax({
+        url : "/api/mark_paid", // the endpoint
+        type : "POST", // http method
+        data : {
+            invoice_pk: invoice_pk
+        },
+        traditional: true,
+
+        success : function(data) {
+            // console.log(data);
+            $('#invoice-paid-date').text(data['paid_date']);
+            $('#mark_paid_button').addClass('scale-out-button')
+        }
+    });
+}
+
 function updateItem() {
     $.ajax({
         url : "/invoice/item/update/", // the endpoint

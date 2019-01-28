@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^api/get_company_for_form/$', api.get_company_for_form, name='get_company_for_form'),
     url(r'^api/invoice_logo_upload/$', api.invoice_photo_upload, name='invoice_photo_upload'),
     url(r'^api/mark_sent', api.mark_invoice_sent, name='mark_invoice_sent'),
+    url(r'^api/mark_paid', api.mark_invoice_paid, name='mark_invoice_paid'),
     url(r'^api/get_expense_items_for_modal/$', api.get_expense_items_for_modal, name='get_expense_items_for_modal'),
     url(r'^api/get_items_for_delete_modal/$', api.get_items_for_delete_modal, name='get_items_for_delete_modal'),
     url(r'^api/delete_item', api.delete_item, name='delete_item'),

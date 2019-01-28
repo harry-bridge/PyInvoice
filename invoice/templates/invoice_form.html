@@ -119,7 +119,7 @@
 
                             <br>
                             <dt>Paid</dt>
-                            <dd>{{ invoice.paid }}</dd>
+                            <dd id="invoice-paid-date">{{ invoice.paid_date.date|default:'-' }}</dd>
 
                             {% if invoice.utr or invoice.utr != invoice.company.require_utr %}
                                 <dt>UTR</dt>
@@ -220,10 +220,13 @@
             <!-- Reverse Order -->
             {% if not edit %}
                 {% if not invoice.sent_date %}
-                    <li><a onclick="markInvoiceSent({{ invoice.id }})" id="mark_sent_button" class="btn-floating green lighten-1 tooltipped" data-position="top" data-tooltip="Mark Sent"><i class="material-icons">done</i></a></li>
+                    <li><a onclick="markInvoiceSent({{ invoice.id }})" id="mark_sent_button" class="btn-floating green lighten-1 tooltipped" data-position="top" data-tooltip="Mark Sent"><i class="material-icons">reply</i></a></li>
+                {% endif %}
+                {% if not invoice.paid_date %}
+                    <li><a onclick="markInvoicePaid({{ invoice.id }})" id="mark_paid_button" class="btn-floating orange lighten-1 tooltipped" data-position="top" data-tooltip="Mark Paid"><i class="material-icons">attach_money</i></a></li>
                 {% endif %}
                 <li><a href="/invoice/{{ invoice.id }}/print" target="_blank" class="btn-floating purple lighten-1 tooltipped" data-position="top" data-tooltip="Print"><i class="material-icons">print</i></a></li>
-                <li><a href="edit/" class="btn-floating"><i class="material-icons tooltipped" data-position="top" data-tooltip="Edit">edit</i></a></li>
+                <li><a href="edit/" class="btn-floating orange lighten-1"><i class="material-icons tooltipped" data-position="top" data-tooltip="Edit">edit</i></a></li>
             {% else %}
                 <li><a class="btn-floating pink lighten-1" onclick="showDeleteModal('{{ invoice }}', {{ invoice.pk }}, 'Invoice')"><i class="material-icons tooltipped" data-position="top" data-tooltip="Delete">delete</i></a></li>
                 <li><button name="action" type="submit" class="btn-floating light-blue lighten-1"><i class="material-icons tooltipped" data-position="top" data-tooltip="Save">save</i></button></li>
