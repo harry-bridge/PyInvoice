@@ -52,7 +52,10 @@
 
     {% if edit %}
     <script>
-        $('#addressInput').val("{{ company.address|linebreaksn|default_if_none:'' }}").trigger('autoresize');
+        $(document).ready(function() {
+            $('#addressInput').val("{{ company.address|linebreaksn|default_if_none:'' }}").trigger('autoresize');
+            Materialize.updateTextFields();
+        });
     </script>
     {% endif %}
 
