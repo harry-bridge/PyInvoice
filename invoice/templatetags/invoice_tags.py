@@ -36,3 +36,10 @@ def latest_invoice_user(company, user):
     company = get_object_or_404(models.Company, pk=company.pk)
 
     return company.invoice_set.filter(user=user).last()
+
+
+@register.filter(is_safe=False)
+def rect_y(value, arg):
+    """Computes rect offset for invoice print"""
+
+    return int(value) - ((int(arg) - 1) * 35)

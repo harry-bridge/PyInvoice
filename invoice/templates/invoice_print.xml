@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 {% load static %}
+{% load invoice_tags %}
 <!DOCTYPE document SYSTEM "rml.dtd">
 
 <document filename="Invoice {{ invoice.id }} - {{ invoice.company }} - {{ invoice.created.date }}.pdf">
@@ -73,15 +74,18 @@
                 <rect height="100" width="595" x="0" y="742" fill="yes" stroke="no" /> {# Top Banner #}
                 <rect y="0" x="0" width="595" height="23" fill="yes" stroke="no" /> {# Footer #}
                 <rect height="30" width="240" x="25" y="685" round="2" fill="yes" stroke="no" /> {# Bill to #}
-                <rect height="24" width="220" x="350" y="662" round="2" fill="yes" stroke="no" /> {# Date #}
-                <rect height="24" width="220" x="350" y="627" round="2" fill="yes" stroke="no" /> {# Invoice No #}
-                {% if invoice.utr %}
-                    <rect height="24" width="220" x="350" y="592" round="2" fill="yes" stroke="no" /> {# UTR No #}
-                {% endif %}
 
                 {% if not invoice.is_quote %}
                     <rect height="24" width="240" x="25" y="140" round="2" fill="yes" stroke="no" /> {# Payment #}
                 {% endif %}
+
+                {% for item in invoice_info %}
+                    <fill color="darkGrey" />
+                    <rect height="24" width="220" x="350" y="{{ 675|rect_y:forloop.counter }}" round="2" fill="yes" stroke="no" />
+                    <fill color="white" />
+                    <setFont name="Roboto" size="13" />
+                    <drawString x="360" y="{{ 682.5|rect_y:forloop.counter }}" text="">{{ item }}</drawString>
+                {% endfor %}
 
                 <image file="{{ logo }}" x="0" y="745" height="97" width="262"/>
 
@@ -89,21 +93,8 @@
                 <setFont name="Roboto" size="15" />
                 <drawString x="35" y="695" text="">{% if invoice.is_quote %}QUOTE{% else %}BILL TO{% endif %}</drawString>
                 <setFont name="Roboto" size="13" />
-                <drawString x="360" y="669.5" text="">DATE</drawString>
-                <drawString x="360" y="634.5" text="">INVOICE NO.</drawString>
-                {% if invoice.utr %}
-                    <drawString x="360" y="599" text="">UTR NO.</drawString>
-                {% endif %}
                 {% if not invoice.is_quote %}
                     <drawString x="35" y="147.5" text="">PAYMENT</drawString>
-                {% endif %}
-
-
-                <setFont name="Roboto-Bold" size="13" />
-                <drawString x="400" y="669.5" text="">{{ invoice.created.date }}</drawString> {# date now #}
-                <drawString x="440" y="634.5" text="">{{ invoice.invoice_number }}</drawString>
-                {% if invoice.utr %}
-                    <drawString x="418" y="599" text="">{{ user.utr }}</drawString>
                 {% endif %}
 
                 <setFont name="Roboto" size="9" />
@@ -115,6 +106,7 @@
                 {% endif %}
             </pageGraphics>
 
+            <frame id="invoice_options_table" height="200" width="220" x1="200" y1="100"/>
             <frame id="infoTable" height="100" width="155" x1="430" y1="730" />
             <frame id="paymentTable" height="100" width="220" x1="35" y1="35" />
             <frame id="companyTable" height="150" width="220" x1="35" y1="530" />

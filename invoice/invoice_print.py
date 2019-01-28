@@ -24,6 +24,20 @@ class InvoicePrint(generic.View):
 
         template = get_template('invoice_print.xml')
 
+        def generate_invoice_info():
+            info = list()
+
+            info.append('DATE   {}'.format(invoice.created.date()))
+            info.append('INVOICE NO.   {}'.format(invoice.invoice_number()))
+
+            if invoice.utr:
+                info.append('UTR NO.   {}'.format(invoice.user.utr))
+
+            if invoice.po_number:
+                info.append('PO NO.   {}'.format(invoice.po_number))
+
+            return info
+
         context = {
             'invoice': invoice,
             'user': user,
@@ -33,7 +47,8 @@ class InvoicePrint(generic.View):
                     'bold': 'invoice/static/fonts/roboto/Roboto-Regular.ttf',
                 }
             },
-            'logo': 'invoice/static/imgs/paperwork/{}'.format(logo_path)
+            'logo': 'invoice/static/imgs/paperwork/{}'.format(logo_path),
+            'invoice_info': generate_invoice_info()
         }
 
         rml = template.render(context)
